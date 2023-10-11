@@ -1,0 +1,21 @@
+\section{Exact Functors} % (fold)
+\label{sec:exact_functors}
+\subsection{Left- and Right-Exact Functors} % (fold)
+\label{sub:left_and_right_exact_functors}
+\begin{definition}
+   A functor $ F $ is left-exact if for every short exact sequence $ 0 \to A \to B \to C $, the sequence
+   \begin{equation*}
+   F(A) \to F(B) \to F(C) \to 0
+   \end{equation*}
+   is exact. Similarly, $ F $ is right-exact if instead
+   \begin{equation*}
+   F(A)\to F(B) \to F(C) \to 0
+   \end{equation*}
+   is always exact.
+\end{definition}
+
+\begin{lemma}
+  If $ F: \mathcal{A} \to \mathcal{B} $ is left-exact, and $ i $ is a monomorphism in $ \mathcal{A} $, then $ F(i) $ is a monomorphism in $ \mathcal{B} $.
+\end{lemma}
+% subsection Left- and Right-Exact Functors (end)
+% section Exact Functors (end)

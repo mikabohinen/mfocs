@@ -1,0 +1,195 @@
+\section{Categories, Functors, Natural Transformations} % (fold)
+\label{sec:categories_functors_natural_transformations}
+
+\subsection{Abstract and concrete categories} % (fold)
+\label{sub:abstract_and_concrete_categories}
+
+\begin{definition}
+  A \textit{category} $ \mathcal{C} $ consists of the following data:
+  \begin{enumerate}[label=(\roman*)]
+    \item a collection $ \text{ob}\mathcal{C} $ of object of
+      $ \mathcal{C} $,
+    \item for every two objects $ x,y \in \text{ob}\mathcal{C} $ a collection $ \text{Hom}_{\mathcal{C}}(x,y) $ of morphisms,
+    \item the identity morphisms,
+    \item the identity morphism $ \text{id}_x \in \text{Hom}_{\mathcal{C}}(x,x) $ for every object $ x \in \text{ob}\mathcal{C} $,
+    \item the composition map
+      \[
+        \circ: \text{Hom}_{\mathcal{C}}(y,z) \times \text{Hom}_{\mathcal{C}}(x,y) \to \text{Hom}_{\mathcal{C}}(x,z)
+      \]
+      for every triple of objects $ x,y,z \in \text{ob}\mathcal{C} $
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}
+ A category is \textbf{small} if it has only a set's worth of arrows.
+\end{definition}
+
+\begin{definition}
+ A category is \textbf{locally small} if between any pair of objects there is only a set's worth of morphisms.
+\end{definition}
+
+\begin{definition}
+ An \textbf{isomorphism} in a category is a morphism $ f: X \to Y $ for which there exist a morphism $ g: Y \to X $ so that $ fg = 1_{X} $ and $ gf=1_{Y} $. The objects $ X $ and $ Y $ are \textbf{isomorphic} whenever there exist an isomorphism between $ X $ and $ Y $, inn which case one writes $ X \cong Y $.
+\end{definition}
+
+A \textbf{subcategory} $ \mathcal{D} $ of a category $ \mathcal{C} $ is defined by restricting to a subcollection of objects and subcollection of morphisms subject to the requirements that the subcategory $ \mathcal{D} $ contains the domain and codomain of any morphism in $ \mathcal{D} $, the identity morphism of any object in $ \mathcal{D} $, and the composite of any composable pair of morphisms in $ \mathcal{D} $.
+
+\begin{lemma}
+  Any category $ \mathcal{C} $ contains a maximal groupoid, the subcategory containing all of the objects and only those morphisms that are isomorphisms.
+\end{lemma}
+
+% subsection Abstract and concrete categories (end)
+
+\subsection{Duality} % (fold)
+\label{sub:duality}
+
+
+\begin{definition}
+  Let $ \mathcal{C} $ be any category. The \textbf{opposite category} $ \mathcal{C}^{\text{op}} $ has
+  \begin{enumerate}
+    \item the same objects as in $ \mathcal{C} $, and
+    \item a morphism $ f^{\text{op}} $ in $ \mathcal{C}^{\text{op}} $ for each morphism $ f $ in $ \mathcal{C} $ so that the domain of $ f^{\text{op}} $ is defined to be the codomain of $ f $ and the codomain of $ f^{\text{op}} $ is defined to be the domain of $ f $.
+    \item For each object $ X $, the arrow $ 1^{\text{op}}_{X} $ serves as its identity in $ \mathcal{C}^{\text{op}} $.
+    \item To define composition, observe that a pair of morphisms $ f^{\text{op}}, g^{\text{op}} $ in $ \mathcal{C}^{\text{op}} $ is composable precisely when the pair $ g,f $ is composable in $ \mathcal{C} $. We then define $ g^{\text{op}}\circ f^{\text{op}} $ to be $ (f\circ g)^{\text{op}} $.
+  \end{enumerate}
+
+\end{definition}
+
+\begin{lemma}
+   The following are equivalent
+   \begin{enumerate}
+     \item $ f:x \to y $ is an isomorphism in $ \mathcal{C} $.
+     \item For all objects $ c \in \mathcal{C} $, post-composition with $ f $ defines a bijection
+       \[
+         f_{*}: \mathcal{C}(c, x) \to \mathcal{C}(c, y)
+      .\]
+    \item For all objects $ c \in \mathcal{C} $, pre-composition with $ f $ defines a bijection
+      \[
+        f^{*}: \mathcal{C}(y, c) \to \mathcal{C}(x, c)
+      .\]
+
+   \end{enumerate}
+\end{lemma}
+
+\begin{definition}
+  A morphism $ f x \to y $ in a category is
+  \begin{enumerate}
+    \item a \textbf{monomorphism} if for any parallel morphisms $ h,k: w \rightrightarrows x, fh=fk $ implies that $ h = k $; or
+    \item an \textbf{epimorphism} if for any parallel morphisms $ h,k:y\rightrightarrows z, hf = kf $ implies that $ h = k $.
+  \end{enumerate}
+\end{definition}
+
+Since the notions of monomorphism and epimorphism are dual, their abstract categorical properties are also dual, such as exhibited by the following lemma.
+\begin{lemma}
+   \begin{enumerate}
+    \item If $ f : x \to y $ and $ g: y \to z $ are monomorphisms, then so is $ gf: x\to z $.
+    \item If $ f:x \to y $ and $ g: y\to z $ are morphisms so that $ gf $ is monic, then $ f $ is monic.
+   \end{enumerate}
+   Dually.
+   \begin{enumerate}
+    \item If $ f:x \to y $ and $ g: y\to z $ are epimorphisms, then so is $ gf: x\to z $.
+    \item If $ f: x\to y $ and $ g: y\to z $ are morphisms so that $ gf: x\to z $ is epic, then $ g $ is epic.
+   \end{enumerate}
+\end{lemma}
+% subsection Abstract and concrete categories (end)
+
+\subsection{Functors} % (fold)
+\label{sub:functors}
+\begin{definition}
+  A \textbf{functor} $ \mathcal{F}:\mathcal{C}\to\mathcal{D} $, between categories $ \mathcal{C} $ and $ \mathcal{D} $, consists of the following data:
+  \begin{itemize}
+    \item An object $ \mathcal{F}c \in\mathcal{D} $, for each object $ c \in \mathcal{C} $.
+    \item A morphism $ \mathcal{F}f: \mathcal{F}c\to\mathcal{F}c' \in \mathcal{D} $, for each morphism $ f: c \to c' \in \mathcal{C} $, so that the domain and codomain of $ \mathcal{F}f $ are, respectively, equal to $ \mathcal{F} $ applied to the domain and codomain of $ f $.
+  \end{itemize}
+  The assignments are required to satisfy the following two functoriality axioms:
+  \begin{itemize}
+    \item For any composable pair $ f,g $ in $ \mathcal{C} $, $ \mathcal{F}g\circ\mathcal{F}f = \mathcal{F}(g\circ f) $.
+    \item For each object $ c \in \mathcal{C} $, $ \mathcal{F}1_{c} = 1_{\mathcal{F}c} $.
+  \end{itemize}
+\end{definition}
+
+There is also the dual notion of a \textbf{contravariant functor} which simply has as domain $ \mathcal{C}^{\text{op}} $ instead of $ \mathcal{C} $.
+
+\begin{lemma}
+  Functors preserve isomorphisms.
+\end{lemma}
+\begin{proof}
+   Straightforward.
+\end{proof}
+
+\begin{corollary}
+  When a group $ G $ acts functorially on an object $ X $ in a category $ \mathcal{C} $, its elements $ g $ must act by automorphisms $ g_*:X\to X $ and, moreover, $ (g_*)^{-1}=(g^{-1})_* $.
+\end{corollary}
+
+\begin{definition}
+  If $ \mathcal{C} $ is locally small, then for any object $ c \in \mathcal{C} $ we may define a pair of covariant and contravariant functors represented by $ c $:
+  \[\begin{tikzcd}
+	{\mathcal{C}} && {\text{Set}} && {\mathcal{C}^\text{op}} && {\text{Set}} \\
+	x & \mapsto & {\mathcal{C}(c,x)} && x & \mapsto & {\mathcal{C}^\text{op}(x,c)} \\
+	& \mapsto &&&& \mapsto \\
+	y & \mapsto & {\mathcal{C}(c,y)} && y & \mapsto & {\mathcal{C}^\text{op}(y,c)}
+	\arrow["{\mathcal{C}(c,-)}", from=1-1, to=1-3]
+	\arrow["f", from=2-1, to=4-1]
+	\arrow["{f_*}", from=2-3, to=4-3]
+	\arrow["{\mathcal{C}^\text{op}(-,c)}", from=1-5, to=1-7]
+	\arrow["f", from=2-5, to=4-5]
+	\arrow["{f^*}"', from=4-7, to=2-7]
+\end{tikzcd}\]
+
+\end{definition}
+
+\begin{definition}
+If $ \mathcal{C} $ is locally small, then there is a \textbf{two-sided represented functor}
+\[
+  \mathcal{C}(-, -): \mathcal{C}^{\text{op}}\times\mathcal{C} \to \text{Set}
+\]
+defined in the evident manner. A pair of objects $ (x,y) $ is mapped to the hom-set $ \mathcal{C}(x,y) $. A pair of morphisms $ f: w\to x $ and $ h: y\to z $ is sent to the function
+\begin{align*}
+  \mathcal{C}(x, y) &\xrightarrow{(f^*,h_*)} \mathcal{C}(w,z) \\
+  g &\mapsto hgf
+.\end{align*}
+
+\end{definition}
+% subsection Functors (end)
+
+\subsection{Natural Transformations} % (fold)
+\label{sub:natural_transformations}
+
+\begin{definition}
+  Let $ F,G:\mathcal{C} \to \mathcal{D} $ be two functors. A natural transformation $ \eta: F \implies G $ consists
+  of morphisms $ \eta_x \in \text{Hom}_\mathcal{D}(F(x), G(x)) $ for every object $ x \in \mathcal{C} $ such that the diagram
+  \[\begin{tikzcd}
+	{F(x)} & {F(y)} \\
+	{G(x)} & {G(y)}
+	\arrow["{F(f)}", from=1-1, to=1-2]
+	\arrow["{G(f)}", from=2-1, to=2-2]
+	\arrow["{\eta_x}", from=1-1, to=2-1]
+	\arrow["{\eta_y}", from=1-2, to=2-2]
+\end{tikzcd}\]
+commutes for every morphism $ f \in \text{Hom}_\mathcal{C}(x,y) $.
+
+We say that a natural transformation $ \eta:F \implies G $ is a natural isomorphism if the morphisms $ \eta_x $ are isomorphisms for any $ x \in \mathcal{C} $.
+\end{definition}
+
+\begin{definition}
+  An equivalence of categories $ \mathcal{C}, \mathcal{D} $ is a pair of functors $ F: \mathcal{C}\to \mathcal{D} $ and $ G:\mathcal{D} \to \mathcal{C} $ together with natural isomorphisms $ e: \text{id}_\mathcal{C} \implies GF $ and $ \epsilon: FG \implies \text{id}_\mathcal{D} $.
+\end{definition}
+
+\begin{definition}
+  An adjoint equivalence of categories $ \mathcal{C}, \mathcal{D} $ is an equivalence $ (F,G,e,\epsilon) $ satisfying the following axioms:
+  \begin{enumerate}
+    \item The composite natural transformation
+      \begin{equation*}
+        F \cong F \circ \text{id}_\mathcal{C} \xRightarrow{\text{id}_F \circ e} FGF \xRightarrow{\epsilon\circ \text{id}_F} \text{id}_\mathcal{D} \circ F \cong F
+      \end{equation*}
+      is the identity natural transformation on $ F $.
+
+    \item The composite natural transformation
+      \begin{equation*}
+        G \cong \text{id}_\mathcal{C}\circ G   \xRightarrow{e \circ \text{id}_G} GFG \xRightarrow{\text{id}_G \circ \epsilon} G \circ \text{id}_\mathcal{D} \cong G
+      \end{equation*}
+      is the identity natural transformation on $ G $.
+  \end{enumerate}
+\end{definition}
+% subsection Natural Transformations (end)
+% section Categories, Functors, Natural Transformations (end)
