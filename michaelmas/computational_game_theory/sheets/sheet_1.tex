@@ -1,0 +1,274 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\title{Computational Game Theory \\ Sheet 1}
+\begin{document}
+  \maketitle
+  \begin{exercise}{1}
+    First define an enumeration $ e: \{\text{colour}, \text{ engine}, \text{ nationality}\} \to \mathbb{R} $
+    by
+    \begin{align*}
+      e(\text{colour}) &= 2 \\
+      e(\text{engine type}) &= 1 \\
+      e(\text{nationality}) &= 0
+    .\end{align*}
+    We can also define a utility function for the outcomes in colour, engine type, and nationality in a similar way, i.e, we let
+    \begin{align*}
+      u_c(\text{red}) = u_e(\text{electric}) = u_n(\text{Germany}) &= 3 \\
+      u_c(\text{blue}) = u_e(\text{petrol}) = u_n(\text{French}) &= 2 \\
+      u_c(\text{green}) = u_e(\text{diesel}) = u_n(\text{UK}) &= 1
+    .\end{align*}
+
+    The utility function $ u: \Omega \to \mathbb{R} $ is then
+    defined as
+    \begin{align*}
+      u(\text{color}, \text{ engine type}, \text{ nationality})& = \\  \sum_{x \in \{c, e, n\}} u_x(p_x(\text{colour}, \text{ engine type}, \text{ nationality}))& 10^{e(p_x(\text{colour}, \text{ engine type}, \text{ nationality}))}
+    \end{align*}
+    where $ p_x $ is projection onto the $ x $th factor.
+
+    To give an example
+    \begin{equation*}
+      u(\text{red}, \text{petrol}, \text{UK}) = 3\cdot 10^{2} + 2 \cdot 10^{1} + 1\cdot 10^{0} = 321
+    .\end{equation*}
+
+    This function will always prioritize colour over engine and engine over nationality. In other words, it doesn't matter what the engine or nationality is if we have a colour that is higher in our preference. Similar with engine type over nationality.
+
+    We have essentially divided the attributes into levels where higher levels have higher priority over lower ones and a lower level can never overrule a higher level.
+  \end{exercise}
+
+  \begin{exercise}{2}
+    \begin{enumerate}[label=(\alph*)]
+      \item To show that $ \succeq $ is a preference relation we must show three things:
+        \begin{enumerate}[label=(\arabic*)]
+          \item \textbf{Reflexivity}. Let $ (x,y) \in \Omega $. Then $ (x,y) \succeq (x, y) $ because $ x = x $ and
+            $ y \geq y $.
+          \item \textbf{Completeness}. Let $ (x_1, y_1), (x_2, y_2) \in \Omega $. Then either $ x_1 > x_2 $, $ x_1 = x_2 $, or $ x_1 < x_2 $. In the first case $ (x_1, y_1) \succeq (x_2, y_2) $. In the second case we play the same game with $ y_1 $ and $ y_2 $ where we get that
+            $ y_1 \geq y_2 $ or $ y_2 \geq y_1 $. In the first case we get $ (x_1, y_1) \succeq (x_2, y_2) $. In the second case we get $ (x_2, y_2) \succeq (x_1, y_1) $. Hence $ \succeq $ is complete.
+          \item \textbf{Transitivity}. Let $ (x_1, y_1), (x_2, y_2), (x_3, y_3) \in \Omega $. If $ (x_1, y_1) \succeq (x_2, y_2) \succeq (x_3, y_3) $, then we have
+            $ x_1 \geq x_3 $ and $ y_1 \geq y_3 $ so that $ (x_1, y_1) \succeq  (x_3, y_3) $ which shows transitivity.
+        \end{enumerate}
+
+      \item Assume for the sake of contradiction that such a utility function exist. For each $ x \in \mathbb{R}_+ $ we have a function $ g_x(y) = u(x,y) $ which is bounded by some $ L_x \leq g_x(y) \leq U_x $ where $ L_x < U_x $. In the interval $ \left[ L_x, U_x \right] $ there must exists a rational number $ r_x \in \left[ L_x, U_x \right] $. We also have $ r_x \neq r_{x'} $ for $ x \neq x' $
+
+        This defines an injective map $ \phi: \mathbb{R} \to \mathbb{Q} $ given by $ \phi(x) = r_x $. This is a contradiction and hence we conclude that a utility function $ u: \Omega \to \mathbb{R} $ representing $ \succeq $ cannot exist. \end{enumerate}
+  \end{exercise}
+
+  \begin{exercise}{3}
+    \begin{enumerate}[label=(\alph*)]
+      \item A problem of decision making under uncertainty is given by a quad
+        \begin{equation*}
+          \left\langle \Omega,u: \Omega \to \mathbb{R}, \Sigma, g: \Sigma \to \text{Lott}(\Omega) \right\rangle
+        .\end{equation*}
+        In the specified situation we have
+
+        $$ \Omega = \{\text{football}, \text{pub}, \text{rowing}\} \times \{\text{rain}, \text{no rain}\}. $$
+
+        The utility function
+        $ u: \Omega \to \mathbb{R} $ is the obvious one which adheres to the table. The strategy set $ \Sigma $ is simply the combination of pure and mixed strategies where we choose between football, pub, and rowing. In other words a $ \sigma \in \Sigma $ can be represented as
+
+        $$ \sigma = a_1\text{football} + a_2\text{pub} + a_3\text{rowing} $$
+
+        such that $ a_1 + a_2 + a_3 = 1 $ and $ a_i \geq 0 $ for $ i = 1,2,3 $. We define the function $ g: \Sigma \to \text{Lott}(\Omega) $ on the pure strategies and then extend it linearly. For example,
+
+        $$ g(\text{football}) = p_\text{rain}\text{football}\times\text{rain} + (1-p_\text{rain})\text{football}\times\text{no rain}.
+        $$
+
+      \item The pure strategy $ \sigma = \text{football} $ dominates the strategy $ \sigma'=\text{rowing} $ and hence there is no reason to choose rowing since the utility of football will always be bigger than the utility of rowing.
+
+      \item A good rule could be to maximize expected utility. Let $ p \in [0, 1] $, then we have that the expected utility of the two relevant choices (as rowing is dominated by football) are given by
+        \begin{align*}
+          EU(\text{football}) &= p\cdot 1 + (1-p) \cdot 2 = 2 - p \\
+          EU(\text{pub}) &= p\cdot 3 + (1-p)\cdot 0 = 3p
+        .\end{align*}
+
+        We therefore have that $ EU(\text{football})=EU(\text{pub}) $ iff $ p = 0.5 $ and for $ p > 0.5 $ we have $ EU(\text{pub}) > EU(\text{football}) $ while for $ p < 0.5 $ we have $ EU(\text{football}) > EU(\text{pub}) $.
+
+        The general rule could therefore be as follows: if $ p \in [0, 0.5) $ choose $ football $, else choose $ pub $.
+    \end{enumerate}
+  \end{exercise}
+
+  \begin{exercise}{4}
+    Let $ \ell_1 = A $ and $ \ell_2 = B $. The monotonicity axiom tells us that since $ p > 0 $ we have
+    \begin{equation*}
+       pA + (1-p)B \succ 0A + (1- 0)B = B
+    .\end{equation*}
+
+    The reason for strict preference is because of the strict inequality $ p> 0 $. Hence the claim follows.
+  \end{exercise}
+
+  \begin{exercise}{5}
+    Suppose for the sake of contradiction that your preferences satisfy the Von Neumann and Morgenstern axioms. Then there must exist a utility function $ u: \Omega \to \mathbb{R} $ such that $ L \succ M $ if and only if $ EU(L) < EU(M) $.
+
+    We then have that
+    \begin{align*}
+      EU(\ell_1) &= \frac{1}{2}u_{100} + \frac{1}{2}u_0 = \frac{u_{100}+u_0}{2} \\
+      EU(\ell_2) &= u_{50} \\
+      EU(\ell_3) &= \frac{1}{20}u_{100} + \frac{19}{20}u_0 = \frac{u_{100} + 19u_0}{20} \\
+      EU(\ell_4) &= \frac{1}{10}u_{50} + \frac{9}{10}u_0 = \frac{u_{50} + 9u_{0}}{10}
+    .\end{align*}
+
+    From the preferences we get the following set of inequalities
+    \begin{align*}
+      u_{50} &> \frac{u_{100} + u_0}{2} \\
+      \frac{u_{100} + 19u_0}{20} &> \frac{u_{50} + 9u_0}{10}
+    .\end{align*}
+
+    From this we get that
+    \begin{align*}
+      2u_{50} &> u_{100} + u_0 \\
+      u_{100} + 19u_0 &> 2u_{50} + 18u_0
+    .\end{align*}
+
+    However, this implies
+    \begin{equation*}
+    u_{100} + u_0 > 2u_{50} > u_{100} + u_0
+    \end{equation*}
+    which is a contradiction.
+  \end{exercise}
+
+  \begin{exercise}{6}
+    From the preference relations we get that
+    \begin{align*}
+      C &\sim \frac{3}{5}A + \frac{2}{5}D \\
+      B &\sim \frac{3}{4}A + \frac{1}{4}C
+    .\end{align*}
+
+    Using the axiom of substitution we get that
+    \begin{align*}
+      \ell_3 &\sim \frac{7}{10}A + \frac{3}{10}D \\
+      \ell_4 &\sim \frac{19}{25}A + \frac{6}{25}
+    .\end{align*}
+
+    Then by the monotonicity axiom we have that, since $ \frac{19}{25} > \frac{7}{10} $
+    \begin{equation*}
+    \frac{19}{25}A + \frac{6}{25}D \succ \frac{7}{10}A + \frac{3}{10}D
+    .\end{equation*}
+
+    So using the axiom of substitution we get $ \ell_4 \succ \ell_3 $.
+  \end{exercise}
+
+  \begin{exercise}{7}
+    I think this property should hold. To illustrate why, consider the following example:
+    \begin{align*}
+      \ell_1 &= \$100 \\
+      \ell_2 &= \$50 \\
+      \ell_3 &= \$10 \\
+      \ell_4 &= \$5
+    \end{align*}
+    where the utility of each lottery is the same as the dollar amount. Then it is clearly better to choose $ p\$100 + (1-p)\$10 $ over $ p\$50 + (1-p)\$5 $.
+
+    To prove this, let $ u: \Sigma \to \mathbb{R} $ be the utility function that is implied by the axioms. We then
+    have
+    \begin{align*}
+      EU(\ell_1) &\geq EU(\ell_2) \\
+      EU(\ell_3) &\geq EU(\ell_4)
+    .\end{align*}
+
+    Using that $ EU(-) $ is linear we get that
+    \begin{equation*}
+    EU(p\ell_1 + (1-p)\ell_3) = pEU(\ell_1)+ (1-p)EU(\ell_3) \geq pEU(\ell_2) + (1-p)EU(\ell_4) = EU(p\ell_2 + (1-p)\ell_4)
+    .\end{equation*}
+
+    Hence the claim follows.
+  \end{exercise}
+
+  \begin{exercise}{8}
+    \begin{enumerate}[label=(\alph*)]
+      \item This can be expressed as the lottery
+        \begin{equation*}
+          \ell = \sum_{k = 1}^{\infty} \frac{1}{2^{k}}\pounds 2^{k}
+        .\end{equation*}
+
+      \item Assuming that $ u(\pounds 2^{k}) = 2^{k} $ we get that
+        \begin{align*}
+          EU(\ell) &= EU \left( \sum_{k=1}^{\infty} \frac{1}{2^{k}} \pounds 2^{k} \right) \\
+                   &= \sum_{k=1}^{\infty} \frac{1}{2^{k}}u(\pounds 2^{k}) \\
+                   &= \sum_{k=1}^{\infty} \frac{1}{2^{k}}2^{k} \\
+                   &= \sum_{k=1}^{\infty} 1 \\
+                   &= \infty
+        .\end{align*}
+
+      \item In this case we get that expected utility is
+        \begin{align*}
+          EU(\ell) &= \sum_{k=1}^{\infty} \frac{1}{2^{k}}\log_2(2^{k}) \\
+                   &= \sum_{k=1}^{\infty} \frac{1}{2^{k}}k
+        .\end{align*}
+
+        With $ a_k = \frac{k}{2^{k}} $ we have that the series converges if
+        \begin{equation*}
+        \lim_{k \to \infty} \frac{a_{k+1}}{a_k} < 1
+        .\end{equation*}
+
+        We have
+        \begin{align*}
+          \lim_{k\to \infty} \frac{a_{k+1}}{a_k} &= \frac{\frac{k+1}{2^{k+1}}}{\frac{k}{2^{k}}} \\
+                                                 &= \lim_{k\to \infty} \frac{k+1}{2^{k}} \\
+                                                 &= \frac{1}{2}
+        .\end{align*}
+
+        Hence the series converges and the expected utility has an upper bound.
+
+      \item If we suppose that it costs money to enter this scenario. Say it costs $ \pounds 2 $. Then the first utility function values lower probabilities events more.
+
+        The second one is more risk averse because it mostly cares about the highest probability events and in this case the expected reward is not big.
+
+        Hence if we play this game many times the second utility function doesn't value as much the higher rewards and would be more cautious in playing this game.
+    \end{enumerate}
+  \end{exercise}
+
+  \begin{exercise}{9}
+    \begin{enumerate}[label=(\alph*)]
+      \item The two lotteries can be given as
+        \begin{align*}
+          \ell_1 &= \frac{1}{2}\text{live} + \frac{1}{2}\text{die} \\
+          \ell_2 &= \frac{3}{4}\text{live} + \frac{1}{4}\text{die}
+        .\end{align*}
+
+        The preference $ \ell_1 \succ \ell_2 $ violates the monotonicity axiom because we have $ live \succ die $ and $ \frac{3}{4} > \frac{1}{2} $ yet
+        \begin{equation*}
+         \lnot \left( \frac{3}{4}\text{live} + \frac{1}{4}\text{die} \succeq \frac{1}{2}\text{live} + \frac{1}{2}\text{die} \right)
+        .\end{equation*}
+
+      \item The updated lotteries becomes
+        \begin{align*}
+          \ell_1 &= \frac{1}{2}\text{live with honour} + \frac{1}{2}\text{die with honour} \\
+          \ell_2 &= \frac{3}{4}\text{live without honour} + \frac{1}{4}\text{die with honour}
+        .\end{align*}
+
+        If we can construct a utility function $ u: \Omega \to \mathbb{R} $ with the property that for two lotteries $ \ell, \ell' $ we have
+        \begin{equation*}
+          \ell \succeq \ell'\text{ iff } EU(\ell) \geq EU(\ell')
+        \end{equation*}
+        then the preference relation $ \succeq $ satisfies the Von Neumann and Morgenstern axioms.
+
+        Define
+        \begin{align*}
+          u(\text{live with honour}) &= 1 \\
+          u(\text{die with honour}) &= \frac{1}{2} \\
+          u(\text{live without honour}) &= 0
+        .\end{align*}
+
+        Then
+        \begin{align*}
+          EU(\ell_1) &= \frac{1}{2}\cdot 1 + \frac{1}{2}\cdot\frac{1}{2} = \frac{3}{4}
+          EU(\ell_2) &= \frac{3}{4}\cdot 0 + \frac{1}{4}\cdot\frac{1}{2} = \frac{1}{8}
+        \end{align*}
+        so that $ EU(\ell_1) > EU(\ell_2) $ and $ \ell_1 \succ \ell_2 $. Thus our utility function satisfies the above criteria and we conclude that $ \succeq $ satisfies the Von Neumann and Morgenstern axioms.
+
+      \item Yes, the preferences are lexicographic as can easily be seen by introducing the attributes $ Life-Death $ and $ Honour $ where we rank $ Honour > Life-Death $. For $ Honour $ we then have
+        \begin{equation*}
+          \text{with honour} \succ \text{without honour}
+        .\end{equation*}
+        For $ Life-Death $ we have
+        \begin{equation*}
+          \text{live} \succ \text{die}
+        .\end{equation*}
+        These orderings then explain the preference relations.
+
+      \item There are many factors which could have influenced the pilots decision. A big one could be control. Because although you had a 50\% chance of dying, you were still somewhat in control of your destiny and if you flew exceptionally well then you could have a higher chance of surviving.
+
+        The second option doesn't take into account individual skill. Assuming pilots are risk averse then the potential of facing death with 100\% certainty could have a big impact on the utility function.
+
+        Moreover, it could feel unfair to those pilots who would have been chosen and both the option of living when someone else had to die for you, and flying into your death with 100\% certainty.
+    \end{enumerate}
+  \end{exercise}
+\end{document}
