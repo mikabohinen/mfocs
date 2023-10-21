@@ -17,5 +17,224 @@
 \begin{lemma}
   If $ F: \mathcal{A} \to \mathcal{B} $ is left-exact, and $ i $ is a monomorphism in $ \mathcal{A} $, then $ F(i) $ is a monomorphism in $ \mathcal{B} $.
 \end{lemma}
+\begin{proof}
+   If $ i: A\to B $ is a monomorphism, then we have a SES
+   \begin{equation*}
+      0 \to A \to B \to \text{coker}\,i \to 0
+   .\end{equation*}
+   Therefore, $ 0\to F(A) \to F(B) $ is exact, so $ F(i) $ is a monomorphism.
+\end{proof}
+
+\begin{lemma}
+   Let $ F: \mathcal{A} \to \mathcal{B} $ be a functor between abelian categories. The following are equivalent:
+   \begin{enumerate}[label=(\roman*)]
+      \item $ F $ is left exact.
+      \item For any exact sequence $ 0 \to A \to B \to C $, the corresponding sequence $ 0\to F(A) \to F(B) \to F(C) $ is also exact.
+   \end{enumerate}
+\end{lemma}
+\begin{proof}
+   (ii) $ \implies $ (i): Trivial.
+
+   (i) $ \implies $ (ii): Let $ 0\to A \xrightarrow{i} B \xrightarrow{\pi} C $ be exact. Then we have a short exact sequence $ 0 \to A \to B \to \text{im}\pi \to 0 $, and therefor the sequence
+   \begin{equation*}
+      0 \to F(A) \to F(B) \to F(\text{im}\pi)
+   \end{equation*}
+   is exact. Now, $ \text{im}\pi \to C $ is a monomorphism, so $ F(\text{im}\pi) \to F(C) $ is too. Therefore
+   \begin{align*}
+      \text{ker}(F(B) \to F(C)) &= \text{ker}(F(B) \to F(\text{im}\pi) \to F(C)) \\
+                                &= \text{ker}(F(B) \to F(\text{im}\pi)) \\
+                                &= \text{im}(F(A) \to F(B)).
+   \end{align*}
+\end{proof}
+
+By duality we have the dual result for right-exact functors.
+
+\begin{lemma}
+   Let $ \mathcal{A} $ be an abelian category, and consider maps
+   \begin{equation*}
+      A \xrightarrow{f} B \xrightarrow{g} C
+   \end{equation*}
+   in $ \mathcal{A} $. Suppose that for all $ Z \in \mathcal{A} $, the sequence
+   \begin{equation*}
+      \text{Hom}(A, Z) \xleftarrow{-\circ f} \text{Hom}(B, Z) \xleftarrow{- \circ g} \text{Hom}(C, Z) \gets 0
+   \end{equation*}
+   is exact. Then $ A \to B \to C \to 0 $ is exact.
+\end{lemma}
+\begin{proof}
+    We need to show that $ g $ exhibits $ C $ as the cokernel of $ f $. Suppose that $ \alpha: B \to Z $ is some map with $ \alpha \circ f = 0 $. Then
+    \begin{equation*}
+       \alpha \in \text{ker}(- \circ f) = \text{im}(g \circ -),
+    \end{equation*}
+    so $ \alpha = \phi \circ g $ for a unique map $ \phi: C \to Z $. This is precisely the universal property of the cokernel.
+\end{proof}
+
+\begin{lemma}
+   Suppose we have an adjunction
+   \[\begin{tikzcd}
+	   {\mathcal{A}} & {\mathcal{B}}
+	   \arrow["F", bend left=45, from=1-1, to=1-2]
+	   \arrow["G", bend left=45, from=1-2, to=1-1]
+   \end{tikzcd}\]
+   of additive functors between abelian categories, where $ F $ is the left adjoint. Then $ F $ is right-exact.
+\end{lemma}
+\begin{proof}
+    Let
+    \begin{equation*}
+    0 \to A \to B \to C \to 0
+    \end{equation*}
+    be a short exact sequence in $ \mathcal{A} $, and let $ Z \in \mathcal{B} $. Then $ G(Z) \in \mathcal{A} $, so
+    \begin{equation*}
+       \text{Hom}(A, G(Z)) \xleftarrow{- \circ i} \text{Hom}(B, G(Z)) \xleftarrow{- \circ \pi} \text{Hom}(C, G(Z)) \gets 0
+    \end{equation*}
+    is exact by left-exactness of Hom. Therefore,
+    \begin{equation*}
+       \text{Hom}(F(A), Z) \xleftarrow{- \circ i} \text{Hom}(F(B), Z) \xleftarrow{- \circ \pi} \text{Hom}(F(C), Z) \gets 0
+    \end{equation*}
+    is exact, so
+    \begin{equation*}
+    F(A) \to F(B) \to F(C) \to 0
+    \end{equation*}
+    is exact by the previous lemma.
+\end{proof}
+
+\begin{corollary}
+    If $ F,G $ are as in the previous lemma, then $ G $ is left exact.
+\end{corollary}
+\begin{proof}
+   This is just the dual statement. More explicitly, consider the opposite functor $ G: \mathcal{D}^{\text{op}} \to \mathcal{C}^{\text{op}} $ which is left adjoint (because the original $ G $ is right adjoint) and hence right exact. So
+   $ G: \mathcal{D} \to \mathcal{C} $ is left exact.
+\end{proof}
 % subsection Left- and Right-Exact Functors (end)
-% section Exact Functors (end)
+
+\subsection{Exact Functors} % (fold)
+\label{sub:exact_functors}
+\begin{definition}
+   A functor is \textbf{exact} if it is left-exact and right-exact.
+\end{definition}
+
+\begin{lemma}
+   Suppose that we have a long exact sequence
+   \begin{equation*}
+      \ldots \to A_{n-1} \xrightarrow{f_{n-1}} A_n \xrightarrow{f_n} A_{n+1} \to \ldots
+   \end{equation*}
+   and an exact functor $ F $. Then
+   \begin{equation*}
+      \ldots \to F(A_{n-1}) \to F(A_n) \to F(A_{n+1}) \to \ldots
+   \end{equation*}
+   is also exact.
+\end{lemma}
+\begin{proof}
+   Since we only have to check exactness at each term, it suffices to prove that for an exact sequence
+   \begin{equation*}
+      A \xrightarrow{f} B \xrightarrow{g} C,
+   \end{equation*}
+   the sequence
+   \begin{equation*}
+      F(A) \xrightarrow{F(f)} F(B) \xrightarrow{F(g)} F(C)
+   \end{equation*}
+   is also exact. We prove this with a diagram-chase. Note that
+   \begin{align*}
+      0 \to \text{ker } f \to &A \to \text{im }f \to 0, \\
+      0 \to \text{ker } g \to &B \to \text{im }g \to 0,
+   \end{align*}
+   and
+   \begin{equation*}
+      0 \to \text{im }g \to C \to \text{coker }g \to 0
+   \end{equation*}
+   are short exact sequences. We can fit these into a larger commutative diagram:
+   \[\begin{tikzcd}
+	   0 &&&& 0 && 0 \\
+	     & {\text{ker } f} &&&& {\text{im g}} \\
+	     && A && B && C \\
+	     &&& {\text{im }f} &&&& {\text{coker }g} \\
+	     && 0 && 0 &&&& 0
+	     \arrow[from=1-1, to=2-2]
+	     \arrow[from=2-2, to=3-3]
+	     \arrow[from=3-3, to=4-4]
+	     \arrow[from=4-4, to=5-5]
+	     \arrow[from=5-3, to=4-4]
+	     \arrow[from=4-4, to=3-5]
+	     \arrow["f", from=3-3, to=3-5]
+	     \arrow["g", from=3-5, to=3-7]
+	     \arrow[from=3-5, to=2-6]
+	     \arrow[from=2-6, to=1-7]
+	     \arrow[from=1-5, to=2-6]
+	     \arrow[from=2-6, to=3-7]
+	     \arrow[from=3-7, to=4-8]
+	     \arrow[from=4-8, to=5-9]
+   \end{tikzcd}\]
+   Note that the diagonals are exact. Applying $ F $ to the diagram (and removing some redundant terms) gives a commutative diagram:
+   \[\begin{tikzcd}
+	&&& 0 && 0 \\
+	   {F\left(\text{ker } f\right)} &&&& {F(\text{im g})} \\
+	                                 & {F(A)} && {F(B)} && {F(C)} \\
+	                                 && {F\left(\text{im }f\right)} &&&& {F(\text{coker }g)} \\
+	                                 & 0 && 0 &&&& 0
+	                                 \arrow[from=2-1, to=3-2]
+	                                 \arrow["{F(\pi_1)}", from=3-2, to=4-3]
+	                                 \arrow[from=4-3, to=5-4]
+	                                 \arrow[from=5-2, to=4-3]
+	                                 \arrow["{F(i_1)}", from=4-3, to=3-4]
+	                                 \arrow["{F(f)}", from=3-2, to=3-4]
+	                                 \arrow["{F(g)}", from=3-4, to=3-6]
+	                                 \arrow["{F(\pi_2)}", from=3-4, to=2-5]
+	                                 \arrow[from=2-5, to=1-6]
+	                                 \arrow[from=1-4, to=2-5]
+	                                 \arrow["{F(i_2)}", from=2-5, to=3-6]
+	                                 \arrow[from=3-6, to=4-7]
+	                                 \arrow[from=4-7, to=5-8]
+   \end{tikzcd}\]
+   Again the diagonals are exact. Since $ F(\pi_1) $ is surjective, we have $ \text{im }F(f) = \text{im }F(i_1) = \text{ker }F(\pi_2) $ by exactness at $ F(B) $. But $ F(i_2) $ is injective, so $ \text{ker }F(g) = \text{ker }F(\pi_2) $, and it follows that
+   \begin{equation*}
+      \text{im }F(f) = \text{ker }F(\pi_2) = \text{ker }F(g).
+   \end{equation*}
+ \end{proof}
+ % subsection Exact Functors (end)
+
+ \subsection{Specific Functors} % (fold)
+ \label{sub:specific_functors}
+ \begin{lemma}
+    Let $ \mathcal{A} $ be an abelian category, and let $ M \in \mathcal{A} $ be an object. Then the functor $ \text{Hom}_{\mathcal{A}}(M, -): \mathcal{A} \to \mathbf{Ab} $ is left-exact.
+ \end{lemma}
+ \begin{proof}
+    Let $ 0 \to A \xrightarrow{i} B \xrightarrow{\pi} C \to 0 $ be a short exact sequence in $ \mathcal{A} $. We have to show that the sequence
+    \begin{equation*}
+       0 \to \text{Hom}(M, A) \xrightarrow{i\circ -}\text{Hom}(M,B) \xrightarrow{\pi\circ -} \text{Hom}(M,C)
+    \end{equation*}
+    is exact. For exactness at $ \text{Hom}(M,A) $, suppose that $ i \circ \phi = 0 $, where $ \phi: M \to A $ is a map. Since $ i $ is a monomorphism and $ i \circ \phi = i \circ 0 $, we have $ \phi = 0 $. Therefore the sequence is exact at $ \text{Hom}(M,A) $.
+
+    Since $ \pi \circ i = 0 $, we have $ \text{im}(i \circ -) \subset \text{ker}(\pi \circ -) $. Let $ \phi \in \text{ker}(\pi \circ -) $. Then $ \pi \circ \phi = 0 $. Since $ i $ exhibits $ A $ as the kernel of $ \pi $, there is a unique map $ f: M \to A $ such that $ i \circ f = \phi $. Therefore, the sequence is also exact at $ \text{Hom}(M, B) $.
+ \end{proof}
+
+ \begin{corollary}
+    Let $ \mathcal{A} $ be an abelian category and let $ M \in \mathcal{A} $ be an object. Then the functor
+    \begin{equation*}
+       \text{Hom}_{\mathcal{A}}(-, M): \mathcal{A}^{\text{op}} \to \mathbf{Ab}
+    \end{equation*}
+    is left-exact.
+ \end{corollary}
+ \begin{proof}
+    This follows from the definition of the opposite category.
+ \end{proof}
+
+ \begin{corollary}
+    Let $ R $ be a ring and $ M $ be an $ R $-module. Then the functors
+    \begin{equation*}
+       \text{Hom}_R(M, -): R\mathbf{-mod} \to \mathbf{Ab},\quad \text{Hom}_R(-, M): R\mathbf{-mod}^{\text{op}} \to \mathbf{Ab}
+    \end{equation*}
+    are left-exact.
+ \end{corollary}
+
+ \begin{lemma}
+    For any ring $ R $, the functor $ - \otimes_R N: R\mathbf{-mod} \to R\mathbf{-mod} $ is right-exact.
+ \end{lemma}
+ \begin{proof}
+    This follows from the adjunction
+    \begin{equation*}
+       (- \otimes_R N) \dashv \text{Hom}_R(N,-)
+    \end{equation*}
+    and Lemma 15.
+ \end{proof}
+
+ % subsection Specific Functors (end)
+ % section Exact Functors (end)
