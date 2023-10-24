@@ -1,0 +1,156 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\title{Integer Programming \\ Sheet 1}
+\begin{document}
+  \maketitle
+  \begin{exercise}{B.1}
+    \begin{enumerate}[label=(\roman*)]
+      \item My interpretation of this exercise is to take this extension to mean switching out $ a_k^{x}x \leq b_k $ in the original formulation for $ A^{k}x \leq b^{k} $. The extended alternative disjunction model then becomes
+        \begin{align*}
+          \min_{x \in \mathbb{R}^{n}}\,\, &c^{T} x \\
+          \text{s.t. } & 0\leq x \leq u \\
+          A^{1}x &\leq b^{1} \\
+          A^{2}x &\leq b^{2}
+        \end{align*}
+        where we require that at least one of $ A^{1}x \leq b^{1} $ or $ A^{2}x \leq b^{2} $ is satisfied.
+
+        Letting $ M \geq \max_k \max_i \{a^{k}_ix - b_i^{k} \mid 0 \leq x \leq u\} $ we can extend the big-$ M $ formulation to become
+
+        \begin{align*}
+          \min_{(x,y^{1},y^{2})\in \mathbb{R}^{n + 1 + 1}}\,
+          \, &c^{T}x \\
+             &A^{k}x - b^{k} \leq M(\mathbf{1} - \mathbf{1}y^{k}),\quad (k = 1,2) \\
+             & y^{1} + y^{2} = 1 \\
+             & 0 \leq x \leq u \\
+             & y^{k} \in \mathbb{B}^{1} \text{ for } k = 1,2
+        \end{align*}
+        where $ \mathbf{1} = (\underbrace{1, \ldots, 1}_{m^{k} \text{ times}}) $ and $ m^{k} $ is the number of rows in $ A^{k} $.
+
+      \item There are two directions to prove.
+
+        ($ \implies $): Assume that $ x \in P_{1} \cup P_{2} $. We can without loss of generality assume that $ x \in P_{1} $. We then let
+        \begin{align*}
+          y^{1} &= 1 \\
+          y^{2} &= 0 \\
+          z^{1} &= x \\
+          z^{2} &= 0
+        .\end{align*}
+        The constraints then become
+        \begin{align*}
+          x &= x \\
+          A^{1}x &\leq b^{1} \\
+          0 \leq x &\leq u \\
+          1 &= 1
+        \end{align*}
+        which are obviously all true.
+
+        ($ \impliedby $): Assume that the there exists $ x,z^{1},z^{2},y^{1},y^{2} $ so that the constraints are satisfied. We want to show that $ x \in P_1 \cup P_2 $. Hence, we must show that both $ 0 \leq x \leq u $ and
+        $ A^{1}x \leq b^{1} $ or $ A^{2}x \leq b^{2} $.
+
+        For the first requirement, notice that
+        \begin{equation*}
+        0 \leq x = z^{1} + z^{2} \leq u(y^{1} + y^{2}) =u
+        .\end{equation*}
+        It thus remains to show either $ A^{1}x \leq b^{1} $ or $ A^{2}x \leq b^{2} $. Since $ y^{1} + y^{2} = 1 $ we have either $ y^{1} = 1 \land y^{2} = 0 $ or $ y^{1} = 0 \land y^{2} = 1 $. We can without loss of generality assume that $ y^{1} = 1 $ and $ y^{2} = 0 $. The constraints then say that $ A^{1}z^{1} \leq b^{1} $ and $ 0 \leq z^{2} \leq u\cdot 0 = 0 $ so that
+        \begin{equation*}
+        A^{1}x = A^{1}z^{1} + A^{1}0 \leq b^{1}
+        \end{equation*}
+        as desired. This concludes the proof.
+    \end{enumerate}
+  \end{exercise}
+
+  \begin{exercise}{B.2}
+    The standard form is given by
+    \begin{align*}
+      \max_{x \in \mathbb{R}^{5}} &-x_{11} + x_{12} - x_{21} + x_{22} - x_3 \\
+      \text{s.t } &-2x_{11} + 2x_{12} + x_3 \leq 2, \\
+                  &3x_{11} - 3x_{12} + x_{21} - x_{22} + 2x_3 \leq 6 \\
+                 &x_{11} - x_{12} - x_{21} + x_{22} + 3x_3 \leq 3, \\
+                 &-x_{11} + x_{12} + x_{21} - x_{22} -3x_3 \leq -3 \\
+                 & -x_{21} + x_{22} + x_3 \leq 0 \\
+    \end{align*}
+    where $ x_1 = x_{11} - x_{12} $ and $ x_2 = x_{21} - x_{22} $. This has corresponding dual
+    \begin{align*}
+      \min_{y \in \mathbb{R}^{5}}\,\, &2y_1 + 6y_2 + 3y_3 - 3y_4 \\
+      \text{s.t } & -2y_1 + 3y_2 + y_3 - y_4 = -1 \\
+                  & y_2 - y_3 + y_4 - y_5 = -1 \\
+                  & y_1 + 2y_2 + 3y_3 - 3y_4 + y_5 = -1 \\
+                  & y_1, y_2, y_3, y_4, y_5 \geq 0.
+    \end{align*}
+  \end{exercise}
+
+  \begin{exercise}{B.3}
+    First, to see that the new system doesn't involve $ x_k $ is fairly straightforward. As $ a_{ij} = 0 $ for $ i \in M_0^{k} $ we have that
+    \begin{equation*}
+    \sum_{j=1}^{n} a_{ij}x_j \leq b_i, \quad (i \in M_0^{k})
+    \end{equation*}
+    clearly doesn't involve $ x_k $. Moreover, if we look at the $ k $th term of the sum
+    \begin{equation*}
+    \sum_{j = 1}^{n} (a_{ik}a_{lj} - a_{lk}a_{ij}) x_j
+    \end{equation*}
+    we see that it equates to
+    \begin{equation*}
+    a_{ik}a_{lk} - a_{lk}a_{ik} = 0
+    \end{equation*}
+    so that the coefficient of $ x_k $ is zero. Hence this sum also does not involve $ x_k $ and so the new system does not involve $ x_k $.
+
+    For the second statement there are two directions to be proven.
+
+    ($ \implies $): Assume that $ (x_1, \ldots, x_{k-1}, x_{k+1}, \ldots, x_n) $ satisfies the new system. We then want to find a value of $ x_k $ so that $ (x_1, \ldots, x_k, \ldots, x_n) $ satisfies the original system.
+
+    Since all the $ x_j $'s are given, with the exception of $ x_k $ of course, this places restrictions on what values $ x_k $ can have. Solving the original system with respect to $ x_k $ we get the following constraints:
+    \begin{align*}
+      x_k & \leq \frac{b_i - \sum_{j \neq k} a_{ij}x_j}{a_{ik}}\quad a_{ik} \in M_+^{k} \\
+      x_k & \geq \frac{b_i - \sum_{j \neq k} a_{ij}x_j}{a_{ik}}\quad a_{ik} \in M_-^{k}
+    .\end{align*}
+    Putting this information together tells us that a value $ x_k $ exists if and only if
+    \begin{equation*}
+    \max_{i \in M_-^{k}} \left( \frac{b_i - \sum_{j \neq k} a_{ij}x_j}{a_{ik}} \right) \leq \min_{i \in M_+^{k}} \left( \frac{b_i - \sum_{j \neq k} a_{ij}x_j}{a_{ik}} \right)
+    .\end{equation*}
+
+    Letting $ i^{*} $ and $ l^{*} $ be the corresponding maximizing and minimizing indices we get, after rearranging terms, the requirement
+    \begin{equation*}
+      \sum_{j \neq k }(a_{i^{*}k}a_{l^{*}j} - a_{l^{*}k}a_{i^{*}j})x_j \leq a_{i^{*}k} b_{l^{*}} - a_{l^{*}k}b_{i^{*}}
+    \end{equation*}
+    which holds by assumption.
+
+    ($ \impliedby $): Suppose $ (x_1, \ldots,x_k,\ldots x_n) $ satisfies the original system. By assumption we then have
+    \begin{equation*}
+    \sum_{j = 1}^{n} a_{ij}x_j \leq b_i,\quad (i \in M_{0}^{k})
+    .\end{equation*}
+
+    We also have for all $ (i,l) \in M_{+}^{k} \times M_{-}^{k} $ that
+    \begin{align*}
+      \sum_{j = 1}^{n} (a_{ik}a_{lj} - a_{lk}a_{ij}) x_j &= a_{ik}\sum_{j = 1}^{n}a_{lj} x_j - a_{lk}\sum_{j = 1}^{n} a_{ij}x_j \\
+                                                         &\leq a_{ik}b_l - a_{lk}b_i
+    \end{align*}
+    which concludes the proof.
+  \end{exercise}
+
+  \begin{exercise}{B.4}
+    If
+    \begin{equation*}
+      \sum_{j = 1}^{n} a_{ij}x_j \leq b_i, \quad (i = 1,\ldots, m)
+    \end{equation*}
+    is infeasible, then by the theorem of alternatives for linear inequalities (Farkas' lemma) we get that there exist a $ u \in \mathbb{R}^{m} $ such that
+    \begin{align*}
+      \sum_{i = 1}^{m} u_i a_{ij} &= 0, \quad (j = 1,\ldots, n) \\
+      u_i &\geq 0, \quad (i = 1, \ldots, m) \\
+      \sum_{i = 1}^{m} u_ib_i &< 0
+    .\end{align*}
+
+    The objective function of (D) is $ \sum_{i = 1}^{m} b_iy_i $ which we want to minimize. We know by assumption that there exists at least one feasible solution $ \tilde{y} \in \mathbb{R}^{m} $ for (D). Setting $ y = \tilde{y} + \lambda u $ with $ \lambda \in \mathbb{R}_{+} $ we have that
+    \begin{align*}
+      \sum_{i = 1}^{m} y_i a_{ij} &= \sum_{i = 1}^{m} \tilde{y}_i a_{ij} + \lambda\sum_{i = 1}^{m}u_i a_{ij} \\
+                                  &= \sum_{i = 1}^{m} y_i a_{ij} \\
+                                  &= c_{j}, \quad (j = 1, \ldots, n)
+    \end{align*}
+    so that $ y $ is also a feasible solution of (D). Moreover, letting $ \tilde{d} \coloneqq  \sum_{i = 1}^{m}b_i \tilde{y}_i $ we have that
+    \begin{align*}
+      d_\lambda &\coloneqq \sum_{i = 1}^{m} b_i y_i \\
+                &= \sum_{i = 1}^{m}b_i\tilde{y}_i + \lambda \sum_{i = 1}^{m}u_i b_i \\
+                &= \tilde{d} + \lambda d'
+    \end{align*}
+    where $ d' = \sum_{i = 1}^{m} u_i b_i < 0 $. Hence by letting $ \lambda \to \infty $ we get that $ d_\lambda \to -\infty $ showing that (D) is unbounded.
+  \end{exercise}
+\end{document}
