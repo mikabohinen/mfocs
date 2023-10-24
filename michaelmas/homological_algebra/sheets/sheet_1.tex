@@ -1,0 +1,74 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\title{Homological Algebra \\ Sheet 1}
+\begin{document}
+\maketitle
+
+\begin{exercise}{3}
+  Since it wasn't specified we assume that the horizontal sequences are exact and that the diagram commutes.
+
+  The result we want to prove follows if we can show that $ \text{ker}(j) = 0 = \text{coker}(j) $.
+
+  From the snake lemma we know that there exist an exact sequence of the form
+  \begin{equation*}
+    0 \to \text{ker }i \to \text{ker }j \to \text{ker }k \xrightarrow{\delta} \text{coker }i \to \text{coker } j \to \text{coker }k \to 0.
+  \end{equation*}
+  Since $ i $ and $ k $ are isomorphisms, and the fact that we are in an abelian category, we have that this exact sequence turns into
+  \begin{equation*}
+    0 \to 0 \to \text{ker }j \to 0 \xrightarrow{\delta} 0 \to \text{coker }j \to 0 \to 0
+  .\end{equation*}
+  Hence we must have that $ \text{ker }j = 0 = \text{coker } j $ and so $ j $ is an isomorphism.
+\end{exercise}
+
+\begin{exercise}{4}
+  Let the middle module be given by
+  \begin{equation*}
+    M = \frac{k[x,y,z] \oplus k[x,y,z]}{\left\langle (x^{2}, 0), (xz, 0), (z^{3}, 0) \right\rangle}
+  .\end{equation*}
+  Then the sequence
+  \begin{equation*}
+  0 \to M_1 \to M \to M_2 \to 0
+  \end{equation*}
+  is exact. Moreover, there does not exist a section $ s: M_2 \to M $ and hence the sequence does not split.
+\end{exercise}
+
+\begin{exercise}{5}
+  This follows from showing that $ \mathbb{Z} $ is a projective $ \mathbb{Z} $-module and $ \mathbb{Q} $ is an injective $ \mathbb{Z} $-module. More generally, it is true that any free $ \mathbb{Z} $-module is projective (or for that matter any free $ R $-module).
+
+  The case for just $ \mathbb{Z} $ is straightforward. Since $ p:B \to \mathbb{Z} $ is surjective there exist a $ b \in B $ such that $ p(b) = 1$. Let $ s: \mathbb{Z} \to B $ be given by
+  $ s(n) = ns(1)= n\cdot b $. Then
+  \begin{equation*}
+    (p\circ s)(n) = p(n\cdot b) = n \cdot p(b) = n
+  .\end{equation*}
+  Hence $ p \circ s = \text{id}_{\mathbb{Z}} $ so that the sequence must split by the splitting lemma.
+
+  To show that $ 0 \to \mathbb{Q} \to B \to C \to 0 $ splits it's easiest to show that $ \mathbb{Q} $ is an injective $ \mathbb{Z} $-module because then the injectivity of $ \mathbb{Q} $ tells us that $ \text{Hom}(-, \mathbb{Q}) $ is exact and so we get that there is an $ r \in \text{Hom}(B, \mathbb{Q}) $ such that $ r \circ \iota = \text{id}_{\mathbb{Q}} $ for $ \iota: \mathbb{Q} \to B $ the specified map.
+
+  By Baer's we must show that for every ideal of $ \mathbb{Z} $ and every map $ f: n\mathbb{Z} \to \mathbb{Q} $ we can extend it to a map $ \tilde{f}: \mathbb{Z} \to \mathbb{Q} $. This is easy enough. Suppose we have a map $ f: n\mathbb{Z} \to \mathbb{Q} $ and let $ \tilde{f}(1) = \frac{1}{n}f(n) $. Then, if $ i: n\mathbb{Z} \to \mathbb{Z} $ is the inclusion map, we have that $$ (\tilde{f}\circ i)(n) = \frac{1}{n}f(n \cdot n) = \frac{n}{n} f(n) = f(n). $$
+  Hence $ \mathbb{Q} $ is injective and there exists a retraction $ r: B \to \mathbb{Q} $ so that $ r \circ \iota = \text{id}_{\mathbb{Q}} $. The splitting lemma then concludes the proof.
+\end{exercise}
+
+\begin{exercise}{6}
+  For each prime $ p $ there is an embedding $ \mathbb{Z} [\frac{1}{p}]  / \mathbb{Z} \to \mathbb{Q}/\mathbb{Z} $. These glue together to form a map $ \alpha: \bigoplus_{p:\text{prime}} \mathbb{Z}  [\frac{1}{p}] / \mathbb{Z} \to \mathbb{Q}/\mathbb{Z} $. We just have to show that this map is an isomorphism.
+
+  \textbf{Surjectivity}: Notice that for any rational number $ \frac{m}{pq} $ with $ p $ and $ q $ relatively prime there exists $ a,b $ such that $ \frac{m}{pq} = \frac{a}{p} + \frac{b}{q} $. Thus, for any rational number $ \frac{m}{\prod_{p} p^{n_p}} $ with $ n_p = 0 $ for all but finitely many $ p $'s we can write
+  \begin{equation*}
+   Q \coloneqq \frac{m}{\prod_{p} p^{n_p}} = \sum_{p} \frac{a_p}{p^{n_p}}
+  .\end{equation*}
+  Then $ Q \in \mathbb{Q}/\mathbb{Z} $ can be written as $ Q = \alpha\left(\oplus_{p}(a_p/p^{n_p})\right) $ showing that $ \alpha $ is surjective.
+
+  \textbf{Injectivity}: Take $ \{a_p\} $ and $ \{k_p\} $ with all but finitely many of the $ a_p $ equal to zero such that $ \alpha \left( \oplus_{p} a_{p}/p^{k_p} \right) = 0 $. This tells us that $ \sum_{p} a_{p}/p^{k_p} = 0 $ which turns into
+  \begin{equation*}
+  \sum_{p} a_p \prod_{q \neq p} q^{k_q} = 0
+  .\end{equation*}
+  From this it follows that $ p^{k_p} | a_p $ for all $ p $ and so we must have that $ \left( \oplus_{p} a_{p}/p^{k_p} \right) $ is zero in $ \bigoplus_{p:\text{prime}} \mathbb{Z}  [\frac{1}{p}] / \mathbb{Z} $.
+
+  We thus see that $ \alpha $ is an isomorphism.
+\end{exercise}
+
+\begin{exercise}{7}
+  Let $ (A)_{i \geq 1} $ be a strictly increasing chain of submodules such that their union is equal to $ A $. Set $ M = A $ and $ N_i = A/A_i $. Then there is no map in no element in $ \bigoplus_{i = 1}^{\infty} \text{Hom}(A, A/A_i) $ which can get sent to the projection map $ p: A \to \bigoplus_{i = 1}^{\infty} A/A_i $. This is because we can only big a finite amount of non-zero maps in $ \bigoplus_{i = 1}^{\infty} \text{Hom}(A, A/A_i) $. Thus, if we pick any map $ \alpha \in  \bigoplus_{i = 1}^{\infty} \text{Hom}(A, A/A_i)  $ there is some index $ j $ such that if $ i > j $ then $ \alpha_i = 0 $. We can then pick some $ a \in A - A_j $ and have that $ \alpha_i(a) = 0 $ while $ p(a)_{j+1} \neq \alpha_{j+1}(a) $. Hence there is no isomorphism in general given that such an increasing sequence of submodules exists.
+
+  This is certainly the case as you can take $ A = \bigoplus_{i = 1}^{\infty} \mathbb{Z} $ and $ A_{k} = \bigoplus_{i = 1}^{k} \mathbb{Z} $.
+\end{exercise}
+\end{document}
