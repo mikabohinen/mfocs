@@ -1,0 +1,76 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\title{Sheet 1}
+\begin{document}
+\maketitle
+\begin{exercise}{2}
+  \begin{enumerate}[label=(\alph*)]
+    \item Let $ F \in \text{Fun}(*/G_1, */G_2) $. We then have
+      that $ F(*_{G_1}) = *_{G_2} $. Moreover the functoriality of $ F $ means that if $ g, g' \in G_1 $ then $ F(g' \cdot g) = F(g')\cdot F(g) $. Hence $ F $ is just a group homomorphism.
+
+      Now, if $ \eta: F \implies H $ is a natural transformation for $ F,H \in \text{Fun}(*/G_1, */G_2) $ and $ g_1 \in G_1 $, then we get the following commutative diagram
+      \[\begin{tikzcd}
+	      {*_{G_2}} & {*_{G_2}} \\
+	      {*_{G_2}} & {*_{G_2}}
+	      \arrow["Fg_1", from=1-1, to=1-2]
+	      \arrow["{\eta_*}"', from=1-1, to=2-1]
+	      \arrow["{\eta_*}", from=1-2, to=2-2]
+	      \arrow["Hg_1"', from=2-1, to=2-2]
+      \end{tikzcd}\]
+      We then have that $ \eta_* = g_2 $ for some $ g_2 \in G_2  $. The commutativity of the diagram tells us that
+      \begin{equation*}
+      Fg_1 = g_2^{-1} H(g_1) g_2
+      .\end{equation*}
+
+      Thus a natural transformation is just conjugation by an element of the group $ G_2 $.
+
+    \item Let $ F \in \text{Fun}(*/\mathbb{Z}, */G) $. Then, by the previous exercise we know that $ \text{Fun}(*/\mathbb{Z}, */G) \cong \text{Hom}_{\mathbf{Grp}}(\mathbb{Z}, G) $. Hence $ F $ corresponds to some $ f \in \text{Hom}_\mathbf{Grp}(\mathbb{Z}, G) $. Moreover, since $ f(0) = e_G $ and $ f(n) = f(1)^{n} $ we have that the image of $ f $ is simply the cyclic subgroup $ \left\langle f(1) \right\rangle $. The most natural thing is therefore to associate $ f \in \text{Hom}_{\mathbf{Grp}}(\mathbb{Z}, G) $ with $ f(1) $. As $ f(1) $ can be any element in $ G $ we therefore have that $ \text{Hom}_\mathbf{Grp}(\mathbb{Z}, G) \cong G $ as a group isomorphism (the isomorphism being given by $ f \mapsto f(1) $).
+
+      With $ n \in \mathbb{Z} $ considered as a morphism and $ a \in G $ which represents the natural transformation $ \eta: F \implies H $, and $ F(n) = g_1^{n} $, $ H(n) = g_2^{n} $
+      we have the equation
+      \begin{equation*}
+      g_1^{n} = a^{-1}g_2^{n}a
+      .\end{equation*}
+
+      This has to hold for all $ n $ but it suffices that it holds for $ n = 1 $ where we have the equation
+      \begin{equation*}
+      g_1 = a^{-1}g_2 a
+      .\end{equation*}
+
+      Hence natural transformations $ F \implies G $ are in one-to-one correspondence with conjugation relations of $ g_1 $ with $ g_2 $.
+    \end{enumerate}
+  \end{exercise}
+
+  \begin{exercise}{3}
+    As $ \text{Hom}_{\text{Vect}_k^{fd}}(-, k) $ is contravariant we cannot technically have an equivalence of categories. However, we can speak of a duality of categories where we just require that both $ F $ and $ G $ are contravariant.
+
+    We first note that equivalence of categories is an equivalence relation. Considering the diagram
+    \[\begin{tikzcd}
+	    {\text{Vect}_k^{fd}} & {(\text{Vect}_k^{fd})^{\text{op}}} \\
+	    {\text{Mat}_k} & {(\text{Mat}_k)^\text{op}}
+	    \arrow[from=1-1, to=1-2]
+	    \arrow[from=1-1, to=2-1]
+	    \arrow[from=1-2, to=2-2]
+	    \arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    it suffices to show that $ \text{Mat}_k \to (\text{Mat}_k)^{\text{op}} $ is a duality of categories since we know that the two vertical arrows already are part of an equivalence of categories.
+
+    The contravariant functor $ \text{Mat}_k \to (\text{Mat}_k)^{\text{op}} $ is the identity on the objects and sends each matrix to its transpose. Hence if we create the contravariant functor $ (\text{Mat}_k)^{\text{op}} \to \text{Mat}_k $ which does exactly the same then their composition is the identity so that we have a contravariant isomorphism of categories.
+
+    Thus the map $ \text{Vect}_k^{fd} \to  (\text{Vect}_k^{fd})^{\text{op}} $ is a duality of categories.
+  \end{exercise}
+
+  \begin{exercise}{4}
+    Let $ f,g \in \text{Hom}(x, y) $. Then, since $ \text{End}(x) $ is the trivial group, we must have that $ g^{-1}\circ f = 1_x $. This implies that $ f = g $ showing that $ |\text{Hom}(x,y)| = 1 $.
+
+    Next, let $ F: \mathcal{C} \to * $ be the unique functor from $ \mathcal{C} $ to $ * $ (as $ * $ is terminal in \textbf{Cat}). We then just have to show that $ F $ is fully-faithful and essentially surjective. As $ F $ is surjective on objects, it must be essentially surjective. We therefore only need to show that $ F $ is fully-faithful. This is quite straight-forward:
+
+    \begin{enumerate}
+      \item \textbf{Injectivity}. Let $ f,g \in \text{Hom}(x,y) $ such that $ Ff = Fg $. Since $ \text{Hom}(x,y) = \{1\} $ we must have that $ f = g $.
+
+      \item \textbf{Surjectivity}. For $ x, y \in \mathcal{C} $ we have that $ F(x) = * = F(y) $. Hence $ \text{Hom}(Fx, Fy) = \{1_*\} $. As $ |\text{Hom}(x,y)| = 1 $ this unique isomorphism between $ x $ and $ y $ must get mapped to $ 1_* $ which shows that $ F: \text{Hom}(x,y) \to \text{Hom}(Fx,Fy) $ is surjective.
+    \end{enumerate}
+
+    Since $ F $ is both fully-faithful and essentially surjective we can conclude that there exists a $ G: * \to \mathcal{C} $ such that $ GF \cong \text{id}_\mathcal{C} $ and $ FG \cong \text{id}_* $ which shows that $ \mathcal{C} $ is equivalent to the discrete category with a single object.
+  \end{exercise}
+  \end{document}

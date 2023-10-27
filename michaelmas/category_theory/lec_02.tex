@@ -1,0 +1,18 @@
+\section{Universals and Limits} % (fold)
+\label{sec:universals_and_limits}
+\subsection{Universal Arrows} % (fold)
+\label{sub:universal_arrows}
+\begin{definition}
+   If $ S: D \to C $ is a functor and $ c $ an object of $ C $, a universal arrow from $ c $ to $ S $ is a pair $ \left\langle r, u \right\rangle $ consisting of an object $ r $ of $ D $ and an arrow $ u: c \to Sr $ of $ C $, such that to every pair $ \left\langle d,f \right\rangle  $ with $ d $ an object of $ D $ and $ f: c \to Sd $ an arrow of $ C $, there is a unique arrow $ f': r\to d $ of $ D $ with $ Sf'\circ u = f $. In other words, every arrow $ f $ to $ S $ factors uniquely through the universal arrow $ u $, as in the commutative diagram
+   \[\begin{tikzcd}
+	   c & Sr && r \\
+	   c & Sd && d
+	   \arrow["u", from=1-1, to=1-2]
+	   \arrow["{Sf'}", dotted, from=1-2, to=2-2]
+	   \arrow["f"', from=2-1, to=2-2]
+	   \arrow["{\text{id}}"', from=1-1, to=2-1]
+	   \arrow["{f'}", dotted, from=1-4, to=2-4]
+   \end{tikzcd}\]
+\end{definition}
+% subsection Universal Arrows (end)
+% section Universals and Limits (end)

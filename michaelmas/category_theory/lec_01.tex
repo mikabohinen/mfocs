@@ -191,5 +191,81 @@ We say that a natural transformation $ \eta:F \implies G $ is a natural isomorph
       is the identity natural transformation on $ G $.
   \end{enumerate}
 \end{definition}
+
+Fix a functor $ F: \mathcal{C} \to \mathcal{D} $ and consider the category $ \text{Equiv}_F $. Its objects are functors $ G:\mathcal{D} \to \mathcal{C} $ together with natural isomorphisms $ e $ and $ \epsilon $ such that $ (F,G,e,\epsilon) $ is an adjoint equivalence. A morphism $ (G_1, e_1, \epsilon_1) \to (G_2, e_2, \epsilon_2) $ consists of a natural transformation $ f: G_1 \implies G_2 $ making the diagrams
+\[\begin{tikzcd}
+	& {\text{id}_\mathcal{C}} \\
+	{G_1F} && {G_2F}
+	\arrow["{e_1}"', Rightarrow, from=1-2, to=2-1]
+	\arrow["{e_2}", Rightarrow, from=1-2, to=2-3]
+	\arrow["{f\circ\text{id}_F}", Rightarrow, from=2-1, to=2-3]
+\end{tikzcd}\]
+and
+\[\begin{tikzcd}
+	& {\text{id}_\mathcal{D}} \\
+	{FG_1} && {FG_2}
+	\arrow["{\epsilon_1}", Rightarrow, from=2-1, to=1-2]
+	\arrow["{\epsilon_2}"', Rightarrow, from=2-3, to=1-2]
+	\arrow["{\text{id}_F\circ f}", Rightarrow, from=2-1, to=2-3]
+\end{tikzcd}\]
+commute.
+
+\begin{proposition}
+  Any two objects $ (G_1, e_1, \epsilon_1) $ and $ (G_2, e_2, \epsilon_2) $ of $ \text{Equiv}_F $ are isomorphic and this isomorphism is unique.
+\end{proposition}
+\begin{proof}
+  To prove the first statement, consider the composite natural isomorphism $ f: G_1 \implies G_2 $ given by
+  \begin{equation*}
+    G_1 \cong \text{id}_\mathcal{C} \circ G_1 \xRightarrow{e_2\circ \text{id}_{G_1}} G_2FG_1 \xRightarrow{\text{id}_{G_2}\circ \epsilon_1} G_2.
+  \end{equation*}
+  To show that the first diagram commutes, consider the composite natural transformation
+  \begin{equation*}
+    \text{id} \xRightarrow{e_1} G_1F \xRightarrow{e_2 \circ \text{id}_{G_1}\,\circ \text{id}_F} G_2FG_1F \xRightarrow{\text{id}_{G_2}\circ\epsilon_1\circ \text{id}_F} G_2F
+  .\end{equation*}
+  Since $ e_1 $ and $ e_2 $ are natural transformations, we can alternatively write this as
+  \begin{equation*}
+    \text{id} \xRightarrow{e_2} G_2 F \xRightarrow{\text{id}_{G_2}\circ \text{id}_F \circ e_1} G_2FG_1F \implies G_2F
+  .\end{equation*}
+  But ten using the compatibility of $ e_1 $ and $ \epsilon_1 $ we get that the composite natural transformation is $ e_2 $ as required. The commutativity of the other diagram is checked the same way. Therefore, any two objects are isomorphic.
+
+  To prove the second statement, consider a morphism $ f \in \text{Hom}((G_1, e_1, \epsilon_1), (G_2, e_2, \epsilon_2)) $ and take any $ x \in \mathcal{C} $ and $ y \in \mathcal{D} $. Then the commutativity of the diagrams implies that
+  \begin{equation*}
+  f_{F(x)} \circ e_{1, x} = e_{2, x}
+  \end{equation*}
+  and
+  \begin{equation*}
+  \epsilon_{2, y} \circ F(f_y) = \epsilon_{1,y}
+  .\end{equation*}
+  Equivalently,
+  \begin{equation*}
+  f_{F(x)} = e_{2, x} \circ e^{-1}_{1,x}, \quad F(f_y) = \epsilon^{-1}_{2,y}\circ \epsilon_{1,y}
+  .\end{equation*}
+  Applying $ G_2 $ to the second equality we get
+  \begin{equation*}
+  G_2F(f_y) = G_2(\epsilon_{2,y})^{-1}\circ G_2(\epsilon_{1,y})
+  .\end{equation*}
+  Since $ e_2 $ is a natural isomorphism, we get
+  \begin{equation*}
+  e_{2,G_2(y)}\circ f_y = G_2(\epsilon_{2,y})^{-1} \circ G_2(\epsilon_{1,y}) \circ e_{2, G_1(y)}
+  \end{equation*}
+  which implies that
+  \begin{equation*}
+  f_y = G_2(\epsilon_{1,y}) \circ e_{2, G_1(y)}
+  .\end{equation*}
+  In other words, $ f $ is determined uniquely.
+\end{proof}
+
+\begin{definition}
+  A functor $ F: \mathcal{C} \to \mathcal{D} $ is \textbf{essentially surjective} if for every object $ d \in \mathcal{D} $ there is a $ c \in \mathcal{C} $ such that $ F(c) \cong d $.
+\end{definition}
+
+\begin{theorem}
+  The following three properties of a functor $ F: \mathcal{C} \to \mathcal{D} $ are equivalent:
+  \begin{enumerate}
+    \item $ F $ is part of an equivalence of categories,
+    \item $ F $ is fully faithful and essentially surjective,
+    \item $ F $ is part of an adjoint equivalence of categories.
+  \end{enumerate}
+\end{theorem}
 % subsection Natural Transformations (end)
 % section Categories, Functors, Natural Transformations (end)
