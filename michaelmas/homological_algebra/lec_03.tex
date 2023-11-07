@@ -1,0 +1,98 @@
+\section{Projectives and Injectives} % (fold)
+\label{sec:Projectives and Injectives}
+\subsection{Projective Objects} % (fold)
+\label{sub:Projective Objects}
+\begin{definition}
+  Let $ \mathcal{A} $ be an abelian category. An object $ P \in \mathcal{A} $ is said to be \textbf{projective} if $ \text{Hom}_{\mathcal{A}}(P, -): \mathcal{A} \to \mathbf{Ab} $ is an exact functor.
+\end{definition}
+There are many other equivalent definitions of projective objects, but we will stick to this one.
+
+\begin{definition}
+  We say that an $ R $-module is \textbf{projective} if it is a projective object in $ R $-\textbf{mod}.
+\end{definition}
+
+\begin{lemma}
+  Free $ R $-modules are projective.
+\end{lemma}
+\begin{proof}
+  Let $ F = \oplus_{i}Re_i $ be a free $ R $-module with basis $ \{e_i \mid i \in I\} $. Suppose that we have a diagram
+  \[\begin{tikzcd}
+	& A \\
+	  F & B.
+	  \arrow["f", from=2-1, to=2-2]
+	  \arrow["\pi", two heads, from=1-2, to=2-2]
+  \end{tikzcd}\]
+  Since $ \pi $ is surjective, for each $ i $ there is some $ a_i \in A $ with $ \pi(a_i)=f(e_i) $. Define the map $ \alpha: F \to A $ by $ \alpha(e_i)=a_i $.
+\end{proof}
+
+\begin{lemma}
+  An $ R $-module is projective if and only if it is a direct summand of a free $ R $-module.
+\end{lemma}
+\begin{proof}
+  Suppose that $ P $ is a direct summand of a free module. Then there is some $ R $-module $ P' $ such that $ P \oplus P' $ is free. Let $ \pi: A \to B $ be a surjection and let $ f: P \to B $ be some map. Let $ f': P \oplus P' \to B $ be the map $ f'(p,p')=f(p) $. Since $ P \oplus P' $ is free, hence projective, $ f' $ has a lift $ \alpha': P \oplus P' \to A $. Now define $ \alpha: P \to A $ by $ \alpha(p)= \alpha'(p, 0) $.
+
+  Suppose conversely that $ P $ is projective. Then we have a natural surjection
+  \begin{equation*}
+  \pi: \bigoplus_{p \in P} Re_p \to P, \quad e_p \mapsto p,
+  \end{equation*}
+  and taking $ f: P \to P $ to be the identity gives us a section of $ \alpha $ of this surjection (since $ P $ is projective). Therefore, the result follows by the Splitting Lemma.
+\end{proof}
+% subsection Projective Objects (end)
+
+\subsection{Injective Objects} % (fold)
+\label{sub:Injective Objects}
+\begin{defintion}
+  An object $ I $ of an abelian category $ \mathcal{A} $ is called \textbf{injective} if the object $ I \in \mathcal{A}^{\text{op}} $ is projective.
+\end{defintion}
+
+\begin{theorem}[Baer's Criterion]
+  Let $ M $ be a right $ R $-module. The following are equivalent:
+  \begin{enumerate}
+    \item $ M $ is injective.
+    \item For every right ideal $ I $ of $ R $, every module homomorphism $ I \to M $ can be extended to a module homomorphism $ R \to M $.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  (1) $ \implies $ (2): Follows immediately from an equivalent definition of an injective object.
+
+  (2) $ \implies $ (1): Fix some injection $ i: A \to B $ of $ R $-modules, and some map $ f: A \to M $. Without loss of generality, assume $ A \subset B $ and $ i $ is the inclusion. Let $ \Sigma $ be the set whose elements are $ R $-module maps $ \alpha': A' \to M $, where $ A \subset A' \subset B $ and $ \alpha' $ extends $ f $. We may give this set a partial order by saying that $ \alpha' \leq \alpha'' $ when $ A' \subset A'' $ and $ \alpha'' $ extends $ \alpha' $. This set then also has upper bounds for every ascending chain (simply take the colimit).
+
+  Thus, by Zorn's lemma, there is a maximal element $ \alpha': A' \to B $. To show that $ M $ is injective, we need to show that $ A' = B $, since we then have an extension of $ f $ to $ B $.
+
+  Suppose that $ A' \neq B $. Let $ b \in B\setminus A' $, and define $ A''=A' + Rb \subset B $. Let $ I = \{r \in R \mid br \in A'\} $. Then $ I $ is a right ideal of $ R $, and we have a map
+  \begin{equation*}
+  I \to M, \quad r \mapsto \alpha'(br)
+  .\end{equation*}
+  By assumption, this extends to a map $ \phi: R \to M $. We claim that there is a well-defined map
+  \begin{equation*}
+  \alpha'': A'' \to M, \quad a+br \mapsto \alpha'(a) + \phi(r),
+  \end{equation*}
+  where $ a \in A' $ and $ r \in R $. Assuming it is well-defined, we see that it strictly extends $ \alpha' $, which is a contradiction. Showing that it is well-defined is pretty straightforward so we leave it to the interested reader.
+\end{proof}
+
+\begin{corollary}
+  If $ R $ is a PID, then an $ R $-module $ I $ is injective if and only if it is \textbf{divisible}. That is, for all $ x \in I $ and $ r \in R \setminus \{0\} $ there exist $ q \in I $ such that $ x = rq $.
+\end{corollary}
+\begin{proof}
+  Simply use Baer's criterion.
+\end{proof}
+
+\begin{corollary}
+  The $ \mathbb{Z} $-module $ \mathbb{Q} $ is injective.
+\end{corollary}
+\begin{proof}
+  Clearly $ \mathbb{Q} $ is a divisible $ \mathbb{Z} $-module.
+\end{proof}
+
+\begin{lemma}
+  Let $ I $ be an injective right $ R $-module and let $ I' $ be a direct summand of $ I $. Then $ I' $ is injective.
+\end{lemma}
+\begin{proof}
+  Write $ I = I' \oplus M $ for some right $ R $-module $ M $. We will use Baer's criterion.
+
+  Let $ J $ be a right ideal of $ R $, and let $ \phi: J \to I' $ be a module homomorphism. Then let $ \tilde{\phi} $ be the composition $ J \xrightarrow{\phi} I' \to I $. Since $ I $ is injective, Baer's Criterion tells us that $ \tilde{\phi} $ extends to a homomorphism $ \tilde{\alpha}: R \to I $. Let $ \alpha $ be the composition $ R \xrightarrow{\tilde{\alpha}} I \xrightarrow{\pi} I' $, where $ \pi $ is the projection.
+
+  Then for $ x \in J $ we have $ \alpha(x) = \pi(\tilde{\alpha(x)})=\pi(\tilde{\phi}(x)) = \phi(x) $ by definition of $ \tilde{\phi} $, so $ \alpha: R \to I' $ is an extension of $ \phi $, as required by Baer's criterion.
+\end{proof}
+% subsection Injective Objects (end)
+% section Projectives and Injectives (end)

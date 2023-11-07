@@ -1,0 +1,195 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\title{Homological Algebra \\ Sheet 2}
+\begin{document}
+\maketitle
+\begin{exercise}{2}
+  We remark that both $ \mathbb{Q} $ and $ \mathbb{Q}/\mathbb{Z} $ are injective $ \mathbb{Z} $-modules. Thus, an injective resolution for $ \mathbb{Z} $ can be given by
+  \begin{equation*}
+    0 \to \mathbb{Z} \xrightarrow{\iota} \mathbb{Q} \xrightarrow{\pi} \mathbb{Q}/\mathbb{Z} \to 0
+  \end{equation*}
+  where $ \iota $ is the inclusion and $ \pi $ is the projection. Since this is a short exact sequence it is exact and we have our desired injective resolution.
+\end{exercise}
+
+\begin{exercise}{3}
+\begin{enumerate}
+  \item For $ \mathbb{Z}/2 $ in $ \text{Mod}_{\mathbb{Z}} $ we have the free resolution
+    \begin{equation*}
+      0 \to \mathbb{Z} \xrightarrow{\cdot 2} \mathbb{Z} \to \mathbb{Z}/2 \to 0
+    .\end{equation*}
+  \item There are two ways to think of $ \mathbb{Z}/2 $ as a $ (\mathbb{Z}/2) [x] $-module depending on how $ x $ acts on $ 1 $. In one scenario we have $ x\cdot 1 = 0 $ and in the other scenario we have $ x \cdot 1 = 1 $. For the first scenario we have the free resolution
+    \begin{equation*}
+      0 \to (\mathbb{Z}/2)[x] \xrightarrow{\cdot x} (\mathbb{Z}/2)[x] \to \mathbb{Z}/2 \to 0
+    \end{equation*}
+    while for the second scenario we have the resolution
+    \begin{equation*}
+      0 \to (\mathbb{Z}/2)[x] \xrightarrow{f} (\mathbb{Z}/2)[x] \to \mathbb{Z}/2 \to 0
+    \end{equation*}
+    where $ f $ is defined by $ f(1) = 1 + x $.
+  \item There are again the same two scenarios as before, with either $ x\cdot 1 = 0 $ or $ x \cdot 1 = 1 $. In the first scenario we have the free resolution
+    \begin{equation*}
+      0 \to \mathbb{Z}[x] \xrightarrow{\psi^2} \mathbb{Z}[x] \oplus \mathbb{Z}[x] \xrightarrow{\psi_1^{1}\oplus \psi_2^{1}} \mathbb{Z}[x] \to \mathbb{Z}/2 \to 0
+    \end{equation*}
+    where the maps are defined by
+    \begin{align*}
+      \psi_1^{1}(1) &= 2 \\
+      \psi_2^{1}(1) &= x \\
+      \psi^{2}(1) &= (x, -2)
+    .\end{align*}
+
+    For the other scenario we have the free resolution
+    \begin{equation*}
+      0 \to \mathbb{Z}[x] \xrightarrow{\phi^2} \mathbb{Z}[x] \oplus \mathbb{Z}[x] \xrightarrow{\phi_1^{1} \oplus \phi_2^{1}} \to \mathbb{Z}/2 \to 0
+    \end{equation*}
+    where the maps are given by
+    \begin{align*}
+      \phi_1^{1}(1) &= 2 \\
+      \phi_2^{1}(1) &= 1 + x \\
+      \phi^2(1) &= (1 + x, -2)
+    .\end{align*}
+
+  \item As before, we consider the two scenarios where either $ x \cdot 1 = 0 $ or $ x \cdot 1 = 1 $. In the first scenario we have the free resolution given by
+    \begin{equation*}
+      \cdots \to \mathbb{Z}[x]/2x \oplus \mathbb{Z}[x]/2x \xrightarrow{\psi_1^2 \oplus \psi_2^2} \mathbb{Z}[x]/2x \oplus \mathbb{Z}[x]/2x \xrightarrow{\psi_1^{1} \oplus \psi_2^{1}} \mathbb{Z}[x]/2x \to \mathbb{Z}/2 \to 0
+    \end{equation*}
+    with the maps being given by
+    \begin{align*}
+      \psi_1^{1}(1) &= 2 \\
+      \psi_2^{1}(1) &= x \\
+      \psi_1^{i} &= \begin{cases}
+        (2, 0), &\text{ if } i = 1 \text{ mod } 2 \\
+        (x, 0), &\text{ if } i = 0 \text{ mod } 2
+      \end{cases} \\
+      \psi_2^{i} &= \begin{cases}
+        (0, 2), &\text{ if } i = 0 \text{ mod } 2 \\
+        (0, x), &\text{ if } i = 1 \text{ mod } 2
+      \end{cases}
+    .\end{align*}
+
+    In the other case we have the free resolution
+    \begin{equation*}
+      \cdots \to \mathbb{Z}[x]/2x \xrightarrow{\phi^{3}} \mathbb{Z}[x]/2x \xrightarrow{\phi^2} \mathbb{Z}[x]/2x \oplus \mathbb{Z}[x]/2x \xrightarrow{\phi_1^{1} \oplus \phi_2^1} \mathbb{Z}[x]/2x \to \mathbb{Z}/2 \to 0
+    \end{equation*}
+    with the maps being given by
+    \begin{align*}
+      \phi_1^{1}(1) &= 2 \\
+      \phi_2^2(1) &= 1 + x \\
+      \phi^2(1) &= (x, 0) \\
+      \phi^{i}(1) &= \begin{cases}
+        2, &\text{ if } i = 1 \text{ mod } 2\\
+        x, &\text{ if } i = 0 \text{ mod } 2
+      \end{cases}
+    .\end{align*}
+
+    The fact that all of the maps in all the previous four sub exercises makes up exact sequences is pretty straightforward, but tedious, to show and hence we leave it out for clarity in presentation.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}{4}
+  Consider the following short exact sequence
+  \begin{equation*}
+    0 \to R[x] \xrightarrow{rx - 1} R[x] \to R[r^{-1}] \to 0
+  .\end{equation*}
+  Applying the right exact functor $ M \otimes_{R} - $ gives the exact sequence
+  \begin{equation*}
+    M\otimes_{R} R[x] \xrightarrow{\text{id} \otimes (rx - 1)} M \otimes_{R} R[x] \to M \otimes_{R} R[r^{-1}] \to 0
+  \end{equation*}
+  which is isomorphic to the exact sequence given by
+  \begin{equation*}
+    M[x] \xrightarrow{rx - 1} M[x] \to M \otimes_{R}R[r^{-1}] \to 0
+  .\end{equation*}
+  From the exactness we have that
+  \begin{equation*}
+    M \otimes_{R}R[r^{-1}] \cong \text{coker}(M[x] \xrightarrow{rx-1} M[x]) = M[r^{-1}]
+  \end{equation*}
+  which was what we wanted to show.
+\end{exercise}
+
+\begin{exercise}{5}
+  We prove the Tensor-Hom adjunction by explicitly creating a map
+  \begin{equation*}
+    \Phi: \text{Hom}_S(A, \text{Hom}_R(B, C)) \to \text{Hom}_R(A\otimes_{S}B, C)
+  \end{equation*}
+  and show that it is natural in both $ A $ and $ C $. Suppose $ \alpha \in \text{Hom}_S(A, \text{Hom}_R(B, C)) $. We then define the map $ \Phi(\alpha)': A \times B \to C $ by $ \Phi'(\alpha)(a,b) = \alpha(a)(b) $. To get a map
+  $ \Phi(\alpha): A \otimes_{S} B \to C $ we need to show that $ \Phi'(\alpha) $ is $ S $-balanced. To see this, let $ a,a' \in A $, $ b,b' \in B $ and $ s \in S $. We then have that
+  \begin{align*}
+    \Phi'(a + a', b) &= \alpha(a+a')(b) \\
+                     &= \alpha(a)(b) + \alpha(a')(b) \quad S\text{-linearity of }\alpha \\
+                     &= \Phi'(a, b) + \Phi'(a', b) \\
+    \Phi'(a, b + b') &= \alpha(a)(b + b') \\
+                     &= \alpha(a)(b) + \alpha(a)(b') \quad R\text{-linearity of } \alpha(a) \\
+                     &= \Phi'(a, b) + \Phi'(a, b') \\
+    \Phi'(as, b) &= \alpha(as)(b) \\
+                 &= \alpha(a)(sb) \quad \text{definition of the action of } S\text{ on } \text{Hom}(B,C) \\
+                 &= \Phi'(a, sb)
+  .\end{align*}
+  Hence there is a well defined map $ \Phi(\alpha): A \otimes_{S} B \to C $ which on pure tensors is given by $ \Phi(\alpha)(a\otimes b) = \alpha(a)(b) $.
+
+  To show that it is an isomorphism, we create an inverse
+  \begin{equation*}
+    \Psi: \text{Hom}_R(A\otimes_{S}B, C) \to \text{Hom}_S(A, \text{Hom}_R(B,C))
+  \end{equation*}
+  which takes $ \beta \in \text{Hom}_R(A\otimes_{S}B, C) $ to $ \Psi(\beta) $ which for $ a \in A $ and $ b \in B $ is defined by $ \Psi(\beta)(a)(b)= \beta(a \otimes b) $. By construction we then have that $ \Psi(\beta) $ is $ S $-linear and that $ \Psi(\beta)(a) $ is $ R $-linear.
+
+  Moreover, we have that for $ \alpha \in \text{Hom}_S(A, \text{Hom}_R(B,C)) $
+  \begin{align*}
+    \Psi(\Phi(\alpha))(a)(b) &= \Phi(\alpha)(a \otimes b) \\
+                             &= \alpha(a)(b)
+  \end{align*}
+  showing that $ \Psi \circ \Phi = \text{id}_{\text{Hom}_S(A, \text{Hom}_R(B,C))} $. On the other hand, for $ \beta \in \text{Hom}_R(A \otimes_S B, C) $ we have that
+  \begin{align*}
+    \Phi(\Psi(\beta))(a \otimes b) &= \Psi(\beta)(a)(b) \\
+                                   &= \beta(a \otimes b).
+  \end{align*}
+  Hence we also have $ \Phi \circ \Psi = \text{id}_{\text{Hom}_R(A\otimes_{S}B, C)} $ which all together means that $ \Phi $ and $ \Psi $ are mutual inverses.
+
+  Next we need to show that $ \Phi $ defines a natural bijection in both coordinates. For naturality in the first coordinate let $ f: A \to A' $ be an $ S $-linear. We must then show that the following diagram commutes
+  \[\begin{tikzcd}
+	  {\text{Hom}_S(A', \text{Hom}_R(B,C))} & {\text{Hom}_S(A, \text{Hom}_R(B,C))} \\
+	  {\text{Hom}_R(A'\otimes_S B, C)} & {\text{Hom}(A \otimes_S B, C)}
+	  \arrow["{-\circ f}", from=1-1, to=1-2]
+	  \arrow["\Phi"', from=1-1, to=2-1]
+	  \arrow["\Phi", from=1-2, to=2-2]
+	  \arrow["{-\circ (f\otimes\text{id})}"', from=2-1, to=2-2]
+  \end{tikzcd}\]
+  Thus, let $ a \otimes b \in A \otimes_S B $ and $ \alpha \in \text{Hom}_S(A', \text{Hom}_R(B,C)) $. We then have that
+  \begin{align*}
+    \Phi(\alpha\circ f)(a \otimes b) &= (\alpha\circ f)(a)(b) \\
+                                     &= \alpha(f(a))(b)
+  \end{align*}
+  and
+  \begin{align*}
+    (\Phi(\alpha)\circ (f \otimes \text{id}))(a \otimes b) &= \Phi(\alpha)(f(a) \otimes b) \\
+                                                           &= \alpha(f(a))(b)
+  \end{align*}
+  which shows commutativity on pure tensors and hence commutativity of the diagram.
+
+  For commutativity in the second variable, let $ g: C \to C' $ be an $ R $-linear morphism. We must then show that the following diagram commutes
+  \[\begin{tikzcd}
+	  {\text{Hom}_S(A, \text{Hom}_R(B,C))} & {\text{Hom}_S(A, \text{Hom}_R(B,C'))} \\
+	  {\text{Hom}_R(A\otimes_S B, C)} & {\text{Hom}(A \otimes_S B, C')}
+	  \arrow["{\text{Hom}_S(A, f\circ-)}", from=1-1, to=1-2]
+	  \arrow["\Phi"', from=1-1, to=2-1]
+	  \arrow["\Phi", from=1-2, to=2-2]
+	  \arrow["{f \circ -}"', from=2-1, to=2-2]
+  \end{tikzcd}\]
+  Let $ a \otimes b \in A \otimes_{S} B $ and $ \alpha \in \text{Hom}_S(A, \text{Hom}_R(B, C)) $. We then have that
+  \begin{align*}
+    \Phi(\text{Hom}_S(A, f \circ \alpha))(a \otimes b) &= \text{Hom}_S(A, f\circ \alpha)(a)(b) \\
+                                                       &= (f\circ \alpha(a))(b) \\
+                                                       &= f(\alpha(a)(b))
+  \end{align*}
+  and
+  \begin{align*}
+    (f \circ \Phi(\alpha))(a \otimes b) &= f(\Phi(\alpha))(a \otimes b) \\
+                                        &= f(\alpha(a)(b))
+  \end{align*}
+  which shows the desired commutativity.
+
+  We thus see that
+  \begin{equation*}
+    \Phi: \text{Hom}_S(A, \text{Hom}_R(B, C)) \to \text{Hom}_R(A\otimes_{S}B, C)
+  \end{equation*}
+  defines a natural bijection in both coordinates and hence $- \otimes_S B \dashv \text{Hom}_R(B, -)$ as desired.
+\end{exercise}
+\end{document}
