@@ -1,0 +1,445 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\usepackage{istgame}
+\title{Computational Game Theory \\ Sheet 3 \\
+Class Tutor: Mr C. Wang}
+\begin{document}
+\maketitle
+\begin{exercise}{1}
+  \begin{enumerate}[label=(\alph*)]
+    \item The game can be modeled by the game tree given in Figure~\ref{fig:gametree}
+      \begin{figure}
+        \begin{center}
+          \begin{istgame}
+            \xtdistance{15mm}{50mm}
+            % Player 1's first decision
+            \istroot(0)[oval node]{$1$}
+            \istb{A}[al]{(end)}  % branch A ends the game
+            \istb{B}[ar]         % branch B continues to Player 2
+            \endist
+            \xtdistance{15mm}{30mm}
+            % Player 2's decision
+            \istroot(1)(0-2)[oval node]{$2$}
+            \istb{C}[al]{(end)}  % branch C ends the game
+            \istb{D}[ar]         % branch D continues to Player 1
+            \endist
+            \xtdistance{15mm}{30mm}
+            % Player 1's second decision
+            \istroot(2)(1-2)[oval node]{$1$}
+            \istb{E}[al]{(end)} % branch E ends the game
+            \istb{F}[ar]{(end)} % branch F also ends the game
+            \endist
+          \end{istgame}
+        \end{center}
+        \caption{Game tree for the game described in Exercise 1}\label{fig:gametree}
+      \end{figure}
+
+    \item Player 1 controls two nodes and has a choice between two actions in each node. Player 2 on the other hand only controls one node in which he can choose between two actions. We therefore have that
+      \begin{align*}
+        |\Sigma_1| &= 2\cdot 2 = 4 \\
+        |\Sigma_2| &= 2
+      .\end{align*}
+
+    \item The subgames of this game are shown in Figure~\ref{fig:subgames}.
+      \begin{figure}
+        \begin{center}
+          \begin{istgame}
+            \xtdistance{15mm}{70mm}
+            % Player 1's first decision
+            \istroot(0)[oval node]{$1$}
+            \istb{A}[al]{(end)}  % branch A ends the game
+            \istb{B}[ar]      % branch B goes to Player 2
+            \endist
+            \xtdistance{15mm}{40mm}
+            % Player 2's decision
+            \istroot(1)(0-2)[oval node]{$2$}
+            \istb{C}[al]{(end)}  % branch C ends the game
+            \istb{D}[ar]      % branch D goes back to Player 1
+            \endist
+            \xtdistance{15mm}{40mm}
+            % Player 1's second decision
+            \istroot(2)(1-2)[oval node]{$1$}
+            \istb{E}[al]{(end)} % branch E ends the game
+            \istb{F}[ar]{(end)} % branch F also ends the game
+            \endist
+
+            % Draw subgame boxes
+            \xtSubgameBox(0){(0)(0-1)(0-2)(1-2)(2-2)}[rectangle,dashed,inner sep=24pt,rounded corners=15pt,black!50]
+            \xtSubgameBox(1){(1)(1-1)(1-2)(2-2)}[rectangle,dashed,inner sep=20pt,rounded corners=15pt,black!50]
+            \xtSubgameBox(2){(2)(2-1)(2-2)}[rectangle,dashed,inner sep=16,rounded corners=15pt,black!50]
+          \end{istgame}
+        \end{center}
+        \caption{The subgames of the original game. Each subgame is shown here by drawing a dashed box around it.}\label{fig:subgames}
+      \end{figure}
+
+    \item With these added utilities we get the game tree pictured in Figure~\ref{fig:payoffs}.
+      \begin{figure}
+        \begin{center}
+          \begin{istgame}
+            \xtdistance{15mm}{70mm}
+            % Player 1's first decision
+            \istroot(0)[oval node]{$1$}
+            \istb{A}[al]{(2,0)}  % branch A ends the game
+            \istb{B}[ar]      % branch B goes to Player 2
+            \endist
+            \xtdistance{15mm}{40mm}
+            % Player 2's decision
+            \istroot(1)(0-2)[oval node]{$2$}
+            \istb{C}[al]{(3,1)}  % branch C ends the game
+            \istb{D}[ar]      % branch D goes back to Player 1
+            \endist
+            \xtdistance{15mm}{40mm}
+            % Player 1's second decision
+            \istroot(2)(1-2)[oval node]{$1$}
+            \istb{E}[al]{(0,0)} % branch E ends the game
+            \istb{F}[ar]{(1,2)} % branch F also ends the game
+            \endist
+          \end{istgame}
+        \end{center}
+        \caption{The previous game with added payoffs for each player.}\label{fig:payoffs}
+      \end{figure}
+      For simplicity we will think of a strategy as the image of the strategy function. Applying Zermelo's algorithm gives us the trees pictured in Figure~\ref{fig:zermelo1}--\ref{fig:zermelo3}.
+      \begin{figure}
+        \begin{center}
+          \begin{istgame}
+            \xtdistance{15mm}{70mm}
+            % Player 1's first decision
+            \istroot(0)[oval node]{$1$}
+            \istb{A}[al]{(2,0)}  % branch A ends the game
+            \istb{B}[ar]      % branch B goes to Player 2
+            \endist
+            \xtdistance{15mm}{40mm}
+            % Player 2's decision
+            \istroot(1)(0-2)[oval node]{$2$}
+            \istb{C}[al]{(3,1)}  % branch C ends the game
+            \istb{D}[ar]{(1,2)}      % branch D goes back to Player 1
+            \endist
+          \end{istgame}
+        \end{center}
+        \caption{Step 1 of Zermelo's algorithm.}\label{fig:zermelo1}
+      \end{figure}
+      \begin{figure}
+        \begin{center}
+          \begin{istgame}
+            \xtdistance{15mm}{70mm}
+            % Player 1's first decision
+            \istroot(0)[oval node]{$1$}
+            \istb{A}[al]{(2,0)}  % branch A ends the game
+            \istb{B}[ar]{(1,2)}      % branch B goes to Player 2
+            \endist
+          \end{istgame}
+        \end{center}
+        \caption{Step 2 of Zermelo's algorithm.}\label{fig:zermelo2}
+      \end{figure}
+      \begin{figure}[t]
+        \begin{center}
+          $ (2,0) $
+        \end{center}
+        \caption{Step 3 of Zermelo's algorithm.}\label{fig:zermelo3}
+      \end{figure}
+
+      From this sequence of trees we see that the strategies of Player 1 and Player 2 in the SPNE are
+      \begin{align*}
+        \text{Player 1: }&\{A, F\} \\
+        \text{Player 2: }&\{D\}
+      .\end{align*}
+      This SPNE is unique since at each decision we have a strict preference over the subtrees.
+
+      Besides the SPNE, we also have the pure Nash equilibria given by the strategy profiles
+      \begin{align*}
+        \text{Player 1: }&\{A, E\} \\
+        \text{Player 2: }&\{D\} \\
+        \\
+        \text{Player 1: }&\{B, E\} \\
+        \text{Player 2: }&\{C\}
+      .\end{align*}
+      These are the only pure Nash equilibria as if Player 2 were to have D in its strategy then Player 1 would always do better by choosing A instead of B.
+  \end{enumerate}
+
+
+\end{exercise}
+
+\begin{exercise}{2}
+  \begin{enumerate}[label=(\alph*)]
+    \item A pure strategy for player $ i $ is a function $ \sigma_i: \mathcal{I} \to A_i $ such that $ \sigma_i([v]) \in A(v) $. By assumption we have that $ |A(v)| = m $ for all information sets $ [v] \in \mathcal{I}_i $. This means that at each information set $ [v] $ we have exactly $ m $ actions to choose between. Since we can make these choices independently for each information set we have that
+      \begin{equation*}
+        |\Sigma_i| = m^{k}.
+      \end{equation*}
+
+    \item The argumentation is the same as in part (a) with the exception that $ |[v]_j| = m_j $ and so the product formula gives us
+      \begin{equation*}
+        |\Sigma_i| = \prod_{j = 1}^{k} m_j
+      .\end{equation*}
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}{3}
+  \begin{enumerate}[label=(\alph*)]
+    \item In game (a) Player 1 can lose track of whether he is in the left branch of the root node or the right branch of the root node. More specifically, he cannot distinguish between the sequence (A, D) and (B, E) of actions.
+
+      In game (b) Player 1 cannot distinguish between whether or not he is at the beginning of the game or the end of the game. In other words, the sequence () and (B, D) of actions look identical to Player 1.
+
+      In game (c) the situation is the same as in game (a) just with changing the root to Player 2 and adding one more level of nodes. That is to say, Player 1 cannot distinguish between the sequence (B, E, I) and (A, D, H) of actions.
+
+    \item We label each node in each game by $ v_i $ for some index $ i $ according to the following rules
+      \begin{enumerate}[label=(\arabic*)]
+        \item The root node has label $ v_0 $.
+        \item Each inner node is labeled according to its depth and how far it is too the left. For example, in the first game, the node reached by doing action A has label $ v_1 $ and the node reached by taking action B is labeled $ v_2 $.
+      \end{enumerate}
+      We relabel from alphabetical numbering to roman numerals and go through each game:
+      \begin{enumerate}[label=(\roman*)]
+        \item We have the information sets
+          \begin{align*}
+            \mathcal{I}_1 &= \{\{v_0\}, \{v_3, v_4\}\} \\
+            \mathcal{I}_2 &= \{\{v_1\}, \{v_2\}\}
+          .\end{align*}
+          Let $ \sigma_i^{j} $ denote the $ j $th strategy of player $ i $. We then have the following pure strategies for Player 1
+          \begin{align*}
+            \sigma_1^{1}(\{v_0\}) &= A \\
+            \sigma_1^{1}(\{v_3, v_4\}) &= G \\
+            \\
+            \sigma_1^{2}(\{v_0\}) &= A \\
+            \sigma_1^2(\{v_3, v_4\}) &= H \\
+            \\
+            \sigma_1^{3}(\{v_0\}) &= B \\
+            \sigma_1^3(\{v_3, v_4\}) &= G \\
+            \\
+            \sigma_1^{4}(\{v_0\}) &= B \\
+            \sigma_1^4(\{v_3, v_4\}) &= H
+          \end{align*}
+          and the following pure strategies for Player 2
+          \begin{align*}
+            \sigma_2^{1}(\{v_1\}) &= C \\
+            \sigma_2^{1}(\{v_2\}) &= E \\
+            \\
+            \sigma_2^{2}(\{v_1\}) &= C \\
+            \sigma_2^{2}(\{v_2\}) &= F \\
+            \\
+            \sigma_2^{3}(\{v_1\}) &= D \\
+            \sigma_2^{3}(\{v_2\}) &= E \\
+            \\
+            \sigma_2^{4}(\{v_1\}) &= D \\
+            \sigma_2^{4}(\{v_2\}) &= F
+          .\end{align*}
+
+        \item We have the following information sets
+          \begin{align*}
+            \mathcal{I}_1 &= \{\{v_0, v_2\}\} \\
+            \mathcal{I}_2 &= \{\{v_1\}\}.
+          \end{align*}
+          These are the pure strategies for Player 1
+          \begin{align*}
+            \sigma_1^{1}(\{v_0, v_2\}) &= A \\
+            \\
+            \sigma_1^{2}(\{v_0, v_2\}) &= B
+          \end{align*}
+          and these are the pure strategies for Player 2
+          \begin{align*}
+            \sigma_2^{1}(\{v_1\}) &= C \\
+            \\
+            \sigma_2^{2}(\{v_1\}) &= D
+          .\end{align*}
+
+        \item We have the following information sets
+          \begin{align*}
+            \mathcal{I}_1 &= \{\{v_1\}, \{v_2\}, \{v_5, v_6\}\} \\
+            \mathcal{I}_2 &= \{\{v_0\}, \{v_3\}, \{v_4\}\}
+          \end{align*}
+          and the following pure strategies for Player 1
+          \begin{align*}
+            \sigma_1^{1}(\{v_1\}) &= F \\
+            \sigma_1^{1}(\{v_2\}) &= D \\
+            \sigma_1^{1}(\{v_5, v_6\}) &= L \\
+            \\
+            \sigma_1^{2}(\{v_1\}) &= F \\
+            \sigma_1^{2}(\{v_2\}) &= D \\
+            \sigma_1^{2}(\{v_5, v_6\}) &= K \\
+            \\
+            \sigma_1^{3}(\{v_1\}) &= F \\
+            \sigma_1^{3}(\{v_2\}) &= C \\
+            \sigma_1^{3}(\{v_5, v_6\}) &= L \\
+            \\
+            \sigma_1^{4}(\{v_1\}) &= F \\
+            \sigma_1^{4}(\{v_2\}) &= C \\
+            \sigma_1^{4}(\{v_5, v_6\}) &= K \\
+            \\
+            \sigma_1^{5}(\{v_1\}) &= E \\
+            \sigma_1^{5}(\{v_2\}) &= D \\
+            \sigma_1^{5}(\{v_5, v_6\}) &= L \\
+            \\
+            \sigma_1^{6}(\{v_1\}) &= E \\
+            \sigma_1^{6}(\{v_2\}) &= D \\
+            \sigma_1^{6}(\{v_5, v_6\}) &= K \\
+            \\
+            \sigma_1^{7}(\{v_1\}) &= E \\
+            \sigma_1^{7}(\{v_2\}) &= C \\
+            \sigma_1^{7}(\{v_5, v_6\}) &= L \\
+            \\
+            \sigma_1^{8}(\{v_1\}) &= E \\
+            \sigma_1^{8}(\{v_2\}) &= C \\
+            \sigma_1^{8}(\{v_5, v_6\}) &= K
+          \end{align*}
+          and the following pure strategies for Player 2
+          \begin{align*}
+            \sigma_2^{1}(\{v_0\}) &= B \\
+            \sigma_2^{1}(\{v_3\}) &= J \\
+            \sigma_2^{1}(\{v_4\}) &= H \\
+            \\
+            \sigma_2^{2}(\{v_0\}) &= B \\
+            \sigma_2^{2}(\{v_3\}) &= J \\
+            \sigma_2^{2}(\{v_4\}) &= G \\
+            \\
+            \sigma_2^{3}(\{v_0\}) &= B \\
+            \sigma_2^{3}(\{v_3\}) &= I \\
+            \sigma_2^{3}(\{v_4\}) &= H \\
+            \\
+            \sigma_2^{4}(\{v_0\}) &= B \\
+            \sigma_2^{4}(\{v_3\}) &= I \\
+            \sigma_2^{4}(\{v_4\}) &= G \\
+            \\
+            \sigma_2^{5}(\{v_0\}) &= A \\
+            \sigma_2^{5}(\{v_3\}) &= J \\
+            \sigma_2^{5}(\{v_4\}) &= H \\
+            \\
+            \sigma_2^{6}(\{v_0\}) &= A \\
+            \sigma_2^{6}(\{v_3\}) &= J \\
+            \sigma_2^{6}(\{v_4\}) &= G \\
+            \\
+            \sigma_2^{7}(\{v_0\}) &= A \\
+            \sigma_2^{7}(\{v_3\}) &= I \\
+            \sigma_2^{7}(\{v_4\}) &= H \\
+            \\
+            \sigma_2^{8}(\{v_0\}) &= A \\
+            \sigma_2^{8}(\{v_3\}) &= I \\
+            \sigma_2^{8}(\{v_4\}) &= G
+          .\end{align*}
+      \end{enumerate}
+
+    \item We have that the following strategy profiles define pure Nash equilibria
+      \begin{align*}
+        \vec{\sigma}_1 &= (\sigma_1^{1}, \sigma_2^{1}) \\
+        \vec{\sigma}_2 &= (\sigma_1^{1}, \sigma_2^{2})
+      .\end{align*}
+      If Player 1 were to choose $ \sigma_1^{2} $ instead, then he could switch to $ \sigma_1^{1} $ instead and gain a greater payoff, hence the two strategies mentioned above are the only possible candidates. Moreover, since Player 2 has no way to affect the outcome of the game if Player 1 chooses A, both $ \vec{\sigma}_1 $ and $ \vec{\sigma}_2 $ are Nash equilibria as claimed.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}{4}
+  \begin{enumerate}[label=(\alph*)]
+    \item The expected utility of a game is simply the sum of the product of the utility of a outcome times the probability of that outcome occurring. In other words, letting $ EU(p) $ denote the expected utility of the game for the driver with a chosen $ p \in [0, 1] $ we have that
+    \begin{align*}
+      EU(p) &= 0 \cdot p + 4 \cdot (1- p)p + 1 \cdot (1-p)(1-p) \\
+            &= 1 + 2p - 3p^2
+    .\end{align*}
+
+    \item We just take the derivative of $ EU(p) $ with respect to $ p $, set it equal to $ 0 $ and solve for $ p $:
+      \begin{align*}
+        \frac{\partial EU(p)}{\partial p} &= 0 \\
+        2 - 6p &= 0 \\
+        p &= \frac{1}{3}.
+      \end{align*}
+      Hence the optimal value for $ p $ if we want to maximize expected utility for the driver is $ p=1/3 $.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}{5}
+  \begin{enumerate}[label=(\alph*)]
+    \item In TAT-FOR-TIT, Player 1 starts out by choosing to defect. Then, if Player 2 chooses to cooperate, Player 1 chooses to take advantage of this and continues to defect. If, on the other hand, Player 2 chooses to also defect, Player 1 then chooses to cooperate and continues to do so as long as Player 2 also cooperates. If Player 2 at some point chooses to defect, then Player 1 switches back to defecting as retaliation.
+
+    \item Up to relabeling Prisoner 1 as Prisoner 2 and Prisoner 2 as Prisoner 1 there are $ 3 + 2 + 1 = 6 $ different cases to consider which are shown in Table 1--6.
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{c c c c c c}
+          \hline
+          Round & 0 & 1 & 2 & ... & \\
+          \hline
+          GRIM   & C        & C        & C        & ... & utility $ =-1 $\\
+          GRIM   & C        & C        & C        & ... & utility $ =-1 $\\
+          Payoff & (-1, -1) & (-1, -1) & (-1, -1) &     & \\
+          \hline
+        \end{tabular}
+        \caption{Iterated Prisoner's Dilemma with GRIM vs GRIM Strategy}
+      \end{table}
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{c c c c c c}
+          \hline
+          Round & 0 & 1 & 2 & ... & \\
+          \hline
+          GRIM          & C        & C        & C        & ... & utility $ =-1 $\\
+          TIT-FOR-TAT   & C        & C        & C        & ... & utility $ =-1 $\\
+          Payoff        & (-1, -1) & (-1, -1) & (-1, -1) &     & \\
+          \hline
+        \end{tabular}
+        \caption{Iterated Prisoner's Dilemma with GRIM vs TIT-FOR-TAT Strategy}
+      \end{table}
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{c c c c c c c}
+          \hline
+          Round & 0 & 1 & 2 & 3 & ... & \\
+          \hline
+          GRIM          & C        & D        & D        & D        & ... & utility $ =-1 $\\
+          TAT-FOR-TIT   & D        & D        & C        & D        & ... & utility $ =-2.5 $\\
+          Payoff        & (-3, 0) & (-2, -2) & (0, -3)   & (-2, -2) & \\
+          \hline
+        \end{tabular}
+        \caption{Iterated Prisoner's Dilemma with GRIM vs TAT-FOR-TIT Strategy}
+      \end{table}
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{c c c c c c }
+          \hline
+          Round & 0 & 1 & 2 & ... & \\
+          \hline
+          TIT-FOR-TAT   & C        & C        & C        & ... & utility $ =-1 $\\
+          TIT-FOR-TAT   & C        & C        & C        & ... & utility $ =-1 $\\
+          Payoff        & (-1, -1) & (-1, -1) & (-1, -1) & (-1, -1) & \\
+          \hline
+        \end{tabular}
+        \caption{Iterated Prisoner's Dilemma with TIT-FOR-TAT vs TIT-FOR-TAT Strategy}
+      \end{table}
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{c c c c c c c c}
+          \hline
+          Round & 0 & 1 & 2 & 3 & 4 & ... & \\
+          \hline
+          TIT-FOR-TAT   & C        & D        & D        & C         & D & ... & utility $ =-1.67 $\\
+          TAT-FOR-TIT   & D        & D        & C        & D         & D & ... & utility $ =-1.67 $\\
+          Payoff        & (-3, 0)  & (-2, -2) & (0, -3) & (-3, 0)    & (-2, -2 )\\
+          \hline
+        \end{tabular}
+        \caption{Iterated Prisoner's Dilemma with TIT-FOR-TAT vs TAT-FOR-TIT Strategy}
+      \end{table}
+      \begin{table}[H]
+        \centering
+        \begin{tabular}{c c c c c c }
+          \hline
+          Round & 0 & 1 & 2 & ... & \\
+          \hline
+          TAT-FOR-TIT   & D        & C        & C        & ... & utility $ =-1 $\\
+          TAT-FOR-TIT   & D        & C        & C        & ... & utility $ =-1 $\\
+          Payoff        & (-2, -2) & (-1, -1) & (-1, -1) &  \\
+          \hline
+        \end{tabular}
+        \caption{Iterated Prisoner's Dilemma with TAT-FOR-TIT vs TAT-FOR-TIT Strategy}
+      \end{table}
+
+      In each table we have used the repeating sequence to calculate the average utility for each player over that sequence and then used that as the limiting utility.
+
+    \item The following situations are Nash equilibria:
+
+      GRIM vs. GRIM is as in this case no matter what other strategy another player considers, he will be worse off as the other player will immediately punish him for this throughout the rest of the game.
+
+      GRIM vs. TIT-FOR-TAT because if Player 2 changes strategy, then either he will continue to cooperate in which case the utility stays the same or he will at some point defect in which case the utility for Player 2 must decrease.
+
+      TIT-FOR-TAT vs. TIT-FOR-TAT since if either player tries to deviate from the strategy by defecting more then the other player will punish this behaviour and decrease the utility for the defecting player.
+
+      TAT-FOR-TIT vs. TAT-FOR-TIT because if either player tries to defect more then he will be punished for it and the other player will try to take advantage. Hence it is best for both players to stay with their current strategy.
+
+      In the remaining strategies at least one of the players can do better by choosing another strategy.
+  \end{enumerate}
+\end{exercise}
+
+\end{document}
