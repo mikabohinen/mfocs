@@ -1,0 +1,158 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\usepackage{kbordermatrix}
+% \renewcommand{\kbldelim}{(}
+% \renewcommand{\kbrdelim}{)}
+\title{Integer Programming \\ Sheet 2}
+\begin{document}
+  \maketitle
+  \textbf{Notation}: We use $ \subset $ to mean inclusion and $ \subsetneqq $ to mean strict inclusion.
+  \begin{exercise}{B.1}
+    Condition (\textit{iii}) in Theorem 5.11 from the lecture notes is equivalent to saying that:
+    The rows of A can be partitioned into two subsets such that, if two nonzero elements in
+    any column have the same sign, then they belong to different subsets, and if they have
+    opposite signs, then they belong to the same subset.
+
+    Suppose $ \tilde{A} $ is a matrix with the consecutive ones property and let $ A \subset \tilde{A} $ be a square $ n \times n $ submatrix for some $ n > 0 $. We want to show that $ \det(A) \in \{\pm 1, 0\} $. To this end, define
+    \begin{equation*}
+    R_k = \begin{pmatrix}
+      1 & 0 & \cdots & 0 & 0 & 0 &0 \\
+      0 & 1 & 0 & \cdots & 0 & 0 &0 \\
+      \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \vdots\\
+      0 & \cdots & 1 & -1 & 0 &\cdots & 0 \\
+      0 & \cdots & 0 & 1 & 0 & \cdots & 0 \\
+      \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+      0 & 0 & 0 & 0 & 0 & 0 & 1
+    \end{pmatrix}
+    \end{equation*}
+    where the $ -1 $ appears in the $ k $th row. Since $ A $ also has the consecutive ones property we get that the matrix
+    \begin{equation*}
+    B \coloneqq R_{n-1}R_{n-2}\cdots R_{1} A
+    \end{equation*}
+    has columns which looks like one of the three alternatives
+    \begin{align*}
+      b^{1}_j &= (0, \ldots, 0, -1, 0, \ldots, 0, 1, 0, \ldots, 0) \\
+      b^{2}_j &= (0, \ldots, 0, 1, 0, \ldots, 0) \\
+      b^{3}_j &= (0, \ldots, 0)
+    .\end{align*}
+    Using the alternative formulation mentioned above we see that the partition $ P_1 = N= \{1, \ldots, n\} $ and $ P_2 = \emptyset $ satisfies the criteria. Hence we have that $ B $ is totally unimodular so that $ \det(B) \in \{\pm 1, 0\} $. Moreover, since $ R_k $ is upper triangular, we have that $ \det(R_k) = 1\cdot 1 \cdots 1 = 1 $.
+
+    Putting it all together, we have that
+    \begin{align*}
+      \det(A) &= \frac{\det(B)}{\prod_{k = 1}^{n - 1} \det(R_k)} \\
+              &= \frac{\det(B)}{1} \\
+              &= \det(B)
+    \end{align*}
+    and hence must have $ \det(A) \in \{\pm 1, 0\} $ which was what we wanted to show. This shows that $ \tilde{A} $ is totally unimodular.
+  \end{exercise}
+
+  \begin{exercise}{B.2} %come back to this
+    \begin{enumerate}[label=(\roman*)]
+      \item For $ v \in V = V_1 \cup V_2 $ let $ s_v $ denote their respective slack variables. For $ e \in E $ define $ f_e: V \to \{0,1\} $ by
+        \begin{equation*}
+          f_e(v) = \begin{cases}
+            1, &\text{ if } v \in e\\
+            0, &\text{ if } v \not\in e.
+          \end{cases}
+        \end{equation*}
+        This function then has the property that given $ e \in E $ we have $ f_e(v)=1 $ for exactly one $ v \in V_1 $ and $ f_e(w)= 1 $ for exactly one $ w \in V_2 $.
+        The constraint matrix is then given by
+        \begin{equation*}
+          [A\quad S] = \kbordermatrix{
+                      & x_{e_1}            & x_{e_2}            & x_{e_3}            & \cdots & x_{e_{|E|}}            & s_1    & s_2    & \cdots & s_{|V_1 \cup V_2|}\\
+            v_1       & f_{e_1}(v_1)       & f_{e_2}(v_1)       & f_{e_3}(v_1)       & \cdots & f_{e_{|E|}}(v_1)       & 1      & 0      & \cdots & 0 \\
+            v_2       & f_{e_1}(v_2)       & f_{e_2}(v_2)       & f_{e_3}(v_2)       & \cdots & f_{e_{|E|}}(v_2)       & 0      & 1      & \cdots & 0 \\
+            \vdots    & \vdots             & \vdots             & \vdots             & \vdots & \vdots                 & \vdots & \vdots & \vdots & \vdots \\
+            v_{|V_1|} & f_{e_1}(v_{|V_1|}) & f_{e_2}(v_{|V_1|}) & f_{e_3}(v_{|V_1|}) & \cdots & f_{e_{|E|}}(v_{|V_1|}) & 0      & \cdots & 1      & 0 \\
+            w_1       & f_{e_1}(w_1)       & f_{e_2}(w_1)       & f_{e_3}(w_1)       & \cdots & f_{e_{|E|}}(w_1)       & 0      & 0      & \cdots & 0 \\
+            w_2       & f_{e_1}(w_2)       & f_{e_2}(w_2)       & f_{e_3}(w_2)       & \cdots & f_{e_{|E|}}(w_2)       & 0      & 0      & \cdots & 0 \\
+            \vdots    & \vdots             & \vdots             & \vdots             & \vdots & \vdots                 & \vdots & \vdots & \vdots & \vdots \\
+            w_{|V_2|} & f_{e_1}(w_{|V_2|}) & f_{e_2}(w_{|V_2|}) & f_{e_3}(w_{|V_2|}) & \cdots & f_{e_{|E|}}(w_{|V_2|}) & 0      & \cdots & 0      & 1 \\
+          }
+        .\end{equation*}
+        We can then partition the rows of $ A $ based into two sets based on whether or not the corresponding vertex belongs to $ V_1 $ or $ V_2 $. By the remark on the function we have that this partition satisfies the requirement mentioned in the first exercise and so $ A $ must be totally unimodular.
+
+        Adjoining the identity matrix to $ A $ gives us $ [A\quad S] $ which is still totally unimodular by the remark in the lecture notes. Hence the constraint matrix is totally unimodular.
+
+      \item Let $ V = V_1 \cup V_2 $ and $ V(e) $ be the set of vertices incident to the edge $ e \in E $. The dual of the LP relaxation of (M) is then given by
+        \begin{align*}
+          \min & \sum_{v \in V} y_v \\
+          \text{s.t. } &\sum_{v \in V(e)} y_v \geq 1, \quad (e \in E) \\
+                       & y_v \geq 0, y_v \in \mathbb{R}
+        .\end{align*}
+        The condition $ \sum_{v \in V(e)} y_v \geq 1 $ is equivalent to saying that the edge $ e $ is covered by some node $ v \in V $. Requiring this for all nodes then gives us a covering by nodes. Since the objective function is $ \sum_{v \in V} y_v $ and we want to minimize it, we see that the dual problem exactly matches the description of the LP relaxation of the minimum cardinality node covering problem.
+
+      \item The corresponding constraint matrix for the dual problem of (M) is the transpose of a totally unimodular matrix and hence is totally unimodular itself. This means that the basic feasible solutions of the dual problem are integer valued and hence the optimal basic feasible solution is as well.
+
+      Applying the strong duality theorem then yields that the two optimal values are equal and this implies K\"onings theorem.
+    \end{enumerate}
+  \end{exercise}
+
+  \begin{exercise}{B.3}
+    Let $ M = (E(M), \mathcal{I}(M)) $ be a matroid. We want to show that $ r_M $ is a submodular rank function with induced matroid $ M $. For $ r_M $ to be a submodular rank function it must satisfy the following properties.
+    \begin{enumerate}[label=(\roman*)]
+      \item $ f $ is non-decreasing submodular,
+      \item $ f(\emptyset) = 0 $,
+      \item $ f(S \cup \{j\}) - f(S) \in \{0, 1\} $ for all $ S \in \mathcal{P} $ and $ j \not\in S $.
+    \end{enumerate}
+    We now show that $ r_M $ satisfies all of these properties:
+    \begin{enumerate}[label=(\roman*)]
+      \item Explicitly $ r_M $ is given by
+        \begin{equation*}
+          r_M(A) = \max \{|X| \mid X \subset A,\, X\in \mathcal{I}(M)\}
+        .\end{equation*}
+        Suppose that $ A \subset B $. Then any maximal independent subset of $ A $ is an independent subset of $ B $ so that $ r_M(A) \leq r_M(B) $. This shows that $ r_M $ is non-decreasing. To see that it is submodular, let $ A, B \in \mathcal{P} $. We want to show that
+        \begin{equation*}
+        r_M(A) + r_M(B) \geq r_M(A \cap B) + r_M(A \cup B)
+        .\end{equation*}
+        Let $ X_{A \cap B} $ be a maximal independent subset of $ A \cap B $. We may then---by the properties of independent subsets---extend $ X_{A \cap B} $ to a maximal independent subset of $ A \cup B $. We then partition $ X_{A \cup B} $ as
+        \begin{equation*}
+        X_{A \cup B} = X_{A\setminus B} \cup X_{B\setminus A} \cup X'_{A \cap B}
+        \end{equation*}
+        with each set being contained by their label, i.e., $ X_{A \setminus B} \subset A \setminus B $ etc. By construction we then have $ X'_{A \cap B} = X_{ A \cap B} $. We thus have
+        \begin{equation*}
+        r_M(X_{A \cup B}) = |X_{A\setminus B}| + |X_{B \setminus A}| + |X_{A \cap B}|
+        .\end{equation*}
+        Now, $ X_{A \setminus B} \cup X_{A \cap B} $ is a subset of $ X_{A \cup B} $ and so is independent. Moreover, it is entirely contained in $ A $ so we have that $ r_M(A) \geq |X_{A\setminus B}| + |X_{A \cap B}| $. We similarly have $ r_M(B) \geq |X_{B \setminus A}| + |X_{A \cap B}| $. Putting it all together we have that
+        \begin{equation*}
+        r_M(A) + r_M(B) \geq |X_{A\setminus B}| + |X_{B\setminus A}| + 2|X_{A \cap B}| = r_M(A \cap B) + r_M(A \cup B)
+        \end{equation*}
+        which was what we wanted to show.
+
+      \item This follows since $ \emptyset $ is the only independent subset of $ \emptyset $ and $ |\emptyset| = 0 $.
+
+      \item Let $ X $ be a maximal independent subset of $ A $. Suppose $ j \not\in A $ and consider the set $ A' = A \cup \{j\} $. Then $ X $ is an independent subset of $ A' $. By the maximality of $ X $ there is only one possible candidate for a new element to be added to $ X $ so that it is still independent. Hence $ r_M(A') - r_M(A) \in \{0, 1\} $.
+    \end{enumerate}
+    Hence $ r_M $ is a submodular rank function. The matroid induced by $ r_M $ is then by definition $ M $---as you have the assignment $ r_M' = r_M $ in the construction of matroid from a submodular rank function.
+  \end{exercise}
+
+  \begin{exercise}{B.4}
+    \begin{enumerate}[label=(\roman*)]
+    \item Suppose $ S \in \mathcal{P} $ is not inseparable. This means that there exists $ \emptyset \subsetneqq U \subsetneqq S $ so that $ f(S) = f(S \setminus U) + f(U) $. In $ P(f) $ we then also have the constraints
+      \begin{align*}
+        \sum_{j \in S \setminus U} x_j &\leq f(S\setminus U) \\
+        \sum_{j \in U} x_j &\leq f(U)
+      \end{align*}
+      which, when combined, gives the constraint
+      \begin{align*}
+        \sum_{j \in S\setminus U} x_j + \sum_{k \in U} x_k &\leq f(S\setminus U) + f(S) \\
+        \sum_{j \in S} x_j \leq f(S)
+      .\end{align*}
+      We thus see that the rank inequality $ \sum_{j \in S} x_j \leq f(S) $ is redundant.
+
+    \item Let $ S \in \mathcal{P} \setminus \emptyset $. We can then consider the set $ \mathcal{A}(S) = \{S' \mid f(S')=f(S)\} $. We need to show that $ \mathcal{A}(S) $ has a unique maximal element with respect to inclusion. The fact that it has maximal elements follows by the finiteness of $ \mathcal{P} $. Suppose therefore that $ \text{cl}(S) $ and $ \text{cl}'(S) $ are two maximal elements of $ \mathcal{A}(S) $. Since $ f $ is non-decreasing submodular we have that
+      \begin{align*}
+        f(\text{cl}(S)) + f(\text{cl}'(S)) &\geq f(\text{cl}(S)\cap\text{cl}'(S)) + f(\text{cl}(S) \cup \text{cl}'(S)) \\
+        2f(S) &\geq f(S) + f(\text{cl}(S) \cup \text{cl}'(S)) \\
+        f(S) & \geq f(\text{cl}(S) \cup \text{cl}'(S)) \geq f(S)
+      \end{align*}
+      hence $ f(\text{cl}(S) \cup \text{cl}'(S)) = f(S) $ which implies that $ \text{cl}(S) = \text{cl}'(S) $ which was what we wanted to show.
+
+    \item Suppose $ S \in \mathcal{P} $ is not closed. This means there exists $ j \in \{1, \ldots, n\} \setminus S $ such that $ f(S \cup \{j\}) = f(S) $. In $ P(f) $ we then have the rank inequality
+      \begin{equation*}
+      \sum_{k \in S \cup \{j\}} x_k \leq f(S \cup \{j\}) = f(S)
+      .\end{equation*}
+      Since $ \sum_{k \in S} x_k \leq \sum_{k \in S \cup \{j\}} x_k $ we see that the rank inequality $ \sum_{k \in S} x_k \leq f(S) $ is redundant.
+    \end{enumerate}
+  \end{exercise}
+\end{document}
