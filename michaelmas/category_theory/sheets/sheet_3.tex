@@ -1,0 +1,157 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\title{Category Theory \\ Sheet 3}
+\begin{document}
+\maketitle
+\begin{exercise}{2}
+Letting $ \mathbf{2} $ denote the discrete category of 2 objects we are asked to show that the following diagram commutes up to isomorphism
+\[\begin{tikzcd}
+	{\text{Fun}(\mathbb{N}, \text{Fun}(\mathbf{2}, \text{Set}))} & {\text{Fun}(\mathbf{2}, \text{Set})} \\
+	{\text{Fun}(\mathbb{N}, \text{Set})} & {\text{Set}}
+	\arrow["\times\circ -"', from=1-1, to=2-1]
+	\arrow["\varinjlim", from=1-1, to=1-2]
+	\arrow["\times", from=1-2, to=2-2]
+	\arrow["\varinjlim"', from=2-1, to=2-2]
+\end{tikzcd}\]
+where $ \times $ is the binary product. There is a canonical map $ \varinjlim (X_n \times Y_n) \to \varinjlim X_n \times \varinjlim Y_n $ which uses the inclusion maps $ X_k \times Y_k \to \varinjlim(X_n \times Y_n) $ for all $ k $. To see how it is defined consider the following commutative diagram
+\[\begin{tikzcd}
+	{X_0 \times Y_0} & {X_1 \times Y_1} & {X_2 \times Y_2} & \cdots \\
+	{X_0} & {X_1} & {X_2} & \cdots \\
+	&& {\varinjlim X_n}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-3, to=2-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-1, to=3-3]
+	\arrow[from=2-2, to=3-3]
+	\arrow[from=2-3, to=3-3]
+	\arrow[from=2-4, to=3-3]
+\end{tikzcd}\]
+where the horizontal maps are the ones given in the exercise, the first row of vertical maps are projections onto the first factor, and the second row of vertical maps are the inclusion maps into the inverse limit. Since this diagram commute we have a well defined map $ \varinjlim( X_n \times Y_n) \to \varinjlim X_n $. We similarly have a well defined map $ \varinjlim( X_n \times Y_n) \to \varinjlim Y_n $. The universal property of the binary product then tells us that we have a unique map
+\begin{equation*}
+\Phi: \varinjlim( X_n \times Y_n) \to \varinjlim X_n \times \varinjlim Y_n
+\end{equation*}
+which after using the projection maps gives the two original maps.
+
+As we are in the category \textbf{Set} we know that $ \Phi $ is an isomorphism if and only if it is surjective and injective. On elements we have that
+\begin{equation*}
+  \Phi([(x_n, y_n)]) = ([x_n], [y_n])
+\end{equation*}
+where square brackets denotes the equivalence class---it is well defined by the argument above. This is quite clearly surjective. For injectivity, suppose
+$ ([x_n], [y_n]) = ([x_m], [y_m]) $. Using the projection maps we must then have that
+$ [x_n] = [x_m] $ and $ [y_n] = [y_m] $. In other words, there exists $ k \geq m,n $ such that the image of $ x_n $ and $ x_m $ is the same in $ X_k $ and similarly with $ y_n $ and $ y_m $ in $ Y_k $. But this is exactly the criteria for saying that $ [(x_n, y_n)] = [(x_m, y_m)] $ and so we must have that $ \Phi $ is injective.
+
+Hence we conclude that $ \Phi $ is an isomorphism and that the first diagram commutes up to isomorphism.
+\end{exercise}
+
+\begin{exercise}{3}
+In the category of unital $ k $-algebras the coproduct is given by $ \otimes_k $. More specifically, suppose $ k \to A $ and $ k \to B $ are two $ k $-algebras. We then have a commutative diagram
+\[\begin{tikzcd}
+	& k \\
+	A && B \\
+	& {A\otimes_k B}
+	\arrow["{\iota_A}", from=2-1, to=3-2]
+	\arrow["{\iota_B}"', from=2-3, to=3-2]
+	\arrow[from=1-2, to=2-1]
+	\arrow[from=1-2, to=2-3]
+\end{tikzcd}\]
+with
+\begin{align*}
+  \iota_A: A &\to A\otimes_k B \\
+  a &\mapsto a\otimes 1 \\
+  \\
+  \iota_B: B &\to A \otimes_k B \\
+  b &\mapsto 1 \otimes b
+\end{align*}
+and the ring structure on $ A\otimes_k B $ being given by
+\begin{align*}
+  (a \otimes b)(a' \otimes b') = (aa') \otimes (bb')
+\end{align*}
+for $ a,a' \in A $ and $ b,b' \in B $. To see that this diagram is a universal cocone let $ f:A \to C $, $ g:B \to C $ be map of $ k $-algebras, which is to say that the following diagram commute
+\[\begin{tikzcd}
+	& k \\
+	A & C & B
+	\arrow["f"', from=2-1, to=2-2]
+	\arrow[from=1-2, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow["g", from=2-3, to=2-2]
+	\arrow[from=1-2, to=2-3]
+\end{tikzcd}\]
+We must then show that there exists a unique $ k $-algebra morphism $ \alpha: A \otimes_k B $ such that the following diagram commutes
+\[\begin{tikzcd}
+	& k \\
+	A && B \\
+	& {A \otimes_k B} \\
+	& C
+	\arrow[from=1-2, to=2-1]
+	\arrow[from=1-2, to=2-3]
+	\arrow["{\iota_B}", from=2-3, to=3-2]
+	\arrow["{\iota_A}"', from=2-1, to=3-2]
+	\arrow["g", bend left=60, from=2-3, to=4-2]
+	\arrow["f"', bend right=60, from=2-1, to=4-2]
+	\arrow["\alpha", from=3-2, to=4-2]
+\end{tikzcd}\]
+The commutativity requirement together with $ \alpha $ being a $ k $-algebra morphism then uniquely defines $ \alpha $ as on pure tensors we must have that
+\begin{align*}
+  \alpha(a \otimes b) &= \alpha(\iota_A(a)\iota_B(b)) \\
+                      &= \alpha(\iota_A(a))\alpha(\iota_B(b)) \\
+                      &= f(a)g(b)
+.\end{align*}
+Hence we see that there exists a unique map $ \alpha: A \otimes_k B \to C $ which makes the diagram commute showing that $ A \otimes_k B $ is the coproduct in the category of unital $ k $-algebras.
+
+In the category of non unital rings we don not have the maps $ \iota_A $ and $ \iota_B $ as neither $ A $ or $ B $ is guaranteed to have a unit. However, we also do not have maps $ k \to A $ or $ k \to B $ as the definition of a non-unital $ k $-algebra $ C $ is simply a $ k $-module together with a $ k $-linear map $ p: C \otimes_k C \to C $ such that multiplication on $ C $ can be defined by $ c_1 \cdot c_2 \coloneqq p(c_1 \otimes c_2) $.
+
+A good candidate for the coproduct is then $ A \oplus B $ as we do not need to worry about units. However, $ A \oplus B $ does not have a natural product structure as there is no clear way to define $ a \cdot b $ for $ a \in A $ and $ b \in B $. We therefore add the tensor product $ A \otimes_{k} B $ and get the diagram
+\[\begin{tikzcd}
+	A && B \\
+	& {A \oplus B \oplus (A\otimes_k B)}
+	\arrow["{i_B}", from=1-3, to=2-2]
+	\arrow["{i_A}"', from=1-1, to=2-2]
+\end{tikzcd}\]
+where $ i_A, i_B  $ are the inclusions of $ A $ and $ B $ into the direct sum.
+
+Suppose we have found some way to put a ring structure on $ A \oplus B (A \otimes_k B) $. Let $ f: A \to C $ and $ g: B \to C $ be two maps of non-unital $ k $-algebras. We then also have a map $ f \otimes g: A \otimes_k B \to C $ defined by the multiplication of $ f $ and $ g $. We then have that there exists a map $ \alpha: A \oplus B \oplus (A \otimes_k B) \to C $ such that the following diagram commutes
+\[\begin{tikzcd}
+	A && B \\
+	& {A \oplus B \oplus (A\otimes_k B)} \\
+	& C
+	\arrow["{i_B}", from=1-3, to=2-2]
+	\arrow["{i_A}"', from=1-1, to=2-2]
+	\arrow["{\exists\alpha}", dashed, from=2-2, to=3-2]
+	\arrow[bend left=50, from=1-3, to=3-2]
+	\arrow[bend right=50, from=1-1, to=3-2]
+\end{tikzcd}\]
+We can then use $ \alpha $ to figure out the ring structure on $ A \oplus B \oplus (A \otimes_k B) $. To see how, let $ (a_1, b_1, a_1' \otimes b_1'), (a_2, b_2, a_2' \otimes b_2') \in A \oplus B \oplus (A \otimes_k B) $. Since $ \alpha $ must be a morphism of non-unital $ k $-algebras we then have that
+\begin{align*}
+  \alpha( (a_1, b_1, a_1' \otimes b_1')(a_2, b_2, a_2' \otimes b_2') ) &= \alpha(a_1, b_1, a_1' \otimes b_1') \alpha(a_2, b_2, a_2' \otimes b_2') \\
+                                                                       &= (f(a_1) + g(b_1) + f(a_1')g(b_1'))(f(a_2) + g(b_2) + f(a_2')g(b_2')) \\
+                                                                       &= f(a_1 a_2) + g(b_1 b_2)
+  +f(a_1)g(b_2) + f(a_1a_2')g(b_2')\\ &\,\,+ f(a_2)g(b_1) + f(a_2')g(b_1b_2') + f(a_2a_1')g(b_1') + f(a_1')g(b_1'b_2)\\
+                                      &\,\,+ f(a_1'a_2')g(b_1'b_2')
+.\end{align*}
+Hence, for $ \alpha $ to be ring homorphism we must have that
+\begin{align*}
+  (a_1, b_1, a_1'\otimes b_1')(a_2, b_2, a_2'\otimes b_2') = (a_1a_2, b_1b_2, a_1 \otimes b_2 &+ (a_1a_2')\otimes b_2' + a_2 \otimes b_1 + a'_2 \otimes (b_1b_2') \\  &+ (a_1'a_2) \otimes b'_1 + a_1'\otimes (b'_1b_2) + (a_1'a_2') \otimes (b_1' b_2'))
+.\end{align*}
+This also shows why $ \alpha $ must be unique as $ \alpha $ restricted to $ A \otimes_k B $ has to be given by
+\begin{align*}
+  \alpha(0, 0, a \otimes b) &= \alpha((a, 0, 0)(0,b,0)) \\
+                            &= \alpha(a,0,0)\alpha(0,b,0) \\
+                            &= f(a)g(b)
+\end{align*}
+which corresponds precisely to the map $ f \otimes g: A \otimes_k B \to C $ which we defined in the start.
+
+By construction we therefore see that the $ k $-algebra $ A \oplus B \oplus (A \otimes_k B) $ is the coproduct of $ A $ and $ B $.
+\end{exercise}
+
+\begin{exercise}{4}
+  In an equivalence of categories we must have that if a general statement about the category is true in one category, then it is true in the other category, and vice versa.
+
+  Thus, if there were an equivalence of categories between \textbf{Set} and $ \textbf{Set}^{\text{op}} $ then we must have that any map into an initial object in $ \textbf{Set}^{\text{op}} $ is an isomorphism. This corresponds to a dual statement about \textbf{Set} which is that any map out of the terminal object in \textbf{Set} is an isomorphism. However, this is clearly not true as this would imply the cardinality of any sets is 1. Hence we conclude that \textbf{Set} and $ \textbf{Set}^{\text{op}} $ are not equivalent.
+\end{exercise}
+\end{document}
