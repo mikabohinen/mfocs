@@ -1,0 +1,117 @@
+\section{Monadic Structure of Reflective Subcategories} % (fold)
+\label{sec:Monadic Structure of Reflective Subcategories}
+Having set up the proper terminology and preliminary results we can move on to studying the monadic structure of a reflective subcategory $ \mathcal{D} \subset \mathcal{C} $. First we recall the notion of $ U $-split coequalizers as defined in \cite{riehl2017category}:
+\begin{definition}[\cite{riehl2017category}]
+  Given a functor $ U: \mathcal{D} \to \mathcal{C} $:
+    A $ U $-\textbf{split coequalizer} is a parallel pair $ f,g:x \rightrightarrows y $ in $ \mathcal{D} $ together with an extension of the pair $ Uf, Ug: Ux \rightrightarrows Uy $ to a split coequalizer diagram
+      \[\begin{tikzcd}
+	      Ux & Uy & z
+	      \arrow["h", from=1-2, to=1-3]
+	      \arrow["s", bend left=25, from=1-3, to=1-2]
+	      \arrow["Uf", shift left, from=1-1, to=1-2]
+	      \arrow["Ug"', shift right, from=1-1, to=1-2]
+	      \arrow["t", bend left=45, from=1-2, to=1-1]
+      \end{tikzcd}\]
+      in $ \mathcal{C} $ such that $ hUf = hUg $, $ hs=1_z $, $ sh = Ug \circ t $, and $ Uf\circ t = 1_{Uy} $.
+\end{definition}
+
+\noindent Having this definition in mind we state Beck's monadicity theorem, a proof of which can be found in Chapter 5 of \cite{riehl2017category}.
+\begin{theorem}[Beck's monadicity theorem \cite{Beck1967TriplesAlgebras}]
+  \label{thm:beck}
+  A functor $ U: \mathcal{D} \to \mathcal{C} $ is monadic precisely if
+  \begin{enumerate}[label=(\arabic*)]
+    \item $ U $ has a left adjoint,
+    \item $ U $ reflects isomorphisms, and
+    \item any $ U $-split coequalizer has a coequalizer in $ \mathcal{D} $ which is preserved by $ U $.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  See \cite{riehl2017category}.
+\end{proof}
+
+To say that $ U $ is monadic means that the canonical functor $ K: \mathcal{D} \to \mathcal{C}^{T} $ from $ \mathcal{D} $ to the category of $ T $-algebras (where $ T $ is the induced monad of the adjunction) is an equivalence of categories.
+
+\begin{theorem}
+  Given a reflective subcategory $ i: \mathcal{D} \subset \mathcal{C} $ with reflector $ L: \mathcal{C} \to \mathcal{D} $. The monad $ T \stackrel{\text{def}}{=} iL: \mathcal{C} \to \mathcal{C} $ is an \textbf{idempotent monad}---meaning that $ \mu: T^2 \implies T $ is an isomorphism---and the inclusion $ i $ is monadic.
+\end{theorem}
+\begin{proof}
+  We first show that $ \mu: T^2 \implies T $ is an isomorphism. As remarked many times before, the counit $ \epsilon $ is an isomorphism for the adjunction induced from a reflective subcategory. Now, $ \mu $ is defined by
+  \begin{equation}
+    \mu\stackrel{\text{def}}{=} i\epsilon L: iLiL \implies iL
+  \end{equation}
+  which must be an isomorphism since $ \epsilon $ is.
+
+
+  For the second part, note that by Theorem~\ref{thm:beck} it is enough to show that any $ i $-split coequalizer has a coequalizer in $ \mathcal{D} $ which is preserved by $ i $ (the first condition holds by assumption and second condition follows because $ i $ is fully faithful). To this end, let $ f,g:x\rightrightarrows y $ in $ \mathcal{D} $ be an $ i $-split coequalizer. This means that we have a diagram
+  \[\begin{tikzcd}
+	  ix & iy & z
+	  \arrow["h", from=1-2, to=1-3]
+	  \arrow["s", bend left=25, from=1-3, to=1-2]
+	  \arrow["if", shift left, from=1-1, to=1-2]
+	  \arrow["ig"', shift right, from=1-1, to=1-2]
+	  \arrow["t", bend left=45, from=1-2, to=1-1]
+  \end{tikzcd}\]
+  with $ hs = 1_z $, $ sh = ig \circ t $, and $ if \circ t = 1_{iy} $. From Proposition~\ref{prop:colims} we have that $ Lz $ is a coequalizer of $ f,g:x \rightrightarrows y $ with coequalizer map $ Lh \circ \epsilon_y^{-1}: y \to Lz $. It then suffices to show that image of this coequalizer is isomorphic to $ z $, i.e., that there exists an isomorphism $ \alpha: z \to iL z $ such that $ iLh \circ i\epsilon_y^{-1} = \alpha \circ h $. Let $ \alpha = \eta_z $. Now, from the triangle identity for the adjunction we have that $ i\epsilon_y^{-1} = \eta_{iy} $. Thus
+  \begin{align*}
+    iLh \circ i\epsilon_y^{-1} &= iLh \circ \eta_{iy} \\
+                               &= \eta_z \circ h\quad\quad\text{(naturality of } \eta)
+  \end{align*}
+  as desired. It remains to show that $ \eta_z $ is an isomorphism. To this end, define the map
+  \begin{equation}
+    \beta \stackrel{\text{def}}{=} h\circ i\epsilon_y \circ iLs: iLz \to z.
+  \end{equation}
+  We then have
+  \begin{align*}
+    \eta_z \circ \beta &= \underbrace{\eta_z \circ h}_{iLh \circ \eta_{iy}} \circ i\epsilon_y \circ iLs \\
+                       &= iLh \circ \underbrace{\eta_{iy} \circ i\epsilon_y}_{1_{iLiy}} \circ iLs \\
+                       &= iLh \circ iLs \\
+                       &= iL(\underbrace{h \circ s}_{1_z}) \\
+                       &= 1_{iLz}
+  \end{align*}
+  and
+  \begin{align*}
+    \beta \circ \eta_z &= h \circ i\epsilon_y \circ \underbrace{iLs \circ \eta_z}_{\eta_{iy} \circ s} \\
+                       &= h \circ \underbrace{i\epsilon_y \circ \eta_{iy}}_{1_{iy}} \circ s \\
+                       &= h \circ s \\
+                       &= 1_z
+  \end{align*}
+  showing that $ \eta_z $ and $ \beta $ are mutual inverses of each other as desired.
+\end{proof}
+
+We also have a converse to the above statement.
+\begin{theorem}
+  \label{thm:converse}
+  If there exists an idempotent monad $ T: \mathcal{C} \to \mathcal{C} $ for some category $ \mathcal{C} $ then there exists a reflective subcategory $ i:\mathcal{D} \subset \mathcal{C} $.
+\end{theorem}
+\begin{proof}
+  Let $ \mathcal{D} = T(\mathcal{C}) $ and define the reflector $ L:\mathcal{C} \to \mathcal{D} $ as $ L \stackrel{\text{def}}{=} T $. Let the unit of the adjunction be the unit of the monad $ \eta: 1_\mathcal{C} \implies T $, and for $ d=Tc \in \mathcal{D} $ let the counit be the multiplication $ \epsilon_d = \mu_c: T^2c \to Tc $. As $ T $ is idempotent we have that $ \mu $ is an isomorphism and hence so is the counit (we need this as the inclusion $ \mathcal{D}=T(\mathcal{C}) \subset \mathcal{C} $ is fully faithful and so the counit must be an isomorphism). Given $ c \in \mathcal{C} $ and $ d=Tc' \in \mathcal{D} $, we must then verify the commutativity of the following triangles
+  \[\begin{tikzcd}
+	& {T(d)} &&& {T^2c} \\
+	  d && d & Tc && Tc.
+	  \arrow["{\eta_d}", from=2-1, to=1-2]
+	  \arrow["{\varepsilon_d}", from=1-2, to=2-3]
+	  \arrow["{1_d}"', from=2-1, to=2-3]
+	  \arrow["{1_{Tc}}"', from=2-4, to=2-6]
+	  \arrow["{T\eta_c}", from=2-4, to=1-5]
+	  \arrow["{\varepsilon_{Tc}}", from=1-5, to=2-6]
+  \end{tikzcd}\]
+  The triangle on the left is equal to
+  \[\begin{tikzcd}
+	& {T^2c'} \\
+	  Tc' && Tc'
+	  \arrow["{\eta_{Tc'}}", from=2-1, to=1-2]
+	  \arrow["{\mu_{c'}}", from=1-2, to=2-3]
+	  \arrow["{1_{Tc'}}"', from=2-1, to=2-3]
+  \end{tikzcd}\]
+  and the triangle on the right is equal to
+  \[\begin{tikzcd}
+	& {T^2c} \\
+	  Tc && Tc.
+	  \arrow["{T\eta_c}", from=2-1, to=1-2]
+	  \arrow["{\mu_c}", from=1-2, to=2-3]
+	  \arrow["{1_c}"', from=2-1, to=2-3]
+  \end{tikzcd}\]
+  The commutativity of both these triangles then follow from the identity
+  $ \mu \circ T\eta = \mu \circ \eta T = 1_T $ on monads. Hence $ T(\mathcal{C}) $ is indeed a reflective subcategory of $ \mathcal{C} $ as desired.
+\end{proof}
+% section Monadic Structure on Reflective Subcategories (end)

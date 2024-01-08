@@ -1,0 +1,60 @@
+\section{Overview of PoA for Second-Price Auctions} % (fold)
+\label{sec:Overview of PoA for Second-Price Auctions}
+We end our mini project by turning our attention to second-price auctions and give a short overview of the current known upper and lower bounds for second-price auctions. An overview of all the bounds (both first-price and second-price) can be found in Table~\ref{tab:improved_poa_bounds}. Before giving the bounds for simultaneous second-price auctions we formalize the notion of no-overbidding.
+\begin{definition}[Strongly no-overbidding, \cite{10.1145/2488608.2488634}]
+  Given a bidding profile $ \mathbf{b}=(b_1, \ldots, b_n) $, we say that it is \textbf{strongly no-overbidding} if for all $ i \in [n] $ and any $ S \subset [m] $ we have $ b_i(S) \leq v_i(S) $.
+\end{definition}
+\begin{definition}[Weakly no-overbidding, \cite{10.1145/2488608.2488634}]
+  Given a price distribution $ \mathcal{D}_i $, a bidder is said to be \textbf{weakly no-overbidding} if his bid vector $ b_i $ satisfies $ \mathbb{E}_{p_i \sim \mathcal{D}_i}[v_i(X(b_i, p_i))] \geq \mathbb{E}_{p_i \sim \mathcal{D}_i}[b_i(X_i(b_i, p_i))] $ where $ X_i(b_i, p_i) $ denotes the allocation of Player $ i $ given that he bids $ b_i $ against a perceived price profile $ p_i $.
+\end{definition}
+\subsection{Upper and lower bounds} % (fold)
+\label{sub:Upper}
+The current best known upper bound for subadditive valuations is given in \cite{10.1145/2488608.2488634}.
+\begin{theorem}[\cite{10.1145/2488608.2488634}]
+  In simultaneous second-price auctions where bidders have subadditive valuations, and every bidder is either strongly or weakly no-overbidding, the price of anarchy over Bayesian-Nash equilibria is at most 4.
+\end{theorem}
+They also show the following best known lower bound:
+\begin{theorem}[\cite{10.1145/2488608.2488634}]
+  In simultaneous second-price auctions where bidders have subadditive valuations, and every bidder is weakly no-overbidding, the price of anarchy over Bayesian-Nash equilibria is at least $ 4 /1.94 > 2.061 $.
+\end{theorem}
+
+For submodular valuations we have the following upper bound given in \cite{Christodoulou2016Bayesian}:
+\begin{theorem}[\cite{Christodoulou2016Bayesian}]
+  In simultaneous second-price auctions where bidders have submodular valuations, and every bidder is strongly no-overbidding, the price of anarchy over Bayesian-Nash equilibria is at most 2.
+\end{theorem}
+They do not provide results for the case of the weakly no-overbidding condition. As mentioned by Feldman et al. in \cite{10.1145/2488608.2488634} the results for the strongly no-overbidding situation do not directly carry over to the weakly no-overbidding situation. A potential area of investigation could therefore be to study upper bounds for the PoA with submodular valuations under the weakly no-overbidding assumption.
+
+For pure Nash equilibria, Christodoulou et al. \cite{Christodoulou2016Bayesian} showed the following related result.
+\begin{theorem}[\cite{Christodoulou2016Bayesian}]
+  If the valuation functions are submodular, then a pure Nash equilibrium that has PoA equal to 2 can be computed in polynomial time.
+\end{theorem}
+It is currently not known if such an algorithm exists for Bayesian-Nash equilibria. Another area of investigation is therefore naturally to either try to prove or disprove such an algorithm.
+
+
+\begin{table}[t]
+  \centering
+  \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    \textbf{Auction} & \textbf{Equilibrium} & \textbf{Valuation} & \textbf{No-Overbidding} & \textbf{PoA Upper} & \textbf{PoA Lower} \\
+    \textbf{Type} & \textbf{type} &  &  & \textbf{Bound} & \textbf{Bound} \\
+    \hline
+    First-Price & Mixed Nash & Subadditive & Strong & 2 & 2 \\
+    \hline
+    First-Price & Bayesian-Nash & Subadditive & Strong & 2 & 2 \\
+    \hline
+    First-Price & Mixed Nash & Submodular & Strong & \( \frac{e}{e - 1} \) & \( \frac{e}{e - 1} \) \\
+    \hline
+    First-Price & Bayesian-Nash & Submodular & Strong & \( \frac{e}{e - 1} \) & \( \frac{e}{e - 1} \) \\
+    \hline
+    Second-Price & Bayesian-Nash & Subadditive & Strong \& Weak & 4 & \( > 2.061 \) \\
+    \hline
+    Second-Price & Bayesian-Nash & Submodular & Strong & 2 & Unknown  \\
+    \hline
+  \end{tabular}
+  \caption{A summary of the PoA for first-price and second-price simultaneous auctions over different valuation classes and equilibrium types.}
+  \label{tab:improved_poa_bounds}
+\end{table}
+
+
+% subsection Upper (end)
+% section Overview of PoA for Second-Price Auctions (end)

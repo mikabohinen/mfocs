@@ -1,0 +1,61 @@
+\documentclass[12pt,a4paper]{article}
+
+% Basic Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{subfiles}
+\usepackage{enumitem}
+\usepackage{lipsum}
+\usepackage{tikz-cd}
+\usepackage{pifont}  % For Pifont symbols
+
+% Mathematics Packages
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\numberwithin{equation}{section}
+
+% For improved tables
+\usepackage{booktabs}
+
+% For improved referencing
+\usepackage{hyperref}
+
+% Custom theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\renewcommand\epsilon{\ensuremath{\varepsilon}}
+
+% Page geometry (adjust margins as needed)
+\geometry{
+  left=25mm,
+  right=25mm,
+  top=25mm,
+  bottom=25mm
+}
+
+% Title, author, and date
+\title{Reflective Subcategories}
+% \author{Author Name}
+\date{\today} % or specify a date manually
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+
+\input{sections/introduction}
+\input{sections/preliminaries}
+\input{sections/monadic}
+
+\bibliographystyle{alpha}
+\bibliography{refs}
+\end{document}

@@ -1,0 +1,96 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\title{Homological Algebra \\ Sheet 3}
+\begin{document}
+\maketitle
+\begin{exercise}{2}
+  \begin{enumerate}[label=(\roman*)]
+    \item Consider the following free resolution of $ k[x]/(x-a) $
+      \begin{equation*}
+        0 \to k[x] \xrightarrow{\cdot (x - a)} k[x] \to \frac{k[x]}{(x-a)} \to 0.
+      \end{equation*}
+      Tensoring with $ k[x]/(x - b) $ over $ k[x] $ gives us the following complex
+      \begin{equation*}
+        0 \to \frac{k[x]}{(x-b)} \xrightarrow{ \cdot (b - a)} k[x]/(x - b) \to 0
+      .\end{equation*}
+      Denoting the multiplication map $ \cdot (x - a) $ by $ f $ there are two cases two consider.
+
+      ($ a \neq b $): In this case we have that
+      \begin{equation*}
+        \text{ker}(f) = \{c \in k \mid c(x - a) = c(b - a) = 0\}.
+      \end{equation*}
+      Hence, if $ c \in \text{ker}(f) $ we have that $ c b = ca $ so we must have $ c = 0 $ as in the other case we get $ b = a $ which is a contradiction.
+      \begin{align*}
+        \text{Tor}_1^{k[x]} \left( \frac{k[x]}{(x-a)}, \frac{k[x]}{(x - b)} \right) &= \text{ker}(f) = 0 \\
+        \text{Tor}_0^{k[x]} \left( \frac{k[x]}{(x-a)}, \frac{k[x]}{(x - b)} \right) &= \frac{k[x]}{(x- a)} \otimes_{k[x]} \frac{k[x]}{(x - b)} = \frac{k[x]}{(x-a,x-b)} = 0.
+      \end{align*}
+
+      ($ a = b $): In this case we have that
+      \begin{equation*}
+        \text{ker}(f) = \{c \in k \mid c(x - a) = c(b - a) = 0\}.
+      \end{equation*}
+      However this requirement for being in $ \text{ker}(f) $ holds true for every $ c \in k $ and hence $ \text{ker}(f) = k[x]/(x - b) $. Thus
+      \begin{align*}
+        \text{Tor}_1^{k[x]}\left( \frac{k[x]}{(x-a)}, \frac{k[x]}{(x - b)} \right) &= \text{ker}(f) = \frac{k[x]}{(x - b)} \\
+        \text{Tor}_0^{k[x]} \left( \frac{k[x]}{(x-a)}, \frac{k[x]}{(x - b)} \right) &= \frac{k[x]}{(x- a)} \otimes_{k[x]} \frac{k[x]}{(x - b)} = \frac{k[x]}{(x-b,x-b)} = \frac{k[x]}{(x - b)}
+      .\end{align*}
+
+    \item Take the free resolution
+      \begin{equation*}
+        0 \to \mathbb{Z} \xrightarrow{\cdot a} \mathbb{Z} \to \frac{\mathbb{Z}}{(a)} \to 0
+      .\end{equation*}
+      Tensoring with $ \mathbb{Z}/b $ we get the complex
+      \begin{equation*}
+        0 \to \frac{\mathbb{Z}}{(b)} \xrightarrow{f} \frac{\mathbb{Z}}{(b)} \to 0
+      \end{equation*}
+      with $ f(1) = a \text{ mod } b $. We then have that
+      \begin{equation*}
+        \text{ker}(f) = \{c \in \mathbb{Z}/(a) \mid b | ac\} = \mathbb{Z}/(d)
+      \end{equation*}
+      where $ d = \text{gcd}(a,b) $. Hence
+      \begin{align*}
+        \text{Tor}_1^{\mathbb{Z}} \left( \frac{\mathbb{Z}}{(a)}, \frac{\mathbb{Z}}{(b)} \right) &= \text{ker}(f) = \frac{\mathbb{Z}}{(d)} \\
+        \text{Tor}_0^{\mathbb{Z}} \left( \frac{\mathbb{Z}}{(a)}, \frac{\mathbb{Z}}{(b)} \right) &= \text{coker}(f) = \frac{\mathbb{Z}}{(a)} \otimes_{\mathbb{Z}} \frac{\mathbb{Z}}{(b)} = \frac{\mathbb{Z}}{(d)}
+      .\end{align*}
+
+    \item Take the following free resolution of $ \mathbb{Z}/(2) $ over $ \mathbb{Z}/(4) $
+      \begin{equation*}
+        \cdots \xrightarrow{\cdot 2} \frac{\mathbb{Z}}{(4)} \xrightarrow{\cdot 2} \frac{\mathbb{Z}}{(4)} \to \frac{\mathbb{Z}}{(2)} \to 0
+      .\end{equation*}
+      Applying the hom functor $ \text{Hom}_{\mathbb{Z}/(4)}(-, \mathbb{Z}/(2)) $ we get the following complex
+      \begin{equation*}
+        0 \to \text{Hom}_{\mathbb{Z}/(4)}(\mathbb{Z}/(4), \mathbb{Z}/(2)) \xrightarrow{\cdot 2} \text{Hom}_{\mathbb{Z}/(4)}(\mathbb{Z}/(4), \mathbb{Z}/(2)) \xrightarrow{\cdot 2} \cdots
+      \end{equation*}
+      which is equivalent to
+      \begin{equation*}
+        0 \to \frac{\mathbb{Z}}{(2)} \xrightarrow{\cdot 0} \frac{\mathbb{Z}}{(2)} \xrightarrow{\cdot 0} \cdots
+      \end{equation*}
+      so that
+      \begin{equation*}
+        \text{Ext}_{\mathbb{Z}/(4)}^{*} = \bigoplus_{i = 0}^{\infty} \frac{\mathbb{Z}}{(2)}
+      .\end{equation*}
+
+    \item Take the following free resolution of $ \mathbb{Z}/(2^{b}) $
+      \begin{equation*}
+      \cdots \xrightarrow{\cdot 2^{a-b}} \mathbb{Z}/(2^{a}) \xrightarrow{\cdot 2^{b}} \mathbb{Z}/(2^{a}) \xrightarrow{\cdot 2^{a - b}} \mathbb{Z}/(2^{a}) \xrightarrow{\cdot 2^{b}} \mathbb{Z}/(2^{a}) \to \mathbb{Z}/(2^{b}) \to 0
+      .\end{equation*}
+      Applying $ \text{Hom}_{\mathbb{Z}/(2^{a})} (-, \mathbb{Z}/(2^{c})) $ we get the following complex
+      \begin{equation*}
+        0 \to \mathbb{Z}/(2^{c}) \xrightarrow{\cdot 0} \mathbb{Z}/(2^{c}) \xrightarrow{\cdot 2^{a - b}} \mathbb{Z}/(2^{c}) \xrightarrow{\cdot 0} \cdots
+      .\end{equation*}
+      If $ a - b\geq c $ then $ \cdot 2^{a - b} = \cdot 0 $ so that
+      \begin{equation*}
+        \text{Ext}^{*}_{\mathbb{Z}/(2^{a})}(\mathbb{Z}/(2^{b}), \mathbb{Z}/(2^{c})) = \bigoplus_{ i = 0}^{\infty} \mathbb{Z}/(2^{c})
+      .\end{equation*}
+      On the other hand, if $ c > a - b $ then we have that
+      \begin{align*}
+        \text{ker}(f) &= \{n \in \mathbb{Z}/(2^{c}) \mid 2^{c} | 2^{a- b}n\} \\
+                      &= \{n \in \mathbb{Z}/(2^{c}) \mid 2^{c + b - a} | n\} \\
+                      &= (2^{c + b - a})\mathbb{Z}/2^{c}\mathbb{Z} \\
+                      &=
+      .\end{align*}
+
+    \item
+  \end{enumerate}
+\end{exercise}
+\end{document}

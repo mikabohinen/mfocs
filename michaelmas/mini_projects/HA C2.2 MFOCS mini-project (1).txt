@@ -1,0 +1,63 @@
+The University of Oxford
+MSc (Mathematics and Foundations of Computer Science)
+Homological Algebra
+Michaelmas Term 2023
+The steps of ( each ) mini project are for your guidance; if you wish to take an
+alternative route to the desired goal, you are free to do so. But, if you follow
+the suggested route and ﬁnd yourself unable to carry out any particular step,
+you may simply assume it so that you can continue with the mini project, but
+should make this assumption clear in your presentation.
+
+The purpose of this mini-project is to deﬁne and study Lie algebra coho-
+mology and homology. Let h be a ﬁeld. A k-Lie algebra is a h-Vector space
+9 with a bilinear map H : g X g —> g satisfying
+[337 93] = 0 (1)
+[33, [31,21]] + [31, [zaxll + [Z7 [ﬁayll = 0. (2)
+Morphisms of Lie algebras are linear maps compatible with the bracket. A
+Lie algebra is called abelian if [90, y] = 0 for all at, y. A left g-module M is a
+k—module equipped with a bilinear action map g ®k M —> M (where a (X) m
+goes to 33m) such that
+[90, ylm = Mum) — MW) (3)
+for all x,y E g and all m E M. Morphisms of g—modules are linear maps
+which commute with the actions.
+
+1. Show that the category of g—modules is abelian.
+
+2. Show that the category of g-modules is closed symmetric monoidal
+where the action map on M ®kN is given by $(m®n) = $m®n+m®xn
+3. For any associative h-algebra A let Lie(A) be the Lie algebra with
+underlying k-module A and bracket given by [a, b] = ab — ba. Show
+that this deﬁnes a functor from the category of associative h—algebras
+to the category of Lie algebras. Show that this functor has a left adjoint
+(the universal enveloping algebra denoted by U)
+110.
+
+Show that the category of g-modules is naturally isomorphic to the
+category of U (g)—m0dules.
+
+Show that the category of g—modules has enough pro jectives and enough
+injectives.
+
+. Show that the functor from k-modules to g-modules sending V to the
+trivial g-module with underlying k-module V ($12 = 0 for all x E g
+and all 1) E V) has a left adjoint (coinvariants denoted by Mg) and
+a right adjoint (invariants denoted by M g). Denote by H*(g, M) the
+left derived functor of coinvariants, and by H* (g, M) the right derived
+functor of invariants.
+
+Show that if M is a trivial g—module then H1(g, M) 2’ (g/[g,g]) 6% M.
+
+Deﬁne the Chevalley-Ez'lenberg complex. Show that it gives a projective
+resolution of the trivial g-module k. You are allowed to use the PBW
+theorem as long as you state it precisely.
+
+Let M be a g—module. Deﬁne what is a Lie algebra extension of g by
+M (viewed as an abelian Lie algebra). Deﬁne when two extensions are
+equivalent. Show that H2(g, M) is in a natural one to one correspon—
+dence with the set of equivalence classes of Lie algebra extensions of g
+byM.
+
+Discuss more examples of Lie algebra cohomology computations. One
+possibility is the BGG resolution and how it can be used to compute
+Lie algebra cohomology of Borel subalgebras of semisimple Lie algebras
+(Bott’s theorem).

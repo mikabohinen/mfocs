@@ -1,0 +1,616 @@
+\documentclass[a4paper]{article}
+\input{../../preamble.tex}
+\usepackage{kbordermatrix}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\usepackage{forest}
+\usetikzlibrary{shapes.misc, positioning}
+
+\tikzset{
+  font=\normalsize,
+  tree node/.style = {align=center, inner sep=0pt, draw, circle, minimum size=18},
+  tree node label/.style={font=\scriptsize},
+  pruned/.style={strike out, draw=red, thick},
+  bound label/.style={font=\scriptsize, inner sep=1pt}
+}
+
+\forestset{
+  declare toks={left branch prefix}{},
+  declare toks={right branch prefix}{},
+  declare toks={left branch suffix}{},
+  declare toks={right branch suffix}{},
+  maths branch labels/.style={
+    branch label/.style={
+      if n=1{
+        edge label={node [left, midway] {$\forestoption{left branch prefix}##1\forestoption{left branch suffix}$}},
+      }{
+        edge label={node [right, midway] {$\forestoption{right branch prefix}##1\forestoption{right branch suffix}$}},
+      }
+    },
+  },
+  set branch labels/.style n args=4{%
+    left branch prefix={#1},
+    left branch suffix={#2},
+    right branch prefix={#3},
+    right branch suffix={#4},
+  },
+  branch and bound/.style={
+    /tikz/every label/.append style=tree node label,
+    maths branch labels,
+    for tree={
+      tree node,
+      math content,
+      s sep'+=20mm,
+      l sep'+=5mm,
+      thick,
+      edge+={thick},
+    },
+    before typesetting nodes={
+      for tree={
+        split option={content}{:}{content,branch label},
+      },
+    },
+  },
+}
+
+% \renewcommand{\kbldelim}{(}
+% \renewcommand{\kbrdelim}{)}
+\title{Integer Programming \\ Sheet 3}
+\begin{document}
+  \maketitle
+  \textbf{Notation}: We use $ \subset $ to mean inclusion and $ \subsetneqq $ to mean strict inclusion.
+  \begin{exercise}{B.1}
+    \begin{enumerate}[label=(\roman*)]
+      \item We first check that the proposed solution to the LP relaxation given by
+        \begin{align*}
+          x_j &= 1, \quad\quad\quad\quad\quad\quad j=1, \ldots, r-1 \\
+          x_r &=  \frac{b - \sum_{j = 1}^{r -1} a_j}{a_r} \\
+          x_j &= 0, \quad\quad\quad\quad\quad\quad j>r
+        \end{align*}
+        is feasible. To see this, note that
+        \begin{align*}
+          \sum_{j = 1}^{n} a_jx_j &= \sum_{j = 1}^{r-1} a_j + a_r \frac{b - \sum_{j = 1}^{r - 1} a_j}{a_r} \\
+                                  &= b
+        \end{align*}
+        and hence it is indeed a feasible solution.
+
+        We now construct a dual feasible solution by using complementary slackness. To do this, note first that the LP relaxation is given by
+        \begin{align*}
+          \max\,\, c^{T}x& \\
+          \text{s.t. }  a^{T}x &\leq b \\
+          x &\leq 1 \\
+          x &\geq 0
+        \end{align*}
+        and the dual is then
+        \begin{align*}
+          \min\,\, by_0 + \sum_{i = 1}^{n} y_i& \\
+          \text{s.t.}\quad a_i y_0 + y_i &\geq c_i,\quad i = 1,\ldots, n \\
+          y &\geq 0
+        \end{align*}
+        where $ y_0 $ corresponds to the constraint $ a^{T}x \leq b $. Using complementary slackness we can construct a dual optimal solution corresponding to the proposed primal solution.
+
+        The requirement from complementary slackness gives us that we must have
+        \begin{align*}
+          y_0 &= \frac{c_r}{a_r} \\
+          a_iy_0 + y_i &= c_i,\quad i = 1,\ldots r-1 \\
+          (1 - x_r)y_r &= 0 \\
+          y_i &= 0,\quad i > r.
+        \end{align*}
+        We therefore have that
+        \begin{align*}
+          y_0 &= \frac{c_r}{a_r} \\
+          y_i &= c_i - a_i \frac{c_r}{a_r},\quad i =1, \ldots, r-1 \\
+          y_i &= 0, \quad i \geq r.
+        \end{align*}
+        This is a feasible solution as, for $ i=1, \ldots, r-1 $
+        \begin{align*}
+          a_iy_0 + y_i &= a_i \frac{c_r}{a_r} + c_i - a_i \frac{c_r}{a_r} \\
+                       &= c_i
+        \end{align*}
+        and since $ c_i/a_i > c_r /a_r $ for $ i < r $ we have that $ y_i \geq 0 $ for all $ i $. Moreover, for $ i \geq r $ we have, by assumption, that
+        \begin{equation*}
+          a_i y_0 + y_i = a_i \frac{c_r}{a_r} \geq c_i
+        .\end{equation*}
+        Hence the proposed dual solution is feasible. Moreover
+        \begin{align*}
+          by_0 + \sum_{i = 1}^{n} y_i &= b \frac{c_r}{a_r} + \sum_{i = 1}^{r - 1} \left( c_i - a_i \frac{c_r}{a_r} \right) \\
+                                      &=\sum_{i = 1}^{r - 1} c_j + c_r\frac{b - \sum_{i = 1}^{r - 1} a_i}{a_r} \\
+                                      &= \sum_{j = 1}^{n} c_jx^{*}_j
+        .\end{align*}
+        which means $ x^{*} $ is optimal.
+
+      \item
+        We can use the above result to do the branch-and-bound as we branch on whether to set $ x_r = 1 $ or $ x_r = 0 $. Now, since
+        \begin{equation*}
+        \frac{17}{5} > \frac{10}{3} > \frac{25}{8} > \frac{17}{4}
+        \end{equation*}
+        we have that our incumbent is $ x^* = (1, 1, 0, 0) $ and have a lower bound of $ 17+10 = 27 $. Taking the LP-relaxation of $ \mathscr{F} $ (our original problem) we have by the previous part that the optimal solution is given by $ x^{*} = (1, 1, 0.5, 0) $. This gives a dual bound $ \bar{z}=39.5 $. Since all coefficients are integer valued we can round down. The corresponding tree looks like the one in Figure~\ref{fig:bab1}.
+        \begin{figure}
+          \begin{center}
+            \begin{forest}
+              branch and bound,
+              [\mathscr{F}, name=P0]
+              \node[bound label, above right=0pt and 5pt of P0] {39};
+              \node[bound label, below right=0pt and 5pt of P0] {27};
+            \end{forest}
+          \end{center}
+          \caption{Step 1 in branch-and-bound.}\label{fig:bab1}
+        \end{figure}
+
+        We then branch on whether $ x_3 = 0 $ or $ x_3 = 1 $ and get the tree in Figure~\ref{fig:bab2}.
+        \begin{figure}
+          \begin{center}
+            \begin{forest}
+              branch and bound,
+              [\mathscr{F}, name=P0
+              [\mathscr{F}_1, edge label={node [midway, left] {\(x_3 = 0\)}}, name=P1
+              ]
+              [\mathscr{F}_2, edge label={node [midway, right] {\(x_3 = 1\)}}, name=P2
+              ]
+              ]
+              \node[bound label, above right=0pt and 5pt of P0] {39};
+              \node[bound label, below right=0pt and 5pt of P0] {27};
+            \end{forest}
+          \end{center}
+          \caption{Branching on $ x_3 $.}\label{fig:bab2}
+        \end{figure}
+
+        Focusing on $ \mathscr{F}_1 $ we take the LP-relaxation which is given by
+        \begin{align*}
+          \max\quad 17x_1 + 10x_2 &+ 17x_4 \\
+          \text{s.t. } 5x_1 + 3x_2 + 7x_4 &\leq 12 \\
+          x_3 = 0 \\
+          x &\leq 1 \\
+          x &\geq 0
+        .\end{align*}
+        The optimal solution is then, by part (i), given by $ x^{*}=(1, 1, 0, 4 /7  ) $ yielding the dual bound $ \bar{z}=36.71 $ which we round down to $ \bar{z}=36 $. We then bound on $ x_4 $ and get the tree in Figure~\ref{fig:bab3}.
+        \begin{figure}
+          \begin{center}
+            \begin{forest}
+              branch and bound,
+              [\mathscr{F}, name=P0
+              [\mathscr{F}_1, edge label={node [midway, left] {\(x_3 = 0\)}}, name=P1
+              [\mathscr{F}_{11}, edge label={node [midway, left] {\(x_4 = 0\)}}, name=P11]
+              [\mathscr{F}_{12}, edge label={node [midway, right] {\(x_4 = 1\)}}, name=P12]]
+              [\mathscr{F}_2, edge label={node [midway, right] {\(x_3 = 1\)}}, name=P2
+              ]]
+              \node[bound label, above right=0pt and 5pt of P1] {36};
+              \node[bound label, above right=0pt and 5pt of P0] {36};
+              \node[bound label, below right=0pt and 5pt of P0] {27};
+            \end{forest}
+          \end{center}
+          \caption{Branching on $ x_4 $.}\label{fig:bab3}
+        \end{figure}
+        Taking the LP-relaxation of $ \mathscr{F}_{11} $ we have the LP given by
+        \begin{align*}
+          \max\quad 17x_1 + 10x_2 & \\
+          \text{s.t. } 5x_1 + 3x_2 &\leq 12 \\
+          x_3 = 0 \\
+          x_4 = 0 \\
+          x &\leq 1 \\
+          x &\geq 0
+        \end{align*}
+        which has optimal solution given by $ x^{*}=(1, 1, 0, 0) $ which was the incumbent we started with. We can prune this branch by optimality.
+
+        Taking the LP-relaxation of $ \mathscr{F}_{12} $ gives the LP problem
+        \begin{align*}
+          \max\quad 17x_1 + 10x_2 + 17& \\
+          \text{s.t. } 5x_1 + 3x_2 &\leq 5 \\
+          x_3 = 0 \\
+          x_4 = 1 \\
+          x &\leq 1 \\
+          x &\geq 0
+        \end{align*}
+        which has optimal solution given by $ x^{*}=(1, 0, 0, 1) $ and yields the dual bound $ \bar{z}=34 $. We can then prune this branch by optimality. Our tree now looks like the one in Figure~\ref{fig:bab4}.
+        \begin{figure}
+          \begin{center}
+            \begin{forest}
+              branch and bound,
+              [\mathscr{F}, name=P0
+              [\mathscr{F}_1, edge label={node [midway, left] {\(x_3 = 0\)}}, name=P1
+              [\mathscr{F}_{11}, edge label={node [midway, left] {\(x_4 = 0\)}}, name=P11, edge=pruned]
+              [\mathscr{F}_{12}, edge label={node [midway, right] {\(x_4 = 1\)}}, name=P12, edge=pruned]]
+              [\mathscr{F}_2, edge label={node [midway, right] {\(x_3 = 1\)}}, name=P2
+              ]]
+              \node[bound label, above right=0pt and 5pt of P11] {27};
+              \node[bound label, below right=0pt and 5pt of P11] {27};
+              \node[bound label, above right=0pt and 5pt of P12] {34};
+              \node[bound label, below right=0pt and 5pt of P12] {34};
+              \node[bound label, above right=0pt and 5pt of P1] {34};
+              \node[bound label, below right=0pt and 5pt of P1] {34};
+              \node[bound label, above right=0pt and 5pt of P0] {36};
+              \node[bound label, below right=0pt and 5pt of P0] {27};
+            \end{forest}
+          \end{center}
+          \caption{Pruning and bounding.}\label{fig:bab4}
+        \end{figure}
+
+        The next node to look at is $ \mathscr{F}_2 $ which has LP-relaxation given by
+        \begin{align*}
+          \max\quad 17x_1 + 10x_2 + 25 + 17x_4& \\
+          \text{s.t. } 5x_1 + 3x_2 + 7x_4 &\leq 4 \\
+          x_3 = 1 \\
+          x &\leq 1 \\
+          x &\geq 0
+        .\end{align*}
+        This has optimal solution given by $ x^{*}=(\frac{4}{5}, 0, 1, 0) $ and a dual bound of $ \bar{z} = 38.6$ which we round down to $ \bar{z}=38 $. We then branch on $ x_1 $ and get the tree in Figure~\ref{fig:bab5}.
+        \begin{figure}
+          \begin{center}
+            \begin{forest}
+              branch and bound,
+              [\mathscr{F}, name=P0
+              [\mathscr{F}_1, edge label={node [midway, left] {\(x_3 = 0\)}}, name=P1
+              [\mathscr{F}_{11}, edge label={node [midway, left] {\(x_4 = 0\)}}, name=P11, edge=pruned]
+              [\mathscr{F}_{12}, edge label={node [midway, right] {\(x_4 = 1\)}}, name=P12, edge=pruned]]
+              [\mathscr{F}_2, edge label={node [midway, right] {\(x_3 = 1\)}}, name=P2
+              [\mathscr{F}_{21}, edge label={node [midway, left] {\(x_1 = 0\)}}, name=P21]
+              [\mathscr{F}_{22}, edge label={node [midway, right] {\(x_1 = 1\)}}, name=P22]]
+              ]
+              \node[bound label, above right=0pt and 5pt of P11] {27};
+              \node[bound label, below right=0pt and 5pt of P11] {27};
+              \node[bound label, above right=0pt and 5pt of P12] {34};
+              \node[bound label, below right=0pt and 5pt of P12] {34};
+              \node[bound label, above right=0pt and 5pt of P2] {38};
+              \node[bound label, above right=0pt and 5pt of P1] {34};
+              \node[bound label, below right=0pt and 5pt of P1] {34};
+              \node[bound label, above right=0pt and 5pt of P0] {36};
+              \node[bound label, below right=0pt and 5pt of P0] {27};
+            \end{forest}
+          \end{center}
+          \caption{Branching on $ x_1 $.}\label{fig:bab5}
+        \end{figure}
+        The LP-relaxation of $ \mathscr{F}_{21} $ is given by
+        \begin{align*}
+          \max\quad 10x_2 + 25 + 17x_4& \\
+          \text{s.t. } 3x_2 + 7x_4  &\leq 4 \\
+          x_1 = 0 \\
+          x_3 = 1 \\
+          x &\leq 1 \\
+          x &\geq 0
+        \end{align*}
+        which has optimal solution given by $ x^{*} = (0, 1, 1, 1 / 7) $, but we see that the solution $ x^{*} = (0, 1, 1, 0) $ is the only integer valued feasible solution in $ \mathscr{F}_{21} $ with dual and primal bound $ \bar{z}=35=\underbar{z} $.
+
+        The node $ \mathscr{F}_{22} $ can be pruned by infeasibility. Hence we end up with the tree in Figure~\ref{fig:bab6}.
+        \begin{figure}
+          \begin{center}
+            \begin{forest}
+              branch and bound,
+              [\mathscr{F}, name=P0
+              [\mathscr{F}_1, edge label={node [midway, left] {\(x_3 = 0\)}}, name=P1, edge=pruned
+              [\mathscr{F}_{11}, edge label={node [midway, left] {\(x_4 = 0\)}}, name=P11, edge=pruned]
+              [\mathscr{F}_{12}, edge label={node [midway, right] {\(x_4 = 1\)}}, name=P12, edge=pruned]]
+              [\mathscr{F}_2, edge label={node [midway, right] {\(x_3 = 1\)}}, name=P2, edge=pruned
+              [\mathscr{F}_{21}, edge label={node [midway, left] {\(x_1 = 0\)}}, name=P21, edge=pruned]
+              [\mathscr{F}_{22}, edge label={node [midway, right] {\(x_1 = 1\)}}, name=P22, edge=pruned]]
+              ]
+              \node[bound label, above right=0pt and 5pt of P21] {35};
+              \node[bound label, below right=0pt and 5pt of P21] {35};
+              \node[bound label, above right=0pt and 5pt of P22] {$ -\infty $};
+              \node[bound label, above right=0pt and 5pt of P11] {27};
+              \node[bound label, below right=0pt and 5pt of P11] {27};
+              \node[bound label, above right=0pt and 5pt of P12] {34};
+              \node[bound label, below right=0pt and 5pt of P12] {34};
+              \node[bound label, above right=0pt and 5pt of P2] {35};
+              \node[bound label, below right=0pt and 5pt of P2] {35};
+              \node[bound label, above right=0pt and 5pt of P1] {34};
+              \node[bound label, below right=0pt and 5pt of P1] {27};
+              \node[bound label, above right=0pt and 5pt of P0] {35};
+              \node[bound label, below right=0pt and 5pt of P0] {35};
+            \end{forest}
+          \end{center}
+          \caption{Final tree.}\label{fig:bab6}
+        \end{figure}
+        We thus see that the optimal solution is $ x^{*}=(0, 1, 1, 0) $ with corresponding optimal value $ z^{*} = 35 $.
+    \end{enumerate}
+  \end{exercise}
+
+  \begin{exercise}{B.2}
+    \begin{enumerate}[label=(\roman*)]
+      \item If $ \mathscr{F} = \emptyset $ then there is nothing to prove. Hence, assume that
+        \begin{align*}
+          x_1^{*} &= \text{argmax}_{x \in \mathscr{F}}(c^{T}x) \\
+          x_2^{*} &= \text{argmax}_{x \in \mathscr{F}}(g(x)) \\
+          x_3^{*} &= \text{argmax}_{x \in \mathscr{R}}(g(x))
+        .\end{align*}
+        We then have
+        \begin{equation*}
+          z = c^{T}x_1^{*} \leq g(x_1^{*}) \leq  g(x_2^{*}) \leq g(x_3^{*}) = w
+        \end{equation*}
+        as desired.
+
+      \item To show that MW1T is a relaxation of TSP we need to show two things:
+        \begin{enumerate}[label=(\arabic*)]
+          \item that $ \mathscr{F} \subset \mathscr{R} $ where $ \mathscr{F} $ is the feasible set for TSP and $ \mathscr{R} $ is the feasible set for TSP,
+          \item $ c^{T}x \leq g(x) $ where $ g(x) $ is the objective function for the MW1T.
+        \end{enumerate}
+        Since $ g(x) = c^{T}x $ we see that (2) is trivially true. We then need to show that every solution to the TSP is a 1-tree. However, this is also fairly trivially true as any Hamiltonian circuit is a subgraph of $ G $ which consists of the union of two edges to node 1 and a spanning tree on the rest (all paths are trees). Thus we see that MW1T is a relaxation of TSP.
+
+      \item We propose the following algorithm
+        \begin{algorithm}
+          \caption{Minimum Weight 1-Tree Algorithm}
+          \begin{algorithmic}[1]
+            \State \textbf{Input:} A connected graph $G = (V, E)$ with weight function $c: E \rightarrow \mathbb{R}$
+            \State \textbf{Output:} A minimum weight 1-tree
+
+            \Procedure{MinWeightOneTree}{$G$}
+            \State Choose a node $v_1 \in V$
+            \State Find two edges $e_1, e_2 \in E$ adjacent to $v_1$ with minimum weights
+            \State $T \gets \{e_1, e_2\}$ \Comment{Initialize the 1-tree with the two minimum edges}
+            \State $G' \gets G$ with $ v_1 $ and all edges incident to $ v_1 $ removed
+            \State $ T' \gets  $ Apply Kruskal's algorithm to $G'$ to find MST
+            \State $T \gets T \cup T'$ \Comment{Combine the edges to form the 1-tree}
+            \State \textbf{return} $T$
+            \EndProcedure
+          \end{algorithmic}
+        \end{algorithm}
+        Suppose MinWeightOneTree does not produce a minimum weight 1-tree. Then there exists another tree $ T' $ such that, if $ x_e^{1} $ denotes edges corresponding to $ T $ and $ x_e^2 $ denotes edges corresponding to $ T' $, then
+        \begin{equation*}
+        \sum_{e \in \delta(1)} c_ex^{2}_e + \sum_{e \in E\setminus \delta(1)} c_ex^{2}_e < \sum_{e \in \delta(1)} c_ex^{1}_e + \sum_{e \in E\setminus \delta(1)} c_ex^{1}_e
+        .\end{equation*}
+        We must then have either
+        \begin{equation*}
+        \sum_{e \in \delta(1)} c_e x_e^{2} < \sum_{e \in \delta(1)} c_e x_e^{1}
+        \end{equation*}
+        or
+        \begin{equation*}
+        \sum_{e \in E \setminus \delta(1)} c_e x_e^{2} < \sum_{e \in E \setminus \delta(1)} c_e x_e^{1}
+        .\end{equation*}
+        The first option violates the minimality of the edges adjacent to node 1 while the second option violates the optimality of the spanning tree returned by Kruskal's algorithm. Hence we see that the output of MinWeightOneTree must be a minimum 1-tree.
+
+      \item Seeing as a 1-tree has exactly one cycle we can branch by excluding one edge in the cycle. Each subproblem is then of the same type, i.e., a TSP that live in a subgraph of $ G $ and the union of all such subproblems is equal to original problem.
+    \end{enumerate}
+  \end{exercise}
+
+  \begin{exercise}{B.3}
+    \begin{enumerate}[label=(\roman*)]
+      \item
+        We have that the block matrices $ A_k $ are given by
+        \begin{align*}
+          A_1 &= \begin{bmatrix}
+            1 & 1 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0 \\
+            0 & 0
+            \end{bmatrix},\quad A_2 = \begin{bmatrix}
+            1 & 1 \\
+            0 & 0 \\
+            1 & 1 \\
+            0 & 0 \\
+            0 & 0
+          \end{bmatrix} \\ \\
+            A_3 &= \begin{bmatrix}
+              0 & 0 \\
+              1 & 1 \\
+              0 & 0 \\
+              0 & 0 \\
+              0 & 0
+              \end{bmatrix},\quad A_4 = \begin{bmatrix}
+              0 & 0 \\
+              1 & 1 \\
+              0 & 0 \\
+              0 & 0 \\
+              1 & 1
+            \end{bmatrix} \\ \\
+              A_5 &= \begin{bmatrix}
+                0 & 0 \\
+                1 & 1 \\
+                0 & 0 \\
+                1 & 1 \\
+                0 & 0
+                \end{bmatrix},\quad A_6 = \begin{bmatrix}
+                0 & 0 \\
+                0 & 0 \\
+                1 & 1 \\
+                0 & 0 \\
+                0 & 0
+              \end{bmatrix}
+      \end{align*}
+      \begin{align*}
+        A_7 &= \begin{bmatrix}
+          0 & 0 \\
+          0 & 0 \\
+          0 & 0 \\
+          0 & 0 \\
+          1 & 1
+          \end{bmatrix},\quad A_8 = \begin{bmatrix}
+          0 & 0 \\
+          0 & 0 \\
+          1 & 1 \\
+          1 & 1 \\
+          0 & 0
+        \end{bmatrix} \\ \\
+        \end{align*}
+        We have that the $ D_k $'s which specify the $ \mathscr{X}_k $'s are given by
+        \begin{equation*}
+          D_k = \begin{bmatrix}
+            1 & 0 \\
+            \frac{d_k^{2}}{d_k^1 + d_k^2} & 1
+          \end{bmatrix}
+        \end{equation*}
+        so that the $ \mathscr{X}_k $'s are given by
+        \begin{equation*}
+          \mathscr{X}_k = \left\{ x_k \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{d_k^2}{d_k^1 + d_k^2} & 1
+          \end{bmatrix}x_k \leq \begin{bmatrix}
+              d_k^1 + d_k^2 \\
+              d_k^{2} + d_k^{3}
+          \end{bmatrix}, x_k \geq 0 \right\}
+        .\end{equation*}
+        Spelled out we then have
+        \begin{align*}
+          \mathscr{X}_1 &= \left\{ x_1 \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{1}{3} & 1
+          \end{bmatrix} x_1\leq \begin{bmatrix}
+            60 \\
+            35
+          \end{bmatrix}, x_1 \geq 0 \right\} \\
+          \mathscr{X}_2 &= \left\{ x_2 \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{5}{14} & 1
+          \end{bmatrix}x_2 \leq \begin{bmatrix}
+            70 \\
+            45
+          \end{bmatrix}, x_2 \geq 0 \right\} \\
+          \mathscr{X}_3 &= \left\{ x_3 \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{3}{11} & 1
+          \end{bmatrix}x_3 \leq \begin{bmatrix}
+            55 \\
+            30
+          \end{bmatrix}, x_3 \geq 0 \right\} \\
+          \mathscr{X}_4 &= \left\{ x_4 \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{2}{7} & 1
+          \end{bmatrix}x_4 \leq \begin{bmatrix}
+            70 \\
+            50
+          \end{bmatrix}, x_4 \geq 0 \right\} \\
+          \mathscr{X}_5 &= \left\{ x_5 \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{1}{4} & 1
+          \end{bmatrix}x_5 \leq \begin{bmatrix}
+            60 \\
+            30
+          \end{bmatrix}, x_5 \geq 0 \right\} \\
+          \mathscr{X}_6 &= \left\{ x_6 \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{3}{8} & 1
+          \end{bmatrix}x_6 \leq \begin{bmatrix}
+            80 \\
+            40
+          \end{bmatrix}, x_6 \geq 0 \right\} \\
+          \mathscr{X}_7 &= \left\{ x_7 \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{1}{5} & 1
+          \end{bmatrix}x_7 \leq \begin{bmatrix}
+            50 \\
+            45
+          \end{bmatrix}, x_7 \geq 0 \right\} \\
+          \mathscr{X}_8 &= \left\{ x_8 \in \mathbb{Z}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{4}{13} & 1
+          \end{bmatrix}x_8 \leq \begin{bmatrix}
+            65 \\
+            40
+          \end{bmatrix}, x_8 \geq 0 \right\}
+        .\end{align*}
+        We can then formulate the revenue maximisation problem of the airline as an IP in block-angular form by
+        \begin{align*}
+          \text{(RMP) max }\sum_{k = 1}^{8} c_k^{T} x_k & \\
+          \text{s.t } \sum_{k = 1}^{8} A_k x_k &\leq \begin{bmatrix}
+            100 \\
+            200 \\
+            150 \\
+            100 \\
+            100
+          \end{bmatrix} \\
+            x_k \in \mathscr{X}_k&\text{ for } k=1, \ldots, 8
+        .\end{align*}
+
+      \item We write each $ \mathscr{X}_k $ as
+        \begin{equation*}
+          \mathscr{X}_k = \{x_{k,t} \mid t \in \{1,\ldots, T_k\}\}
+        .\end{equation*}
+        From this we get the Dantzig-Wolfe reformulation given by
+        \begin{align*}
+          \text{(RMP)  } \max_{\lambda} \sum_{k = 1}^{8} \sum_{t = 1}^{T_k} (c_k^{T}x_{k,t})\lambda_{k,t}& \\
+          \text{s.t. } \sum_{k = 1}^{8} \sum_{t = 1}^{T_k} (A_k x_{k,t})\lambda_{k,t} &\leq \begin{bmatrix}
+            100 \\
+            200 \\
+            150 \\
+            100 \\
+            100
+          \end{bmatrix} \\
+            \sum_{t = 1}^{T_k} \lambda_{k,t} &= 1, \quad (k = 1,\ldots, 8) \\
+            \lambda_{k,t} \in \{0,1\},& \quad (t=1, \ldots, T_k), \quad (k = 1,\ldots, 8)
+        \end{align*}
+        which has (LPM) given by
+        \begin{align*}
+          \text{(LPM)  } \max_{\lambda} \sum_{k = 1}^{8} \sum_{t = 1}^{T_k} (c_k^{T}x_{k,t})\lambda_{k,t}& \\
+          \text{s.t. } \sum_{k = 1}^{8} \sum_{t = 1}^{T_k} (A_k x_{k,t})\lambda_{k,t} &\leq \begin{bmatrix}
+            100 \\
+            200 \\
+            150 \\
+            100 \\
+            100
+          \end{bmatrix} \\
+            \sum_{t = 1}^{T_k} \lambda_{k,t} &= 1, \quad (k = 1,\ldots, 8) \\
+            \lambda_{k,t} \geq 0,& \quad (t=1, \ldots, T_k), \quad (k = 1,\ldots, 8)
+        .\end{align*}
+        The dual of this (DM) is then given by
+        \begin{align*}
+          \text{(DM)  } \min_{\mu,\pi} 100 \pi_1 + 200\pi_2 + &150 \pi_3 + 100\pi_4 + 100 \pi_5 + \sum_{k = 1}^{8} \mu_k \\
+          \text{s.t. } \pi^{T}A_kx_{k,t} + \mu_k &\geq c_k^{T}x_{k,t},\quad (k = 1,\ldots, 8),\quad (t = 1,\ldots, T_k) \\
+          \pi &\geq 0
+        .\end{align*}
+        The associated column generation subproblems ($\text{CGIP} _k $) are given by
+        \begin{align*}
+          \text{(CGIP)}_k\quad \zeta_k = \max_{x_k} (c_k - \pi^{T}A_k)x_k - &\mu_k \\
+          \text{s.t. } \begin{bmatrix}
+            1 & 0 \\
+            \frac{d_k^{2}}{d_k^{1} + d_k^2} & 1
+            \end{bmatrix} x_k &\leq \begin{bmatrix}
+            d_k^{1} + d_k^{2} \\
+            d_k^2 + d_k^3
+          \end{bmatrix} \\
+          x_k &\geq 0 \\
+          x_k &\in \mathbb{Z}^2
+        .\end{align*}
+        Solving the ($ \text{CGIP}_k $) is equivalent to finding $ x_k^{*} = (x_k^{1*}, x_k^{2*}) $ such that if $ c_k - \pi^{T}A_k = (\tilde{c}_k^{1}, \tilde{c}_k^{2})^{T} $ then
+        \begin{align*}
+          (x_k^{1*}, x_k^{2*}) = \text{argmax}_{x_k} \tilde{c}_k^{1}x_k^{1} &+ \tilde{c}_k^{2}x_k^2 \\
+          \text{s.t. } \begin{bmatrix}
+            1 & 0 \\
+            \frac{d_k^{2}}{d_k^{1} + d_k^2} & 1
+            \end{bmatrix} x_k &\leq \begin{bmatrix}
+            d_k^{1} + d_k^{2} \\
+            d_k^2 + d_k^3
+          \end{bmatrix} \\
+          x_k &\geq 0 \\
+          x_k &\in \mathbb{Z}^2
+        .\end{align*}
+        There are then four cases to consider
+        \begin{enumerate}[label=(\arabic*)]
+          \item $ \tilde{c}_k^{1}, \tilde{c}_k^{2} > 0 $: In this case we want both $ x_k^{1} $ and $ x_k^{2} $ to be as large as possible, but because of the constraints there is some interdependence between the two. We thus apply branch and bound in the usual way via LP-relaxation and branching on fractional values.
+          \item $ \tilde{c}_k^{1}< 0 $, $ \tilde{c}_k^2 > 0 $: In this case we want $ x_k^{2} $ as large as possible and $ x_k^{1} $ as small as possible. Thus, set $ x_k^{1} = 0 $ and $ x_k^{2} = \floor*{d_k^2 + d_k^3} $.
+          \item $ \tilde{c}_k^{1}> 0 $, $ \tilde{c}_k^2 < 0 $: In this case we want $ x_k^{1} $ as large as possible and $ x_k^{2} $ as small as possible. Thus, set $ x_k^{1} = \floor*{d_k^{1} + d_k^2} $ and $ x_k^{2} = 0$.
+          \item $ \tilde{c}_k^{1}, \tilde{c}_k^2 < 0 $: Set $ x_k^{1} = 0 = x_k^2 $.
+        \end{enumerate}
+
+      \item If we are interested in the LP relaxation (P) of (RMP) then the $ \mathscr{X}_k $ turn into $ \mathscr{R}_k $ where
+        \begin{equation*}
+          \mathscr{R}_k \coloneqq \left\{ x_k \in \mathbb{R}^2 \mid \begin{bmatrix}
+              1 & 0 \\
+              \frac{d_k^2}{d_k^1 + d_k^2} & 1
+          \end{bmatrix}x_k \leq \begin{bmatrix}
+              d_k^1 + d_k^2 \\
+              d_k^{2} + d_k^{3}
+          \end{bmatrix}, x_k \geq 0 \right\}
+        .\end{equation*}
+        There is no possible way to enumerate all the points in $ \mathscr{R}_k $, but we can enumerate the vertices of it and then express points inside as convex combinations of the vertices. In other words, by letting $ \{v_{k,t}\}_{t \in \{1, \ldots \mathcal{T}_k \}} $ be an enumeration of the vertices of $ \mathscr{R}_k $, and writing $ x_k = \sum_{t = 1}^{\mathcal{T}_k} \lambda_{k,t}v_{k,t} $ where $ \sum_{t = 1}^{\mathcal{T}_k} \lambda_{k,t} = 1 $ ($ \lambda_{k,t} \geq 0 $), we have the following representation
+        \begin{align*}
+          \text{(PM)  } \max_{\lambda} \sum_{k = 1}^{8} \sum_{t = 1}^{\mathcal{T}_k} (c_k^{T}v_{k,t})\lambda_{k,t}& \\
+          \text{s.t. } \sum_{k = 1}^{8} \sum_{t = 1}^{\mathcal{T}_k} (A_k v_{k,t})\lambda_{k,t} &\leq \begin{bmatrix}
+            100 \\
+            200 \\
+            150 \\
+            100 \\
+            100
+          \end{bmatrix} \\
+            \sum_{t = 1}^{\mathcal{T}_k} \lambda_{k,t} &= 1, \quad (k = 1,\ldots, 8) \\
+            \lambda_{k,t} \geq 0,& \quad (t=1, \ldots, \mathcal{T}_k), \quad (k = 1,\ldots, 8)
+        .\end{align*}
+        The important difference between (PM) and (LPM) is that in the (LPM) we consider the convex hull of each $ \mathscr{X}_k $ while for the (PM) we consider a possibly larger set since we first enlarge $ \mathscr{X}_k $ and then consider the vertices of this enlarged set. More concretely, in (PM) we require that $ x_k \in \mathscr{R}_k $ while in (LPM) we require that $ x_k \in \text{conv}(\mathscr{X}_k) $ and we have that
+        \begin{equation*}
+          \text{conv}(\mathscr{X}_k) \subset \mathscr{R}_k
+        .\end{equation*}
+        Since the objective function in both cases is the same we see that (PM) is a relaxation of (LPM). Hence we will generally get weaker dual bounds from (PM) as compared to (LPM).
+    \end{enumerate}
+  \end{exercise}
+\end{document}

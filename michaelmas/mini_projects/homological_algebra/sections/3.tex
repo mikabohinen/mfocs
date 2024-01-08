@@ -1,0 +1,280 @@
+\section{Invariants and Coinvariants of $\mathfrak{g}$-modules} % (fold)
+\label{chap:Invariants and Coinvariants of}
+\subsection{Lie Algebra (Co)Homology} % (fold)
+\label{sec:Lie Algebra (Co)Homology}
+If $ V $ is a $ k $-module then there is a functor $ \text{triv}:k\text{-}\mathbf{Mod} \to \mathfrak{g}\text{-}\mathbf{Mod} $ which sends $ V $ to the trivial $ \mathfrak{g} $-module where $ xv = 0 $ for all $ x \in \mathfrak{g} $ and all $ v \in V $.
+\begin{proposition}
+  The functor $ \text{triv} $ has a left adjoint, called the \textbf{coinvariant}, and a right adjoint, called the \textbf{invariant}.
+\end{proposition}
+\begin{proof}
+  There are two natural functors to consider:
+  \begin{align*}
+    &(-)_{\mathfrak{g}}: \mathfrak{g}\text{-}\mathbf{Mod} \to k\text{-}\mathbf{Mod}, \\
+    &(-)^{\mathfrak{g}}: \mathfrak{g}\text{-}\mathbf{Mod} \to k\text{-}\mathbf{Mod},
+  \end{align*}
+  defined for $ M \in \mathfrak{g}\text{-}\mathbf{Mod} $ by
+  \begin{align*}
+    M_{\mathfrak{g}} &\coloneqq M/\mathfrak{g}M \\
+    M^\mathfrak{g} &\coloneqq \{m \in M \mid xm=0 \text{ for all } x \in \mathfrak{g}\}
+  .\end{align*}
+  We claim that
+  \begin{align*}
+    (-)_{\mathfrak{g}} \dashv \text{triv} \dashv (-)^\mathfrak{g}
+  .\end{align*}
+
+  ($ (-)_{\mathfrak{g}} \dashv \text{triv} $): We define the unit
+  \begin{equation}
+    \eta: \text{id}_{\mathfrak{g}\text{-}\mathbf{Mod}} \implies \text{triv}((-)_\mathfrak{g})
+  \end{equation}
+  componentwise by the projection
+  \begin{equation}
+    \eta_M \coloneqq \pi_M : M \to \text{triv}(M_\mathfrak{g}).
+  \end{equation}
+  To see that $ \eta_M $ indeed is a $ \mathfrak{g} $-module homomorphism we must have that the following diagram commutes
+  \[\begin{tikzcd}
+	  {\mathfrak{g} \otimes_kM} & {\mathfrak{g}\otimes_k\text{triv}(M_\mathfrak{g})} \\
+	  M & {\text{triv}(M_\mathfrak{g})}
+	  \arrow["0", from=1-2, to=2-2]
+	  \arrow["{\text{id}_\mathfrak{g} \otimes \pi_M}", from=1-1, to=1-2]
+	  \arrow[from=1-1, to=2-1]
+	  \arrow["{\pi_M}"', from=2-1, to=2-2]
+  \end{tikzcd}\]
+  This is immediate as $ \pi_M(\mathfrak{g}M) = 0 $. We can define the counit
+  \begin{equation}
+    \epsilon:(\text{triv})_\mathfrak{g} \implies \text{id}_{k\text{-}\mathbf{Mod}}
+  \end{equation}
+  componentwise as the identity. This is because $ (\text{triv}(V))_\mathfrak{g}=\text{triv}(V) $ and considering $ \text{triv}(V) $ as a $ k $-module then gives the counit
+  \begin{equation}
+    \epsilon_V \coloneqq \text{id}_V:(\text{triv}(V))_\mathfrak{g} \to V.
+  \end{equation}
+  We must then verify the triangle identities
+  \begin{align*}
+    \epsilon(-)_\mathfrak{g} \circ (-)_\mathfrak{g}\eta &= \text{id}_{(-)_\mathfrak{g}} \\
+    \text{triv}\,\epsilon \circ \eta\,\text{triv} &= \text{id}_{\text{triv}}
+  .\end{align*}
+  Componentwise we have
+  \begin{align*}
+    \epsilon_{M_{\mathfrak{g}}} \circ (\eta_M)_\mathfrak{g} &= \text{id}_{M_{\mathfrak{g}}} \circ (\pi_M)_\mathfrak{g} \\
+                                                            &= (\pi_M)_\mathfrak{g} \\
+                                                            &= \text{id}_{M_\mathfrak{g}}
+  \end{align*}
+  and
+  \begin{align*}
+    \text{triv}(\epsilon_V) \circ \eta_{\text{triv}(V)} &= \text{id}_{\text{triv}(V)} \circ \pi_{\text{triv}(V)} \\
+                                                        &= \pi_{\text{triv}(V)} \\
+                                                        &= \text{id}_{\text{triv}(V)}
+  \end{align*}
+  where the last equality follows since $ (\text{triv}(V))_\mathfrak{g} = \text{triv}(V) $. Thus $ (-)_\mathfrak{g} \dashv \text{triv} $.
+
+
+  ($ \text{triv} \dashv (-)^\mathfrak{g} $): As $ (-)^\mathfrak{g} \circ \text{triv} = \text{id}_{k\text{-}\mathbf{Mod}} $ we can simply let the unit
+  \begin{equation}
+    \eta: \text{id}_{k\text{-}\mathbf{Mod}} \implies (\text{triv})^\mathfrak{g}=\text{id}_{k\text{-}\mathbf{Mod}}
+  \end{equation}
+  be the identity. We then let the counit
+  \begin{equation}
+    \epsilon:  \text{triv}((-)^\mathfrak{g}) \implies \text{id}_{g\text{-}\mathbf{Mod}}
+  \end{equation}
+  be the inclusion
+  \begin{equation}
+    \epsilon_M \coloneqq \iota_M:\text{triv}(M^\mathfrak{g}) \subset M.
+  \end{equation}
+  We must then verify the triangle identities
+  \begin{align*}
+    \epsilon\,\text{triv} \circ \text{triv}\,\eta &= \text{id}_{\text{triv}} \\
+    (-)^\mathfrak{g}\epsilon \circ \eta (-)^\mathfrak{g} &= \text{id}_{(-)^\mathfrak{g}}
+  .\end{align*}
+  Componentwise we have
+  \begin{align*}
+    \epsilon_{\text{triv}(V)} \circ \text{triv}(\eta_V) &= \iota_{\text{triv}(V)} \circ \text{triv}(\text{id}_V) \\
+                                                        &= \iota_{\text{triv}(V)} \circ \text{id}_{\text{triv}(V)} \\
+                                                        &= \iota_{\text{triv}(V)} \\
+                                                        &= \text{id}_{\text{triv}(V)}
+  \end{align*}
+  where the last equality follows because $ \text{triv}((\text{triv}(V))^\mathfrak{g}) = \text{triv}(V) $. We also have
+  \begin{align*}
+    (\epsilon_M)^\mathfrak{g} \circ \eta_{M^\mathfrak{g}} &= (\iota)^\mathfrak{g} \circ \text{id}_{M^\mathfrak{g}} \\
+                                                          &= (\iota_M)^\mathfrak{g} \\
+                                                          &= \text{id}_{M^\mathfrak{g}}
+  \end{align*}
+  where the last equality follows from the same reasoning as before. This then proves that $ \text{triv} \dashv (-)^\mathfrak{g} $.
+\end{proof}
+
+\begin{definition}[Lie algebra (co)homology]
+  Let $ \mathfrak{g} $ be a Lie algebra and $ M $ a $ \mathfrak{g} $-module. The \textbf{homology groups of} $ \mathfrak{g} $ \textbf{with coefficients in} $ M $ is then defined as
+  \begin{equation}
+    H_*(\mathfrak{g}, M) \coloneqq L_*((-)_\mathfrak{g})(M)
+  \end{equation}
+  and the \textbf{cohomology groups of} $ \mathfrak{g} $ \textbf{with coefficients in} $ M $ is defined as
+  \begin{equation}
+    H^*(\mathfrak{g}, M) \coloneqq R^*((-)^\mathfrak{g})(M)
+    \label{eq:cohomology}
+  \end{equation}
+  where $ L_* $ and $ R^* $ are the left and right derived functors respectively.
+\end{definition}
+
+\begin{proposition}
+  Let $ \mathfrak{g} $ be a Lie algebra and $ M $ a $ \mathfrak{g} $-module. We then have
+  \begin{align*}
+    H_*(\mathfrak{g}, M) &\cong \text{Tor}^{U\mathfrak{g}}_*(k, M) \\
+    H^*(\mathfrak{g}, M) &\cong \text{Ext}^*_{U\mathfrak{g}}(k, M)
+  .\end{align*}
+\end{proposition}
+\begin{proof}
+  Following the argumentation in Corollary 7.3.6 of \cite{weibel1994homological} we note that for the homology it is enough to prove that the underlying functors defining $ H_*(\mathfrak{g}, M) $ and $ \text{Tor}_*^{U\mathfrak{g}}(k, M) $ are isomorphic. Now, as
+  \begin{align*}
+    H_*(\mathfrak{g}, M) &= L_*((-)_\mathfrak{g})(M) \\
+    \text{Tor}_*^{U\mathfrak{g}}(k, M) &= L_*(k \otimes_{U\mathfrak{g}} -)(M)
+  \end{align*}
+  we need to prove that $ (-)_\mathfrak{g} \cong k \otimes_{U\mathfrak{g}} - $. To this end, let $ \epsilon: U\mathfrak{g} \to k $ be the augmentation of $ k $ which sends $ \mathfrak{g}U\mathfrak{g} $ to zero and $ k $ to itself. The kernel of $ \epsilon $ is then generated by $ \iota_\mathfrak{g}(\mathfrak{g}) $ where $ \iota_\mathfrak{g}: \mathfrak{g} \subset U\mathfrak{g} $ is the inclusion of $ \mathfrak{g} $ into $ U\mathfrak{g} $. Denoting $ \text{ker}(\epsilon) $ by $ \mathfrak{J} $ we therefore have that $ \mathfrak{J} $ is a $ U\mathfrak{g} $-module. Thus
+  \begin{equation}
+    k \cong U\mathfrak{g}/\mathfrak{J}
+  \end{equation}
+  so that
+  \begin{align*}
+    k \otimes_{U\mathfrak{g}} M &\cong (U\mathfrak{g}/\mathfrak{J}) \otimes_{U\mathfrak{g}} M \\
+                                &\cong M/\mathfrak{J}M \\
+                                &\cong M/\mathfrak{g}M \\
+                                &\cong M_\mathfrak{g}
+  .\end{align*}
+  Hence the two underlying functors for homology are the same.
+
+  Similarly, for cohomology, we want to show that the two functors $ (-)^\mathfrak{g} $ and $ \text{Hom}_{U\mathfrak{g}}(k, -) $ are isomorphic. To see this note first that $ M^\mathfrak{g} \cong \text{Hom}_{\mathfrak{g}\text{-}\mathbf{Mod}}(k, M) $ when considering $ k $ as a trivial $ \mathfrak{g} $-module. From this and Proposition~\ref{prop:gmodeq} it follows that
+  \begin{equation}
+    \text{Hom}_{U\mathfrak{g}}(k, M) \cong \text{Hom}_{\mathfrak{g}\text{-}\mathbf{Mod}}(k, M) \cong M^{\mathfrak{g}}
+    \label{eq:cohomsame}
+  \end{equation}
+  which proves the claim.
+\end{proof}
+
+\begin{lemma}
+  Let $ \epsilon: U\mathfrak{g} \to \mathfrak{g} $ be the augmentation map and $ \mathfrak{J} $ the kernel of this map. We then have that
+  \begin{equation}
+    \mathfrak{J}/\mathfrak{J}^2 \cong \mathfrak{g}/[\mathfrak{g}, \mathfrak{g}]
+    \label{eq:abelianization}
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  This is a solution to \cite[Exercise 7.4.1]{weibel1994homological}.
+\end{proof}
+
+\begin{corollary}
+  If $ M $ is a trivial $ \mathfrak{g} $-module then
+  \begin{equation}
+    H_1(\mathfrak{g}, M) \cong (\mathfrak{g}/[\mathfrak{g}, \mathfrak{g}]) \otimes_k M.
+  \end{equation}
+\end{corollary}
+\begin{proof}
+  The following is an adaptation of \cite[Corollary 7.3.6]{weibel1994homological}.
+  Since $ U\mathfrak{g} $ is a projective $ U\mathfrak{g} $-module we have that $ \text{Tor}_1^{U\mathfrak{g}}(U\mathfrak{g}, M) = 0 $. From the exact sequence
+  \begin{equation}
+    0 \to \mathfrak{J} \to U\mathfrak{g} \to k \to 0
+  \end{equation}
+  we get another long exact sequence
+  \begin{equation}
+    0 \to \text{Tor}_1^{U\mathfrak{g}}(\mathfrak{g}, M) \to \text{Tor}_0^{U\mathfrak{g}}(\mathfrak{J}, M) \to \text{Tor}_0^{U\mathfrak{g}}(U\mathfrak{g}, M) \to \text{Tor}_0^{U\mathfrak{g}}(k, M) \to 0
+  \end{equation}
+  which is equivalent to the exact sequence
+  \begin{equation}
+    0 \to H_1(\mathfrak{g}, M) \to \mathfrak{J} \otimes_{U\mathfrak{g}} M \to M \to M_{\mathfrak{g}} \to 0.
+  \end{equation}
+  Since $ M $ is a trivial $ \mathfrak{g} $-module we have that $ M_\mathfrak{g} = M $ so that the second rightmost map is an isomorphism. From this it follows that
+  \begin{equation}
+    H_1(\mathfrak{g}, M) \cong \mathfrak{J} \otimes_{U\mathfrak{g}} M.
+  \end{equation}
+  Now, as
+  \begin{align*}
+    \mathfrak{J} \otimes_{U\mathfrak{g}} k &\cong \mathfrak{J} \otimes_{U\mathfrak{g}} (U\mathfrak{g}/\mathfrak{J}) \\
+                                           &\cong \mathfrak{J}/\mathfrak{J}^2 \\
+                                           &\cong \mathfrak{g}/[\mathfrak{g}, \mathfrak{g}]
+  \end{align*}
+  we have
+  \begin{align*}
+    \mathfrak{J} \otimes_{U\mathfrak{g}} M &\cong (J \otimes_{U\mathfrak{g}} k) \otimes_k M \\
+                                           &\cong (\mathfrak{g}/[\mathfrak{g}, \mathfrak{g}]) \otimes_k M
+  \end{align*}
+  and so the result follows.
+\end{proof}
+% subsection Lie Algebra (Co)Homology (end)
+
+\subsection{The Chevalley-Eilenberg Complex} % (fold)
+\label{sec:The Chevalley-Eilenberg Complex}
+From Corollary~\ref{cor:projinj} we know that $ \mathfrak{g} $-\textbf{Mod} has enough projectives, which means that every $ \mathfrak{g} $-module $ M $ has a projective resolution. However, we have not seen an explicit construction of such a resolution. For $ M=k $ a trivial $ \mathfrak{g} $-module we will use the Chevalley-Eilenberg complex to create a projective resolution. To do this we first need a better understanding of the module structure of $ U\mathfrak{g} $.
+
+MOVE TO PREVIOUS SECTION
+\begin{theorem}[Poincar\'e-Birkhoff-Witt Theorem]
+  If $ \mathfrak{g} $ is a free $ k $-module, then $ U\mathfrak{g} $ is also a free $ k $-module. If $ \{e_\alpha\} $ is an ordered basis of $ \mathfrak{g} $, then the elements $ e_I=e_{\alpha_1} \otimes \cdots \otimes e_{\alpha_n} $ with $ I=(\alpha_1, \ldots, \alpha_n) $ and $ \alpha_1 \leq \cdots \leq \alpha_n $, form a basis of $ U\mathfrak{g} $.
+\end{theorem}
+\begin{proof}
+  See \cite[XIII.3]{CartanEilenberg1956}.
+\end{proof}
+
+From here on and out we assume that $ \mathfrak{g} $ is free when viewed as a $ k $-module.
+\begin{definition}[Chevalley-Eilenberg Complex]
+  Let $ \Lambda^p\mathfrak{g} $ denote the $ p $th exterior product of $ \mathfrak{g} $. Define
+  \begin{equation}
+    V_p(\mathfrak{g}) \coloneqq U\mathfrak{g} \otimes_k \Lambda^p\mathfrak{g}.
+    \label{eq:cheval}
+  \end{equation}
+  to be the $ p $th component of the \textbf{Chevalley-Eilenberg complex}. As $ \Lambda^p\mathfrak{g} $ is a free $ k $-module it follows that $ V_p(\mathfrak{g}) $ is a free $ U\mathfrak{g} $ module. We then have that $ V_1(\mathfrak{g}) = U\mathfrak{g} \otimes_k \mathfrak{g} $ and $ V_0(\mathfrak{g}) = U\mathfrak{g} $. Hence, let $ d_1: V_1(\mathfrak{g}) \to V_0(\mathfrak{g}) $ be the multiplication map $ u \otimes x \mapsto ux $. For $ n \geq 2 $ let $ d_n: V_n(\mathfrak{g}) \to V_{n-1}(\mathfrak{g}) $ be given by the formula $ d(u \otimes x_1 \wedge \cdots \wedge x_p) = \theta_1 + \theta_2 $ where
+  \begin{align*}
+    \theta_1 &= \sum_{i = 1}^{n} (-1)^{n+1}ux_n \otimes x_1 \wedge \cdots \wedge \hat{x}_i \wedge \cdots \wedge x_n;\\
+    \theta_2 &= \sum_{i <j} (-1)^{i + j}u \otimes [x_i,x_j]\wedge x_1\wedge \cdots \wedge \hat{x}_i\wedge \cdots \wedge \hat{x}_j \wedge \cdots \wedge x_n
+  \end{align*}
+  where the notation $ \hat{x}_i $ indicates that $ x_i $ is removed. The tuple $ (V_*(\mathfrak{g}), d_*) $ is then defined as the Chevalley-Eilenberg complex.
+\end{definition}
+
+The above definition contains the claim that $ d_{*-1}\circ d_* = 0 $.
+\begin{claim}
+  The Chevalley-Eilenberg complex $ (V_*(\mathfrak{g}), d_*) $ is a chain complex.
+\end{claim}
+\begin{proof}
+  TODO
+\end{proof}
+
+\begin{theorem}
+  The Chevalley-Eilenberg complex together with the augmentation map $ \epsilon: V_0(\mathfrak{g}) \to k $ gives a projective resolution $ V_*(\mathfrak{g}) \xrightarrow{\epsilon} k $ of $ k $ as a trivial $ \mathfrak{g} $ module.
+\end{theorem}
+\begin{proof}
+  TODO
+\end{proof}
+% subsection The Chevalley-Eilenberg Complex (end)
+
+\subsection{$ H^2 $ and Extensions} % (fold)
+\label{sec:Lie Algebra Extensions}
+\begin{definition}
+  Let $ \mathfrak{g} $ be a Lie algebra. An extension of $ \mathfrak{g} $ by a $ \mathfrak{g} $-module $ M $ is a short exact sequence
+  \begin{equation}
+    0 \to M \xrightarrow{i} \mathfrak{e} \xrightarrow{\pi} \mathfrak{g} \to 0
+    \label{eq:extension}
+  \end{equation}
+  where $ M $ is viewed as an abelian Lie algebra.
+\end{definition}
+\begin{definition}
+  Two extensions of $ \mathfrak{g} $ by $ M $ given by
+  \begin{align*}
+    &0 \to M \xrightarrow{i_1} \mathfrak{e}_1 \xrightarrow{\pi_1} \mathfrak{g} \to 0,\\
+    &0 \to M \xrightarrow{i_2} \mathfrak{e}_2 \xrightarrow{\pi_2} \mathfrak{g} \to 0
+  \end{align*}
+  are equivalent if we have a morphism $ \varphi: \mathfrak{e}_1 \to \mathfrak{e}_2 $ which makes the following diagram commute:
+  \[\begin{tikzcd}
+	&& {\mathfrak{e}_1} \\
+	  0 & M && {\mathfrak{g}} & 0 \\
+	    && {\mathfrak{e}_2}
+	    \arrow[from=2-1, to=2-2]
+	    \arrow["\varphi", from=1-3, to=3-3]
+	    \arrow["{i_1}", from=2-2, to=1-3]
+	    \arrow["{i_2}"', from=2-2, to=3-3]
+	    \arrow["{\pi_2}"', from=3-3, to=2-4]
+	    \arrow["{\pi_1}", from=1-3, to=2-4]
+	    \arrow[from=2-4, to=2-5]
+  \end{tikzcd}\]
+  This also implies that $ \varphi $ is an isomorphism.
+\end{definition}
+Denote by $ \text{Ext}(\mathfrak{g}, M) $ the equivalence classes of extensions. Our goal is to show that there is a natural one-to-one equivalence between $ \text{Ext}(\mathfrak{g}, M) $ and $ H^2(\mathfrak{g}, M) $.
+
+\begin{theorem}
+  Let $ M $ be a $ \mathfrak{g} $-module. The set $ \text{Ext}(\mathfrak{g}, M) $ of equivalence classes of extensions of $ \mathfrak{g} $ by $ M $ is in a natural one-to-one correspondence with $ H^2(\mathfrak{g}, M) $.
+\end{theorem}
+% subsection Lie Algebra Extensions (end)
+% chapter Invariants and Coinvariants of $\mathfrak{g}$-modules

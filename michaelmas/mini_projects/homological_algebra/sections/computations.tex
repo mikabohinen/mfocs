@@ -1,0 +1,279 @@
+\section{Applications} % (fold)
+\label{sec:Computations}
+We will finish off this mini project with some applications of the Lie algebra cohomology of semisimple Lie algebras. Our presentation here closely follows \cite[Section 7.8]{weibel1994homological} from subsection~\ref{sub:Whitehead's first lemma} and out, with details added for clarity where necessary. This is meant primarily as an exposition of well established results.
+
+\subsection{Basic results} % (fold)
+\label{sub:Basic results}
+Consider the Lie algebra $ \mathfrak{sl}_2 $ which can be given the following presentation: $$ \mathfrak{sl}_2 = \left\langle e,h,f \mid [e,f]=h, [h,f]=-2f, [h,e] = 2e \right\rangle. $$
+
+\begin{proposition}
+  The Lie algebra cohomology of $ \mathfrak{sl}_2 $ with coefficients in the trivial $ \mathfrak{sl}_2 $-module $ \mathbb{R} $ is given by
+  \begin{equation}
+    H^{n}(\mathfrak{sl}_2, \mathbb{R}) = \begin{cases}
+      \mathbb{R}, &\text{ if }n =0,3\\
+      0, &\text{ else.}
+    \end{cases}
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  This is a simple application of Corollary~\ref{cor:cohom}. Note that in this case the Chevalley-Eilenberg cochain complex is simply the dual of the Chevalley-Eilenberg chain complex as $ k \otimes_k \Lambda^{*}\mathfrak{sl}_2 = \Lambda^{*}\mathfrak{sl}_2 $. Hence to get the cochain complex we can simply dualize the chain complex given by
+  \[\begin{tikzcd}
+	  0 & {\Lambda^3\mathfrak{sl}_2} & {\Lambda^2\mathfrak{sl}_2} & {\mathfrak{sl}_2} & k & 0.
+	  \arrow[from=1-1, to=1-2]
+	  \arrow[from=1-5, to=1-6]
+	  \arrow["{d_1}", from=1-4, to=1-5]
+	  \arrow["{d_2}", from=1-3, to=1-4]
+	  \arrow["{d_3}", from=1-2, to=1-3]
+  \end{tikzcd}\]
+  To see what the maps $ d_3 $, $ d_2 $, and $ d_1 $ are we compute them on the basis elements. Now,
+  \begin{align*}
+    d_3(e\wedge h \wedge f) &= -[e,h]\wedge f + [e,f]\wedge h - [h,f]\wedge e \\
+                            &= 2e\wedge f + h\wedge h + 2f \wedge e \\
+                            &= 0
+  \end{align*}
+  and
+  \begin{align*}
+    d_2(e \wedge h) &= -[e,h] = 2e \\
+    d_2(e\wedge f) &= -[e,f] = -h \\
+    d_2(h \wedge f) &= -[h, f] = 2f
+  \end{align*}
+  and
+  \begin{align*}
+    d_1(e) &= 0 \\
+    d_1(h) &= 0 \\
+    d_1(f) &= 0
+  .\end{align*}
+  The map $ d_2 $ can be represented by the matrix
+  \begin{equation}
+    d_2 = \begin{pmatrix}
+      2 & 0 & 0 \\
+      0 & -1 & 0 \\
+      0 & 0 & 2
+    \end{pmatrix}
+  \end{equation}
+  which is invertible. Hence $ d_2 $ is an isomorphism meaning that $ \delta^{2} $ is also an isomorphism. We thus have
+  \begin{align*}
+    \delta^0 &= 0 \\
+    \delta^1 &= \begin{pmatrix}
+      2 & 0 & 0 \\
+      0 & -1 & 0 \\
+      0 & 0 & 2
+    \end{pmatrix} \\
+      \delta^2 &= 0
+  \end{align*}
+  so that
+  \begin{align*}
+    H^{0}(\mathfrak{sl}_2,\mathbb{R}) &= \text{ker}(\delta^0) =\mathbb{R} \\
+    H^{1}(\mathfrak{sl}_2,\mathbb{R}) &= \text{ker}(\delta^1) = 0 \\
+    H^2(\mathfrak{sl}_2,\mathbb{R}) &= \text{coker}(\delta^1) = 0 \\
+    H^3(\mathfrak{sl}_2,\mathbb{R}) &= \text{ker}(\delta^3) =\mathbb{R}
+  \end{align*}
+  as desired.
+\end{proof}
+The special unitary group $ \mathfrak{su}_2 $, considered as a real algebra, has a presentation given by
+\begin{equation}
+  \mathfrak{su}_2 = \left\langle u_1,u_2,u_3 \mid [u_1, u_2] = 2u_3, [u_2, u_3] = 2u_1, [u_3, u_1] = 2u_2 \right\rangle.
+\end{equation}
+It is well known that the Lie group $ SU(2) $ is diffeomorphic to the 3-sphere, and as we mentioned in the introduction, the Lie algebra cohomology for compact simply-connected Lie groups is the same as its de Rham cohomology. Thus the following should come as no surprise:
+
+\begin{proposition}
+  The Lie algebra cohomology of $ \mathfrak{su}_2 $ with coefficients in the trivial $ \mathfrak{su}_2 $-module $ \mathbb{R} $ is given by
+  \begin{equation}
+    H^n(\mathfrak{su}_2, \mathbb{R}) = \begin{cases}
+      \mathbb{R}, &\text{ if } n = 0, 3\\
+      0, &\text{ else.}
+    \end{cases}
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  The relevant chain complex is
+  \[\begin{tikzcd}
+	  0 & {\Lambda^3\mathfrak{su}_2} & {\Lambda^2\mathfrak{su}_2} & {\mathfrak{su}_2} & {\mathbb{R}} & 0.
+	  \arrow[from=1-1, to=1-2]
+	  \arrow["{d_2}", from=1-3, to=1-4]
+	  \arrow["{d_1}", from=1-4, to=1-5]
+	  \arrow["{d_3}", from=1-2, to=1-3]
+	  \arrow[from=1-5, to=1-6]
+  \end{tikzcd}\]
+  We have that
+  \begin{align*}
+    d_3(u_1 \wedge u_2 \wedge u_1) &= -[u_1, u_2] \wedge u_3 + [u_1, u_3]\wedge u_2 - [u_2, u_3] \wedge u_1 \\
+                                   &= -2u_3\wedge u_3 - 2u_2\wedge u_2 - 2u_1\wedge u_1 \\
+                                   &= 0 \\
+    d_2(u_1, \wedge u_2) &= -[u_1, u_2] = -2u_3 \\
+    d_2(u_1, \wedge u_3) &= -[u_1, u_3] = 2u_2 \\
+    d_2(u_2, \wedge u_3) &= -[u_2, u_3] = -2u_1
+  \end{align*}
+  and
+  \begin{align*}
+  d_1 = 0
+  .\end{align*}
+  Hence we have the following cochain complex
+  \[\begin{tikzcd}
+	  0 & {\mathbb{R}} & {\mathfrak{su}_2^*} & {\Lambda^2\mathfrak{su}_2^*} & {\Lambda^3\mathfrak{su}_3^*} & 0
+	  \arrow[from=1-1, to=1-2]
+	  \arrow["0", from=1-2, to=1-3]
+	  \arrow["\cong", from=1-3, to=1-4]
+	  \arrow["0", from=1-4, to=1-5]
+	  \arrow[from=1-5, to=1-6]
+  \end{tikzcd}\]
+  from which it readily follows that
+  \begin{equation}
+    H^{n}(\mathfrak{su}_2, \mathbb{R}) = \begin{cases}
+      \mathbb{R}, &\text{ if }n = 0,3\\
+      0, &\text{ else.}
+    \end{cases}
+  \end{equation}
+\end{proof}
+% subsection Basic results (end)
+
+
+\subsection{Whitehead's first lemma} % (fold)
+\label{sub:Whitehead's first lemma}
+We shall assume throughout the rest of this section that $ k $ is a field of zero characteristic.
+\begin{definition}[Solvable Lie algebra]
+  Let $ \mathfrak{g} $ be a Lie algebra over $ k $. The \textbf{derived series} of $ \mathfrak{g} $ is the descending sequence of ideals
+  \begin{equation}
+    \mathfrak{g} \supset \mathfrak{g}'=[\mathfrak{g}, \mathfrak{g}] \supset \mathfrak{g}''=(\mathfrak{g}')' \supset \cdots \supset \mathfrak{g}^{(n)}=[\mathfrak{g}^{(n-1)}, \mathfrak{g}^{(n- 1)}] \supset \cdots.
+  \end{equation}
+  We say that $ \mathfrak{g} $ is \textbf{solvable} if $ \mathfrak{g}^{(n)} = 0 $ for some $ n $.
+\end{definition}
+
+\begin{definition}[Solvable radical]
+  An ideal of $ \mathfrak{g} $ is called \textbf{solvable} if it is solvable as a Lie algebra. The solvable ideals of $ \mathfrak{g} $ form a lattice \cite[I.7]{jacobson1979lie}. Now, if $ \mathfrak{g} $ is finite-dimensional, there is a largest solvable ideal of $ \mathfrak{g} $ which we denote by $ \text{rad}(\mathfrak{g}) $ or equivalently $ \sqrt{\mathfrak{g}} $ which we call the \textbf{solvable radical of} $ \mathfrak{g} $.
+\end{definition}
+
+\begin{definition}[Simple and semisimple Lie algebras]
+  A Lie algebra $ \mathfrak{g} $ is called \textbf{simple} if it has no ideals except itself and $ 0 $ where we also demand that $ [\mathfrak{g}, \mathfrak{g}]=\mathfrak{g} $. It is called \textbf{semisimple} if $ \sqrt{\mathfrak{g}}=0 $, which means it has no nonzero solvable ideals.
+\end{definition}
+\begin{lemma}
+  A Lie algebra $ \mathfrak{g} $ is semisimple if and only if $ \mathfrak{g} $ has no nonzero abelian ideals.
+\end{lemma}
+\begin{proof}
+  The last nonzero term in the derived sequence of $ \sqrt{\mathfrak{g}} $ given by $ (\sqrt{\mathfrak{g}})^{(n-1)} $ is necessarily an abelian ideal of $ \mathfrak{g} $. Hence if $ \mathfrak{g} $ is not semisimple, then it has a nonzero abelian ideal $ (\sqrt{\mathfrak{g}})^{(n -1)} $. Conversely, if $ \mathfrak{g} $ has a nonzero abelian ideal then we cannot have $ \sqrt{\mathfrak{g}}=0 $ as an abelian ideal is solvable.
+\end{proof}
+
+Let $ \mathfrak{g} $ be a Lie subalgebra of $ \mathfrak{gl}_n(k) $. Using matrix multiplication we have a symmetric bilinear form $ \beta: \mathfrak{g} \times \mathfrak{g} \to k $ defined by $ \beta(x, y)=\mathrm{tr}(xy) $, the trace of $ xy $. This form is $ \mathfrak{g} $-invariant, meaning that for $ x,y,z \in \mathfrak{g} $ we have $ \beta([x,y],z)=\beta(x, [y,z]) $. This is easily seen as
+\begin{align*}
+  \beta([x,y],z) &= \beta(xy, z) - \beta(yx, z) \\
+                 &= \mathrm{tr}(xyz) - \mathrm{tr}(yxz) \\
+                 &= \mathrm{tr}(xyz) - \mathrm{tr}(xzy) \\
+                 &= \beta(x, yz) - \beta(x, zy) \\
+                 &= \beta(x, [y, z])
+.\end{align*}
+\begin{definition}[Adjoint representation and Killing form]
+  Let $ \mathfrak{g} $ be an $ n $-dimensional Lie algebra. Left multiplication by elements of $ \mathfrak{g} $ gives a Lie algebra homomorphism
+  \begin{equation}
+    \mathrm{ad}: \mathfrak{g} \to \text{Lie}(\text{End}_{k\text{-}\mathbf{Mod}}(\mathfrak{g})) = \mathfrak{gl}_{n}(k)
+    \label{eq:adjoint}
+  \end{equation}
+  called the \textbf{adjoint representation} $ \mathfrak{g} $. The pullback of $ \beta $ along $ \mathrm{ad} $ is called the \textbf{Killing form} of $ \mathfrak{g} $ which we denote by $ \kappa: \mathfrak{g} \times \mathfrak{g} \to k $ and on elements $ x, y \in \mathfrak{g} $ is given by
+  \begin{equation}
+    \kappa(x, y) = \mathrm{tr}(\mathrm{ad}(x)\mathrm{ad}(y)).
+    \label{eq:kappa}
+  \end{equation}
+\end{definition}
+
+\begin{theorem}[Structure Theorem of Semisimple Lie Algebras]
+  Let $ \mathfrak{g} $ be a finite dimensional Lie algebra over a field $ k $ of zero characteristic. Then $ \mathfrak{g} $ is semisimple if and only if $ \mathfrak{g} = \mathfrak{g}_1 \times \mathfrak{g}_2 \times \cdots \times \mathfrak{g}_r $ is the finite product of simple Lie algebras $ \mathfrak{g}_i $. In particular, every ideal of a semisimple Lie algebra is semisimple.
+\end{theorem}
+\begin{proof}[Proof \cite{weibel1994homological}]
+  If the $ \mathfrak{g}_i $ are simple, then the only non-trivial ideals of $ \mathfrak{g} = \mathfrak{g}_1 \times \cdots \times \mathfrak{g}_r $ are products of the $ \mathfrak{g}_i $'s. Now, if $ \mathfrak{g} $ had a nonzero abelian ideal this would imply there exists an $ i $ such that $ [\mathfrak{g}_i, \mathfrak{g}_i] =0 $ which is a contradiction.
+
+  Note that for the converse it suffices to show that every minimal ideal $ \mathfrak{a} $ of a semisimple Lie algebra $ \mathfrak{g} $ is a direct factor, i.e., $ \mathfrak{g} = \mathfrak{a} \times \mathfrak{b} $. The minimality of $ \mathfrak{a} $ implies that it is simple. If $ \mathfrak{g} $ can be decomposed like this, then $ \mathfrak{b} $ must also necessarily be semisimple and so the claim would follow. Now, define $ \mathfrak{b} $ to be the orthogonal complement of $ \mathfrak{a} $ with respect to the Killing form. To see that $ \mathfrak{b} $ is an ideal of $ \mathfrak{g} $ note that for $ a \in \mathfrak{a} $, $ b \in \mathfrak{b} $, and $ x \in \mathfrak{g} $ we have
+  \begin{equation}
+    \kappa(a, [x, b]) = \kappa([a, x], b) = 0
+  \end{equation}
+  where the $ \mathfrak{g} $-invariance follows from the $ \mathfrak{g} $-invariance of $ \beta $. From this it follows that $ [x, b] \in \mathfrak{b} $ such that $ \mathfrak{b} $ is an ideal of $ \mathfrak{g} $.
+
+  What remain to show is that $ \mathfrak{a} \cap \mathfrak{b} = 0 $. Note that this intersection is an ideal. To see this, let $ a \in \mathfrak{a} \cap \mathfrak{b} $ and $ x \in \mathfrak{g} $. Since $ \mathfrak{a} \cup \mathfrak{b} = \mathfrak{g} $ we must have that $ x \in \mathfrak{a} $ or $ x \in \mathfrak{b} $. Assume without loss of generality that $ x \in \mathfrak{b} $. This implies $ [a, x] = 0 \in \mathfrak{a} \cap \mathfrak{b} $ showing that $ \mathfrak{a} \cap \mathfrak{b} $ indeed is an ideal. Now, since $ \mathfrak{a} $ is minimal, we must either have $ \mathfrak{a} \cap \mathfrak{b} = 0 $ or $ \mathfrak{a} \cap \mathfrak{b} = \mathfrak{a} $. Suppose $ \mathfrak{a} \cap \mathfrak{b} = \mathfrak{a} $, then
+  \begin{equation}
+    \kappa([a_1, a_2], x) = \kappa(a_1, [a_2, x]) = 0,\quad\quad \forall a_1, a_2 \in \mathfrak{a}, \forall x \in \mathfrak{g}
+  \end{equation}
+  as $ [a_2, x] \in \mathfrak{a}\subset \mathfrak{b} $. We must then have that $ [a_1, a_2] = 0 $ as $ \kappa $ is nondegenerate. Hence $ \mathfrak{a} $ is abelian which contradicts the semisimplicity of $ \mathfrak{g} $. Thus $ \mathfrak{a} \cap \mathfrak{b} = 0 $ which concludes the proof.
+\end{proof}
+
+Let $ \mathfrak{g} $ be a semisimple Lie algebra and let $ M $ be an $ m $-dimensional $ \mathfrak{g} $-module. If $ \mathfrak{h} $ is the image of the structure map
+\begin{equation}
+  \rho: \mathfrak{g} \to \text{Lie}(\text{End}_{k\text{-}\mathbf{Mod}}(M)) \cong \mathfrak{gl}_m(k),
+\end{equation}
+then $ \mathfrak{g} \cong \mathfrak{h} \times \text{ker}(\rho) $ (as $ \mathfrak{g} $ is a vector space over $ k $), and the bilinear form $ \beta $ on $ \mathfrak{h} $ is nondegenerate by Cartan's criterion \cite[Section 7.8]{weibel1994homological}.
+\begin{definition}[The Casimir Operator]
+  Let $ \{e_1, \ldots, e_r\} $ be a basis of $ \mathfrak{h} $, then there is a corresponding dual basis $ \{e^1, \ldots, e^r\}  $ of $ \mathfrak{h} $ such that $ \beta(e_i, e^j) = \delta_{ij} $. The element $ c_M = \sum_{i = 1}^{r} e_ie^j \in U\mathfrak{g} $ is called the \textbf{Casimir operator} for $ M $.
+\end{definition}
+
+The Casimir operator satisfies some convenient properties which we state here without proof.
+\begin{lemma}
+  Let $ \mathfrak{g} $ be a semisimple Lie algebra and let $ M $ be an $ m $-dimensional $ \mathfrak{g} $-module. Then
+  \begin{enumerate}[label=(\roman*)]
+    \item The Casimir operator for $ M $, $ c_M $, is in the center of $ U\mathfrak{g} $ and $ c_M \in \mathfrak{J} $.
+    \item The image of $ c_M $ in the matrix ring $ \text{End}_{k\text{-}\mathbf{Mod}}(M) $ is $ r/m $ times the identity matrix. In particular, if $ M $ is nontrivial as a $ \mathfrak{g} $-module, then $ r \neq 0 $ and $ c_M $ acts on $ M $ as an automorphism.
+  \end{enumerate}
+\end{lemma}
+
+Before proving Whitehead's first basic lemmas about Ext and Tor. The proof of these can be found in \cite[Chapter 3]{weibel1994homological}.
+
+\begin{lemma}
+  Let $ R $ be a commutative ring and $ A$ an $ R $-module. If $ \mu: A\to A $ is multiplication by an $ r \in R $, so are the induced maps $ \mu_*:\text{Tor}_n^{R}(A, B) \to \text{Tor}_n^{R}(A, B) $ for all $ n $ and all $ R $-modules $ B $.
+\end{lemma}
+
+\begin{lemma}
+  Let $ R $ be a commutative ring and $ A,B $ two $ R $-modules. If $ \mu: A \to A $ and $ \nu: B \to B $ are multiplication by $ r \in R $, so are the induced endomorphisms $ \mu^{*} $ and $ \nu_* $ of $ \text{Ext}_R^{n}(A, B) $ for all $ n $.
+\end{lemma}
+
+\begin{theorem}[\cite{weibel1994homological}]
+  \label{thm:zerohom}
+  Let $ \mathfrak{g} $ be a semisimple Lie algebra over a field of characteristic 0. If $ M $ is a simple $ \mathfrak{g} $-module, $ M \neq k $, then
+  \begin{equation}
+    H^{n}(\mathfrak{g}, M) = H_n(\mathfrak{g}, M) = 0, \quad\quad \forall n.
+  \end{equation}
+\end{theorem}
+\begin{proof}[Proof \cite{weibel1994homological}]
+  Let $ Z $ denote the center of $ U\mathfrak{g} $. From the above lemmas we have that $ H_*(\mathfrak{g}, M) $ and $ H^*(\mathfrak{g}, M) $ are naturally $ C $-modules. Moreover, multiplication by $ c \in C $ is induced by $ c: k \to k $ as well as $ c:M \to M $. Now, as the Casimir element $ c_M $ acts by 0 on $ k $ (because $ c_M \in \mathfrak{J} $) and by the invertible scalar $ r /m $ on M, it follows that we must have $ 0 = r/m $ on $ H_*(\mathfrak{g}, M) $ and $ H^*(\mathfrak{g}, M) $ which can only happen if both these $ C $-modules are zero.
+\end{proof}
+
+\begin{corollary}[Whitehead's first lemma]
+  Let $ \mathfrak{g} $ be a semisimple Lie algebra over a field of characteristic $ 0 $. If $ M $ is any finite-dimensional $ \mathfrak{g} $-module, then $ H^1(\mathfrak{g}, M)=0 $.
+\end{corollary}
+\begin{proof}[Proof \cite{weibel1994homological}]
+  We can do this by induction on the dimension of $ M $. If $ M $ is simple, then either $ M = k $, in which case we have $ H^1(\mathfrak{g}, k) = \mathfrak{g}/[\mathfrak{g}, \mathfrak{g}] = 0 $ ($ \mathfrak{g} $ is semisimple and so $ [\mathfrak{g}, \mathfrak{g}] = \mathfrak{g} $) or else $ M \neq k $ and $ H^{*}(\mathfrak{g}, M)=0 $ by the previous theorem. Now, if $ M $ is not simple, then it contains a proper submodule $ L \subset M $. By induction we must then have that $ H^1(\mathfrak{g}, L) = H^1(\mathfrak{g}, M/L) = 0 $ and the result then follows from the cohomology long exact sequence
+  \begin{equation}
+    \cdots \to H^1(\mathfrak{g}, L) \to H^1(\mathfrak{g}, M) \to H^1(\mathfrak{g}, M/L) \to \cdots.
+  \end{equation}
+\end{proof}
+% subsection Whitehead's first lemma (end)
+
+\subsection{Whitehead's second lemma} % (fold)
+\label{sub:Whitehead's second lemma}
+Before stating Whitehead's second lemma we state Weyl's theorem without proof.
+\begin{theorem}[Weyl's theorem]
+  Let $ \mathfrak{g} $ be a semisimple Lie algebra over a field of characteristic 0. Then every finite-dimensional $ \mathfrak{g} $-module $ M $ is completely reducible, that is, is a direct sum of simple $ \mathfrak{g} $-modules.
+\end{theorem}
+\begin{proof}
+  See \cite[Section 7]{weibel1994homological}.
+\end{proof}
+
+Whitehead's second lemma extends the result of the first lemma to $ H^2(\mathfrak{g}, M) $.
+
+\begin{corollary}[Whitehead's second lemma]
+  Let $ \mathfrak{g} $ be a semisimple Lie algebra over a field of characteristic 0. If $ M $ is any finite-dimensional $ \mathfrak{g} $-module, then $ H^2(\mathfrak{g}, M)=0 $.
+\end{corollary}
+\begin{proof}[Proof \cite{weibel1994homological}]
+  As homology commutes with direct sums, and $ M $ is a direct sum of simple $ \mathfrak{g} $-modules, we can without loss of generality assume that $ M $ is simple. If $ M \neq k $ then the result follows from Theorem~\ref{thm:zerohom} and hence it suffices to show that $ H^2(\mathfrak{g}, k) = 0 $ which by Theorem~\ref{thm:equivalence} is the same as saying that every Lie algebra extension
+  \begin{equation}
+    0 \to k \xrightarrow{\iota} \mathfrak{e} \xrightarrow{\pi} \mathfrak{g} \to 0
+  \end{equation}
+  splits. We do this by making $ \mathfrak{e} $ into a $ \mathfrak{g} $-module in such a way that $ \pi $ is a $ \mathfrak{g} $-module homomorphism. To this end, let $ \tilde{x} $ be any lift of $ x \in \mathfrak{g} $ to $ \mathfrak{e} $. For $ a \in \mathfrak{e} $ let the $ \mathfrak{g} $-module action $ xa $ be given by $ [\tilde{x}, a] $. This action is well defined as $ k $ is in the center of $ \mathfrak{e} $. To see that it is a well defined $ \mathfrak{g} $-action, let $ x,y \in \mathfrak{g} $. We then have that
+  \begin{align*}
+    x(ya) - y(xa) - [x, y]a &= [\tilde{x}, [\tilde{y}, a]] - [\tilde{y}, [\tilde{x}, a]] - [[\tilde{x},\tilde{y}], a] \\
+                            &= [\tilde{x}, [\tilde{y}, a]] + [\tilde{y}, [a, \tilde{x}]] + [a, [\tilde{x},\tilde{y}]] \\
+                            &= 0
+  \end{align*}
+  and hence we indeed have $ \mathfrak{g} $-action on $ \mathfrak{e} $. This gives that $ \pi(xa) = \pi([\tilde{x}, a])=[x, \pi(a)] $ showing the claim.
+
+  Weyl's theorem then implies that $ \mathfrak{e} $ and $ \mathfrak{g} $ split as $ \mathfrak{g} $-modules, and that there is a $ \mathfrak{g} $-module homomorphism $ \sigma: \mathfrak{g} \to \mathfrak{e} $ splitting $ \pi $ such that $ \mathfrak{g} = k \oplus \mathfrak{g} $ as a $ \mathfrak{g} $-module. Choosing $ \tilde{x}=\sigma(x) $ as the lift makes it clear that $ \sigma $ is a Lie algebra homomorphism and that the isomorphism above is an isomorphism of Lie algebras. Hence $ H^2(\mathfrak{g}, k)=0 $ and we are done.
+\end{proof}
+
+We have already seen Whitehead's first and second lemma in action when we computed the Lie algebra cohomology of $ \mathfrak{sl}_2 $. More specifically, when $ k $ is an algebraically closed field with characteristic 0 we have that $ \mathfrak{sl}_n(k) $ is a semisimple Lie algebra and hence we have $ H^1(\mathfrak{sl}_n(k), k) = H^2(\mathfrak{sl}_n(k), k) = 0 $. The computation of the Lie algebra cohomology of $ \mathfrak{sl}_2 $ also shows us why there can be no third Whitehead's lemma as $ H^3(\mathfrak{sl}_2, \mathbb{R}) = \mathbb{R} \neq 0 $.
+% subsection Whitehead's second lemma (end)
+% section Computations (end)

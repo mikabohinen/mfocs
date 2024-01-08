@@ -1,0 +1,106 @@
+\section{Introduction} % (fold)
+\label{sec:Introduction}
+Consider the following scenario: someone is holding a yard sale and have $ m $ items up for sale. There are $ n $ potential buyers, each interested in buying subsets of these items, and each of whom have some valuation of each subset of the items. What scheme should the seller come up with in order to efficiently allocate the items he his selling to the buyers.
+
+
+In this mini project we will focus on two types of mechanism designs: simultaneous first-price auctions and simultaneous second-price auctions. Intuitively these are auctions in which every bidder places a bid for each item simultaneously and the one with the highest bid for a specific item receives that item. The only difference is in what he must pay. For first-price auctions the highest bidder pays his highest bid while for second-price auctions the highest bidder only pays the bid of the second highest bidder. To formalize this a bit we introduce the notion of ``mechansims''.
+\subsection{Auctions as mechanisms} % (fold)
+\label{sub:Auctions as mechanisms}
+\begin{definition}[Mechanism \cite{Syrgkanis2013Composable}]
+  A \textbf{mechanism} $ \mathcal{M} $ is a triple $ \mathcal{M} = (\mathcal{A}, X, P) $, where $ \mathcal{A} = \times_i \mathcal{A}_i $ is a set of actions $ \mathcal{A}_i $ for each player $ i $, $ X: \mathcal{A} \to \mathcal{X} $ is an allocation function that maps each action profile $ \mathbf{a} \in \mathcal{A} $ to an outcome $ \mathbf{x} \in \mathcal{X} \subset \times_i \mathcal{X}_i $ (where $ \mathcal{X}_i $ is the set of allocations for Player $ i $), and $ P: \mathcal{A} \to \mathbb{R}_{\geq 0}^{n} $ is a payment function that maps each action profile to a payment $ P_i $ for each player $ i $. The \textbf{utility} of player $ i $ for some valuation $ v_i:\mathcal{X}_i \to \mathbb{R}_{\geq 0} $, and allocation $ x_i \in \mathcal{X}_i $ is defined to be
+\begin{equation}
+  u_i^{v_i}(x_i) = v_i(x_i) - P_i(x_i)
+  \label{eq:utility}
+\end{equation}
+\end{definition}
+Here the allocation function $ v_i $ is part of some set of valuations $ \mathcal{V}_i $ which is a representation of how much a player $ i $ values a subset of outcomes.
+It would be strange to assume that a buyer knows exactly how the other buyers value a set of items. However, he could make an educated guess as to the distribution of potential valuations and assume another buyer gets his valuation from this distribution. We therefore say that a mechanism is in the \textbf{Bayesian setting} if for each player $ i \in [n] $ the valuation $ v_i $ is drawn from $ \mathcal{V}_i $ according to some known distribution $ \mathcal{F}_i $. The $ \mathcal{F}_i $ are assumed to be independent of each other. In this case we have a mechanism of \textbf{incomplete information}. Conversely, if each player's valuation $ v_i $ is fixed and known to all the other players then we are in the \textbf{full information setting}.
+
+
+Now, in the case of our yard sale we are selling off each item individually and at the same time. Thus we are essentially looking at a ``simultaneous composition'' of single-item auctions. More formally, assume that there are $ n $ players and $ m $ mechanisms $ \{\mathcal{M}_j = (\mathcal{A}^j, X^j, P^j)\}_{j = 1}^{m} $. We make the extra assumption that each player has a valuation over vectors of outcomes from each mechanism, i.e., functions $ v_i: \mathcal{X}_i \to \mathbb{R}_{\geq 0} $ where $ \mathcal{X}_i = \times_j \mathcal{X}_i^j $.
+\begin{definition}[Simultaneous composition of mechanisms \cite{Syrgkanis2013Composable}]
+  Given $ m $ mechanisms $ \{\mathcal{M}_j\}_{j=1}^m $ as described above with $ n $ bidders/players we define the \textbf{simultaneous composition} of these mechanisms to be the mechanism $ \mathcal{M} = (\mathcal{A}, X, P) $ where $ \mathcal{A}_i = \times_j \mathcal{A}_i^{j} $, $ \mathcal{X} = \times_j \mathcal{X}^{j} $, $ X = \times_j X^{j}: \mathcal{A} \to \mathcal{X} $, and $ P = \sum_{j} P^j: \mathcal{A} \to \mathbb{R}_{\geq 0} $. For $ \mathbf{a} \in \mathcal{A} $ we therefore have that $ X(\mathbf{a}) = (X^j(a^j))_j $ and $ P(\mathbf{a}) = \sum_{j} P^j(a^j) $ with $ a^j $ denoting the $ j $th component of $ \mathbf{a} $.
+\end{definition}
+
+In the context of the above definitions we can formalize the notion of an auction as well as first/second-price auctions.
+\begin{definition}[Combinatorial auction]
+  Let $ \mathcal{I} $ be a set of items. A \textbf{combinatorial auction} is a mechanism $ \mathcal{M} = (\mathcal{A}, X, P) $ where $ \mathcal{X}_i = 2^\mathcal{I} $ (the powerset of $ \mathcal{I} $), $ \mathcal{X} $ consists of partitions of $ \mathcal{I} $, and $ \mathcal{A}_i = \mathcal{B}_i $ is the set of bids player $ i $ can make. Moreover, each $ v_i \in \mathcal{V}_i $ is assumed to be \textbf{normalized} and \textbf{monotone}, that is $ v_i(\emptyset) = 0 $ and $ S \subseteq T $ $ \implies $ $ v_i(S) \leq v_i(T) $.
+\end{definition}
+\begin{definition}[First-price auction]
+  A \textbf{first-price auction} is a combinatorial auction $ \mathcal{M} $ in which the allocation function $ X: \mathcal{A} \to \mathcal{X} $ is described by allocating items to the highest bidder. The price a player must pay for the allocation is equal to the bid if he has the highest bid and zero otherwise.
+\end{definition}
+\begin{definition}[Second-price auction]
+  A \textbf{second-price auction} is a combinatorial auction $ \mathcal{M} $ in which the allocation function $ X: \mathcal{A} \to \mathcal{X} $ is described by allocating items to the highest bidder. The price a player must pay for the allocation is equal to the bid of the second highest bidder if he has the highest bid and zero otherwise.
+\end{definition}
+
+A \textbf{simultaneous first/second-price auction} is then just a simultaneous composition of first/second-price auctions.
+To more formally state our problem we also need a way to talk about how efficient or inefficient a particular allocation of items is.
+
+% subsection Auctions as mechanisms (end)
+
+\subsection{Nash equilibria and the price of anarchy} % (fold)
+\label{sub:Nash equilibria and the price of anarchy}
+\begin{definition}[Strategy]
+  Let $ \mathcal{M} = (\mathcal{A}, X, P) $ be a mechanism. A \textbf{strategy profile} $ \mathbf{s} = (s_1, \ldots, s_n) $ is a probability distribution over $ \mathcal{A} $ such that each $ s_i $ is a probability distribution over $ \mathcal{A}_i $ and is independent of $ s_j $ for $ j \neq i $. A \textbf{pure strategy} is a strategy profile $ \mathbf{s} $ such that each component $ s_i $ has probability measure 1 on a single outcome $ a_i \in \mathcal{A}_i $. Conversely, a \textbf{mixed strategy} is not a pure strategy. The utility for Player $ i $ of a strategy profile is defined to be $ u_i(\mathbf{s}) = \mathbb{E}_{s \sim \mathbf{s}}[u_i(X_i(s))] $.
+\end{definition}
+\begin{definition}[Nash equilibria]
+  Let $ \mathcal{M} = (\mathcal{A}, X, P)$ be a mechanism and $ \mathcal{V} = \times_i \mathcal{V}_i $ the corresponding valuations. Let $ \mathcal{F} = \times_i \mathcal{F}_i $ be a distribution over $ \mathcal{V} $. Let $ \mathbf{s} $ be a strategy profile over $ \mathcal{A} $. Then, $ \mathbf{s} $ is called a
+  \begin{itemize}
+    \item \textbf{pure Nash equilibrium}, if $ \mathbf{s} $ is a pure strategy and $ u_i(\mathbf{s}) \geq u_i(s'_i, \mathbf{s}_{-i}) $ for all pure strategies $ s_i' $ over $ \mathcal{A}_i $,
+    \item \textbf{mixed Nash equilibrium}, if $ \mathbf{s} $ is a strategy profile and $ u_i(\mathbf{s}) \geq u_i(s'_i, \mathbf{s}_{-i}) $ for all strategies $ s_i' $ over $ \mathcal{A}_i $,
+    \item \textbf{Bayesian Nash equilibrium}, if $ \mathbf{s}(\mathbf{v}) $ is a strategy profile dependent upon $ \mathbf{v} \sim \mathcal{F} $ and \begin{equation*}
+        \mathbb{E}_{\mathbf{v}_{-i}, s\sim \mathbf{s}(\mathbf{v})}[u_i(s)] \geq \mathbb{E}_{\mathbf{v}_{-i}, s \sim \mathbf{s}(\mathbf{v})}[u_i(s'_i, \mathbf{s}_{-i})]
+    \end{equation*}
+    for all strategies $ s_i' $ over $ \mathcal{A}_i $.
+  \end{itemize}
+\end{definition}
+It is reasonable to think that left to their own devices the buyers could end up choosing a strategy profile which is one of the equilibrium types mentioned above. However, this choice might be far from optimal.
+
+\begin{definition}[Social welfare]
+  Let $ \mathcal{M} $ be a mechanism. The \textbf{social welfare} of a strategy $ \mathbf{s} $ given a valuation profile $ \mathbf{v} \in \mathcal{V} $ is defined to be
+  \begin{equation}
+    SW^\mathbf{v}(\mathbf{s}) = \sum_{i = 1}^{n} \mathbb{E}_{s \sim \mathbf{s}}[v_i(X_i(s))].
+    \label{eq:socialwelfare}
+  \end{equation}
+  Similarly, given a distribution $ \mathcal{F} $ over valuations $ \mathcal{V} $ the social welfare of a strategy $ \mathbf{s} $ is
+  \begin{equation}
+    SW^{\mathcal{F}}(\mathbf{s}) = \sum_{i =1}^{n} \mathbb{E}_{\mathbf{v} \sim \mathcal{F}, s \sim \mathbf{s}(\mathbf{v})}[v_i(X_i(s))].
+  \end{equation}
+  Note that $ SW^{\mathbf{v}} $ is a special case of $ SW^{\mathcal{F}} $ in which the probability measure of $ \mathcal{F} $ is 1 for a specific valuation profile $ \mathbf{v} $.
+\end{definition}
+\begin{definition}[Price of Anarchy (PoA)]
+  Let $ \mathcal{M} $ be a mechanisms and let $ \mathcal{E}_\mathcal{M} $ denote a corresponding set of equilibrium strategies. With $ \mathcal{S}_\mathcal{M} $ denoting the set of all strategies, the \textbf{price of anarchy} (PoA) for a distribution $ \mathcal{F} $ over $ \mathcal{V} $ is
+  \begin{equation}
+    PoA^{\mathcal{M}, \mathcal{F}} = \frac{\max_{\mathbf{s} \in \mathcal{S}}SW^{\mathcal{F}}(\mathbf{s})}{\min_{\mathbf{s}' \in \mathcal{E}_{\mathcal{M}}}SW^{\mathcal{F}}(\mathbf{s'})}.
+  \end{equation}
+  In the full information setting we restrict $ \mathcal{F} $ to have probability measure 1 for a specific valuation profile $ \mathbf{v} $. Letting $ \mathbb{M} $ denote the set of all mechanisms of a specific class and $ \mathbb{F}_{\mathcal{M}} $ the set of all relevant distributions for $ \mathcal{M} \in \mathbb{M} $ (depending upon whether we are in the full information or Bayesian setting). The \textbf{price of anarchy of} $ \mathbb{M} $ is then
+  \begin{equation}
+    PoA = \max_{\mathcal{M} \in \mathbb{M}}\left( \max_{\mathcal{F} \in \mathbb{F}} PoA^{\mathcal{M}, \mathcal{F}} \right).
+    \label{eq:priceofanarchy}
+  \end{equation}
+\end{definition}
+% subsection Nash equilibria and the price of anarchy (end)
+
+\subsection{Different types of valuations} % (fold)
+\label{sub:Different types of valuations}
+When defining our problem we are not interested in all types of valuations for a given mechanism $ \mathcal{M} $. We want to restrict ourselves to a specific class of valuations $ \mathcal{V} $.
+\begin{definition}
+  Let $ \mathcal{M} $ be a mechanism and $ v_i: \mathcal{X} \to \mathbb{R}_{\geq 0} $ a valuation for player $ i \in [n] $. We say that $ v_i $ is
+  \begin{itemize}
+    \item \textbf{additive}, if $ v_i(S) = \sum_{x \in S} $ for all $ S \subset \mathcal{X}_i $,
+    \item \textbf{submodular}, if $ v_i(S \cup T) + v_i(S \cap T) \leq v_i(S) + v_i(T) $ for all $ S,T \subset \mathcal{X}_i $,
+    \item \textbf{fractionally subadditive} (or \textbf{XOS}), if $ v_i $ is determined by a finite set of additive valuations $ f_\gamma $ for $ \gamma \in \Gamma $ such that $ v_i(S) = \max_{\gamma \in \Gamma}f_\gamma(S) $,
+    \item \textbf{subadditive}, if $ v_i(S \cup T) \leq v_i(S) + v_i(T)$ for all $ S,T \subset \mathcal{X}_i $.
+  \end{itemize}
+\end{definition}
+It is well known that each of the above classes are contained in the next one, i.e., additive valuations are submodular, submodular valuations are XOS, and XOS are subadditive.
+% subsection Different types of valuations (end)
+
+\subsection{The problem statement} % (fold)
+\label{sub:The problem statement}
+Having set up necessary terminology we can now properly state the problem we want to investigate.
+\begin{problem}
+  Consider simultaneous first-price auctions. What are the currently known upper and lower bounds on the price of anarchy for submodular and subadditive valuations over mixed Bayesian and Bayesian-Nash equilibria respectively?
+\end{problem}
+% subsection The problem statement (end)
+% section Introduction (end)

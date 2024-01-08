@@ -1,0 +1,117 @@
+\section{Problem Definition} % (fold)
+\label{sec:Problem Definition}
+The definitions in this section draw from the concepts outlined in \cite{Christodoulou2016TightBounds} and are further contextualized within the framework of game mechanisms as described in \cite{Syrgkanis2013Composable}. The notation $ [n] $ is used to denote the set $ \{1, \ldots, n\} $.
+\subsection{Auctions as mechanisms} % (fold)
+\label{sub:Auctions and allocations as mechanisms}
+The concept of a ``mechanism'' as described in \cite{Syrgkanis2013Composable} offers a good formal framework to talk about auctions. More specifically,
+consider a setting with a set of $ n $ players and outcomes $ \mathcal{X} \subseteq \times_i \mathcal{X}_i $, where each $ \mathcal{X}_i $ is the set of allocations for player $ i \in [n] $ (the possible outcomes for player $ i $). Moreover, each player $ i $ has a valuation function $ v_i: \mathcal{X}_i \to \mathbb{R}_{\geq 0} $ with $ \mathcal{V}_i $ denoting the set of all possible valuations for player $ i $.
+\begin{definition}[Mechanism]
+  A \textbf{mechanism} $ \mathcal{M} $ is a triple $ \mathcal{M} = (\mathcal{A}, X, P) $, where $ \mathcal{A} = \times_i \mathcal{A}_i $ is a set of actions $ \mathcal{A}_i $ for each player $ i $, $ X: \mathcal{A} \to \mathcal{X} $ is an allocation function that maps each action profile $ a \in \mathcal{A} $ to an outcome $ x \in \mathcal{X} $, and $ P: \mathcal{A} \to \mathbb{R}_{\geq 0}^{n} $ is a payment function that maps each action profile to a payment $ P_i $ for each player $ i $. The \textbf{utility} of player $ i $ for some valuation $ v_i $, allocation $ x_i \in \mathcal{X}_i $, and payment $ p_i = P(x_i) \in \mathbb{R}_{\geq 0} $ is defined to be
+\begin{equation}
+  u_i^{v_i}(x_i, p_i) = v_i(x_i) - p_i.
+  \label{eq:utility}
+\end{equation}
+\end{definition}
+It makes sense to talk about a series of mechanism that run simultaneously and/or sequentially, as in the case of an auction of different items that happens at the same time. We therefore want to consider the more general setting where there are $ n $ players/bidders and $ m $ mechanisms. Each mechanism $ \mathcal{M}_j $ is then a triple $ \mathcal{M}_j = (\mathcal{A}^j, X^j, P^j) $. We make the extra assumption that player $ i $ has a valuation over vectors of outcomes from each mechanism. That is, there is a function $ v_i: \mathcal{X}_i \to \mathbb{R}_{\geq 0} $ for each $ i $ where $ \mathcal{X}_i = \times_j \mathcal{X}_i^j $. The utility of an outcome $ x_i = (x_i^{1},\ldots, x_i^{m}) $ and payment vector $ p_i = (p_i^{1}, \ldots, p_i^{m}) $ for player $ i $ is then given by
+\begin{equation}
+  u_i^{v_i}(x_i, p_i) = v_i(x_i^{1}, \ldots, x_i^{m}) - \sum_{j = 1}^{m} p_i^{j}.
+\end{equation}
+\begin{definition}[Simultaneous composition of mechanisms]
+  Given $ m $ mechanisms $ \{\mathcal{M}_j\}_{j=1}^m $ as described above with $ n $ bidders/players we define the \textbf{simultaneous composition} of these mechanisms to be the mechanism $ \mathcal{M} = (\mathcal{A}, X, P) $ where $ \mathcal{A}_i = \times_j \mathcal{A}_i^{j} $, $ \mathcal{X} = \times_j \mathcal{X}^{j} $, $ X = \times_j X^{j}: \mathcal{A} \to \mathcal{X} $, and $ P = \sum_{j} P_j: \mathcal{A} \to \mathbb{R}_{\geq 0} $. For $ a \in \mathcal{A} $ we therefore have that $ X(a) = (X^j(a^j))_j $ and $ P(a) = \sum_{j} P^j(a^j) $ with $ a^j $ denoting the $ j $th component of $ a $.
+\end{definition}
+We also want to have a way to measure the efficiency of an allocation based on some action profile.
+\begin{definition}
+  Given a mechanism $ \mathcal{M} $ and a valuation profile $ \mathbf{v} \in \times_i \mathcal{V}_i $, the \textbf{social welfare} of an action $ a \in \mathcal{A} $ is defined to be
+  \begin{equation}
+    SW^\mathbf{v}(a) = \sum_{i = 1}^{n} v_i(X_i(a)).
+    \label{eq:social}
+  \end{equation}
+\end{definition}
+
+Having developed some terminology we can then define the types of mechanisms we are interested in studying.
+\begin{definition}[Combinatorial auction]
+  Let $ \mathcal{I} $ be a set of items. A \textbf{combinatorial auction} is a mechanism $ \mathcal{M} = (\mathcal{A}, X, P) $ where $ \mathcal{X}_i = 2^\mathcal{I} $ (the powerset of $ \mathcal{I} $), $ \mathcal{X} $ consists of partitions of $ \mathcal{I} $, and $ \mathcal{A}_i = \mathcal{B}_i $ is the set of bids player $ i $ can make. Moreover, each $ v_i \in \mathcal{V}_i $ is assumed to be \textbf{normalized} and \textbf{monotone}, that is $ v_i(\emptyset) = 0 $ and $ S \subseteq T $ $ \implies $ $ v_i(S) \leq v_i(T) $.
+\end{definition}
+A combinatorial auction is considered to be in the \textbf{full information} setting if for each player $ i \in [n] $ the valuation $ v_i $ is fixed and known to all other players. The auction is considered to be in the \textbf{Bayesian} setting if $ v_i $ is drawn from $ \mathcal{V}_i $ according to some known distribution $ D_i $. The $ D_i $'s are assumed to be independent over the players. In this case the mechanism $ \mathcal{M} = (\mathcal{A}, X, P) $ defines a game of \textbf{incomplete information} and the strategy of each player is a function $ s_i : \mathcal{V}_i \to \mathcal{A}_i $. We will use $ s(\mathbf{v}) = (s_i(v_i))_{i \in [n]} $ to denote the vector of actions given a valuation profile $ \mathbf{v} $ and $ s_{-i}(\mathbf{v}_{-i}) = (s_j(v_j))_{ j \neq i} $ to denote the vector of actions for all players except $ i $. NEED TO REVISE THIS possibly move it up so that we introduce full information and all that before explicitly defining auctions.
+
+\begin{definition}[First-price auction]
+  A \textbf{first-price auction} is a combinatorial auction $ \mathcal{M} $ in which the allocation function $ X: \mathcal{A} \to \mathcal{X} $ is described by allocating items to the highest bidder. The price a player must pay for the allocation is equal to the bid if he has the highest bid and zero otherwise.
+\end{definition}
+
+A \textbf{simultaneous first-price auction} is then just a simultaneous composition of first-price auctions.
+
+
+To make the notation less cumbersome we introduce some conventions. Assume players have submitted bids according to bid vectors $ a_i = b_i = (b_{i1}, \ldots, b_{im}) $, and we get a corresponding allocation $ X(\mathbf{b}) $. If $ S \subseteq [m] $ then we let $ b_i(S) = \sum_{j \in S} b_{ij} $. We also use $ v_i(\mathbf{b}) $ and $ SW(\mathbf{b}) $ instead of $ v_i(X_i(\mathbf{b})) $ and $ SW(X(\mathbf{b})) $ if $ X $ is clear from the context. The utility $ u_i $ of player $ i $ in this context is then his valuation of the received set minus his payments: $ u_i(\mathbf{b})=v_i(X_i(\mathbf{b})) - b_i(X_i(\mathbf{b})) $
+
+% subsection Auctions and allocations as mechanisms (end)
+
+\subsection{Nash equilibria and the price of anarchy} % (fold)
+\label{sub:Nash equilibria and the price of anarchy}
+\begin{definition}[Bidding strategies]
+  A \textbf{pure bidding strategy} $ b_i $ for player $ i $ is a vector of bids for the $ m $ items $ b_i = (b_{i1}, \ldots, b_{im}) $. The pure strategy profile for all bidders is then $ \mathbf{b}=(b_1, \ldots, b_n) $. Similarly, a \textbf{mixed strategy} $ B_i $ for player $ i $ is a probability distribution over pure strategies. The mixed strategy profile for all the bidders is then $ \mathbf{B}=(B_1, \ldots, B_n) $.
+\end{definition}
+We use the notation $ \mathbf{b}_{-i} = (b_1,\ldots, \widehat{b_i}, \ldots, b_n) $ to denote the strategy profile for all players except player $ i $ (the hat denotes a removed item).
+
+As in \cite{Christodoulou2016TightBounds} we state the five relevant notions of equilibria. Let $ \mathbf{v}=(v_1, \ldots, v_n) $ be the players valuations and remember that in the Bayesian setting, $ v_i $ is drawn from $ \mathcal{V}_i $ according to some distribution. Then $ \mathbf{B} $ is called a
+\begin{enumerate}[label=(\alph*)]
+  \item \textit{pure Nash equilibrium}, if $ \mathbf{B}=\mathbf{b} $ is a pure strategy profile and $ u_i(\mathbf{b}) \geq u_i(b_i', \mathbf{b}_{-i}) $,
+
+  \item \textit{mixed Nash equilibrium}, if $ \mathbf{B} = \times_i B_i $ and $ \mathbb{E}_{\mathbf{b}\sim \mathbf{B}}[u_i(\mathbf{b})] \geq \mathbb{E}_{\mathbf{b}_{-i} \sim \mathbf{B}_{-i}}[u_i(b'_i, \mathbf{b}_{-i})] $,
+
+  \item \textit{correlated Nash equilibrium}, if $  \mathbb{E}_{\mathbf{b}\sim \mathbf{B}}[u_i(\mathbf{b})|b_i] \geq \mathbb{E}_{\mathbf{b} \sim \mathbf{B}}[u_i(b'_i, \mathbf{b}_{-i})|b_i]  $,
+
+  \item \textit{coarse correlated Nash equilibrium}, if $  \mathbb{E}_{\mathbf{b}\sim \mathbf{B}}[u_i(\mathbf{b})] \geq \mathbb{E}_{\mathbf{b} \sim \mathbf{B}}[u_i(b'_i, \mathbf{b}_{-i})]  $,
+
+  \item \textit{Bayesian Nash equilibrium}, if $ B_i(\mathbf{v}) = \times_i B_i(v_i) $ and $$ \mathbb{E}_{\mathbf{v}_{-i}, \mathbf{b}\sim \mathbf{B}(\mathbf{v})}[u_i(\mathbf{b})] \geq \mathbb{E}_{\mathbf{v}_{-i}, \mathbf{b}_{-i} \sim \mathbf{B}_{-i}(\mathbf{v}_{-i})}[u_i(b'_i, \mathbf{b}_{-i})]. $$
+\end{enumerate}
+
+Each class in the above list is contained in the next one---where we think of the full information setting as a special case of the Bayesian setting.
+
+\begin{definition}
+  Fix an auction $ \mathcal{M} $ and a valuation profile $ \mathbf{v}=(v_1, \ldots, v_n) $. Let $ \mathcal{E} $ be a set of equilibria bidding profiles. The \textbf{price of anarchy} (PoA) for this auction and valuation is then defined to be
+  \begin{equation}
+    PoA^{\mathcal{M}, \mathbf{v}} = \frac{\max_{\mathbf{b} \in \mathcal{B}} SW^\mathbf{v}(\mathbf{b})}{\min_{\mathbf{b}' \in \mathcal{E}}SW^{\mathbf{v}}(\mathbf{b}')}.
+    \label{eq:poa}
+  \end{equation}
+  Letting $ \mathbb{M} $ denote the set of all auctions of a specific type and $ \mathcal{V}_\mathcal{M} $ the valuation profiles for a given auction $ \mathcal{M} $ we define the price of anarchy for this auction type to be
+  \begin{equation}
+    PoA = \max_{\mathcal{M} \in \mathbb{M}}\left( \max_{\mathbf{v} \in \mathcal{V}_{\mathcal{M}}} PoA^{\mathcal{M}, \mathbf{v}}\right).
+    \label{eq:poagen}
+  \end{equation}
+\end{definition}
+
+% subsection Nash equilibria and the price of anarchy (end)
+
+\subsection{Submodular and subadditive valuations} % (fold)
+\label{sub:Submodular valuations}
+We are only interested in situations where for each $ i \in [n] $ the set of valuations $ \mathcal{V}_i $ belongs to a specific class of functions.
+\begin{definition}[Submodular valuation]
+  A valuation $ v: 2^{[m]} \to \mathbb{R}_{\geq 0} $ is said to be \textbf{submodular} if for $ S,T \subseteq [m] $ we have that
+  \begin{equation}
+    v(S \cup T) + v(S \cap T) \leq v(S) + v(T)
+    \label{eq:submodular}
+  .\end{equation}
+\end{definition}
+\begin{definition}[Subadditive valuation]
+  A valuation $ v: 2^{[m]} \to \mathbb{R}_{\geq 0} $ is said to be \textbf{subadditive} if for all $ S,T \subseteq [m] $ we have
+  \begin{equation}
+    v(S \cup T ) \leq v(S) + v(T).
+    \label{eq:subadditive}
+  \end{equation}
+\end{definition}
+It is well known that the set of submodular valuations is contained in the set of subadditive valuations, see for example \cite{doi:10.1137/070680977}.
+% subsection Submodular valuations (end)
+
+\subsection{The problem} % (fold)
+\label{sub:The problem}
+Having set up all necessary notation and language we can now state the problem for submodular and subadditive valuations in the full information setting as well as the Bayesian setting.
+\begin{problem}[Submodular case]
+  Consider simultaneous first-price auctions with valuation functions in the submodular class. What is the PoA over mixed Nash equilibria and over Bayesian Nash equilibria?
+\end{problem}
+Similarly, for subadditive valuations we have the corresponding problem:
+\begin{problem}[Subadditive case]
+  Consider simultaneous first-price auctions with valuation functions in the subadditive class. What is the PoA over mixed Nash equilibria and over Bayesian Nash equilibria?
+\end{problem}
+We are thus interested in knowing the
+% subsection The problem (end)
+% section Problem Definition (end)

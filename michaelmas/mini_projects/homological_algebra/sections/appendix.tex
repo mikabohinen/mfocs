@@ -1,0 +1,217 @@
+\section{Closed Symmetric Monoidal Structure on $ \mathfrak{g} $-Mod} % (fold)
+\label{sec:Closed Symmetric Monoidal Structure on}
+Before proving Proposition~\ref{prop:monoidal} we need to properly define what a closed symmetric monoidal category is.
+
+\begin{definition}[Monoidal category]
+  A \textbf{monoidal category} is a category $ \mathcal{C} $ with a monoidal structure. A monoidal structure consists of the following data:
+  \begin{enumerate}[label=(\roman*)]
+    \item a functor
+      \begin{equation}
+        \otimes: \mathcal{C} \times \mathcal{C} \to \mathcal{C}
+        \label{eq:tensor}
+      \end{equation}
+      from the product category of $ \mathcal{C} $ with itself, called the \textbf{tensor product},
+    \item an object $ 1 \in \mathcal{C} $ called the \textbf{unit object} or \textbf{tensor unit},
+    \item a natural isomorphism
+      \begin{equation}
+        a: ((-) \otimes (-)) \otimes (-) \xrightarrow{\cong} (-) \otimes ((-) \otimes (-))
+        \label{eq:associator}
+      \end{equation}
+      with components of the form
+      \begin{equation}
+        a_{x,y,z}: (x \otimes y) \otimes z \to x \otimes (y \otimes z)
+        \label{eq:compformasso}
+      \end{equation}
+      called the \textbf{associator},
+    \item a natural isomorphism
+      \begin{equation}
+        \lambda: (1 \otimes (-)) \xrightarrow{\cong} (-)
+        \label{eq:leftunit}
+      \end{equation}
+      with components of the form
+      \begin{equation}
+        \lambda_x: 1 \otimes x \to x
+      \end{equation}
+      called the \textbf{left unitor}, and
+    \item a natural isomorphism
+      \begin{equation}
+        \rho: (-) \otimes 1 \xrightarrow{\cong} (-)
+        \label{eq:rightunit}
+      \end{equation}
+      with components of the form
+      \begin{equation}
+      \rho_x: x \otimes 1 \to x
+      \end{equation}
+      called the \textbf{right unitor},
+  \end{enumerate}
+  such that the following two diagrams commute, for all objects involved:
+  \begin{enumerate}[label=(\roman*)]
+    \item the \textbf{triangle identity}
+      \[\begin{tikzcd}
+	      {(x\otimes 1)\otimes y} && {x \otimes(1\otimes y)} \\
+	                              & {x \otimes y}
+	                              \arrow["{a_{x,1,y}}", from=1-1, to=1-3]
+	                              \arrow["{\rho_x \otimes 1_y}"', from=1-1, to=2-2]
+	                              \arrow["{1_x \otimes \lambda_y}", from=1-3, to=2-2]
+      \end{tikzcd}\]
+    \item the \textbf{pentagon identity}
+      \[\begin{tikzcd}
+	& {(w \otimes x) \otimes (y \otimes z)} \\
+	      {((w \otimes x)\otimes y)\otimes z} && {w \otimes( x \otimes (y \otimes z))} \\
+	      \\
+	      {(w\otimes(x\otimes y))\otimes z} && {w\otimes((x\otimes y)\otimes z)}
+	      \arrow["{a_{w, x\otimes y,z}}", from=4-1, to=4-3]
+	      \arrow["{a_{w,x,y}\otimes 1_z}"', from=2-1, to=4-1]
+	      \arrow["{1_w\otimes a_{x,y,z}}"', from=4-3, to=2-3]
+	      \arrow["{a_{w\otimes x,y,z}}", from=2-1, to=1-2]
+	      \arrow["{a_{w, x,y\otimes z}}", from=1-2, to=2-3]
+      \end{tikzcd}\]
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Symmetric monoidal category]
+  A monoidal category $ (\mathcal{C}, \otimes, 1) $ is called \textbf{symmetric} if there is a natural isomorphism
+  \begin{equation}
+    B: (-) \otimes (-) \to (-) \otimes (-)
+    \label{eq:braiding}
+  \end{equation}
+  with components of the form
+  \begin{equation}
+    B_{x,y}: x \otimes y \to y \otimes x
+  \end{equation}
+  called the \textbf{braiding} such that the following diagram commutes, for all objects involved:
+  \begin{enumerate}[label=(\roman*)]
+    \item the \textbf{hexagon identity}
+      \[\begin{tikzcd}
+	      {(x \otimes y) \otimes z} & {x\otimes (y\otimes z)} & {(y\otimes z) \otimes x} \\
+	      {(y\otimes x)\otimes z} & {y \otimes (x\otimes z)} & {y \otimes (z \otimes x)}
+	      \arrow["{B_{x,y}\otimes 1_z}"', from=1-1, to=2-1]
+	      \arrow["{a_{x,y,z}}", from=1-1, to=1-2]
+	      \arrow["{B_{x,y\otimes z}}", from=1-2, to=1-3]
+	      \arrow["{a_{y,z,x}}", from=1-3, to=2-3]
+	      \arrow["{a_{y,x,z}}"', from=2-1, to=2-2]
+	      \arrow["{1_y \otimes B_{x,z}}"', from=2-2, to=2-3]
+      \end{tikzcd}\]
+    \item the \textbf{inverse law}
+      \[\begin{tikzcd}
+	& {y\otimes x} \\
+	      {x \otimes y} && {x \otimes y}
+	      \arrow["{1_{x\otimes y}}"', Rightarrow, no head, from=2-1, to=2-3]
+	      \arrow["{B_{x,y}}", from=2-1, to=1-2]
+	      \arrow["{B_{y,x}}", from=1-2, to=2-3]
+      \end{tikzcd}\]
+
+    \item the \textbf{unit coherence}
+      \[\begin{tikzcd}
+	      {x\otimes 1} && {1 \otimes x} \\
+	                   & x
+	                   \arrow["{B_{x, 1}}", from=1-1, to=1-3]
+	                   \arrow["{\lambda_x}", from=1-3, to=2-2]
+	                   \arrow["{\rho_x}"', from=1-1, to=2-2]
+      \end{tikzcd}\]
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Closed symmetric monoidal category]
+  A symmetric monoidal category $ (\mathcal{C}, \otimes, 1) $ is called \textbf{closed} if for all objects $ b \in \mathcal{C} $ the tensor product functor $ - \otimes b:\mathcal{C} \to \mathcal{C} $ has a right adjoint functor $ [b, -]:\mathcal{C} \to \mathcal{C} $. This means that for all $ a,b,c \in \mathcal{C} $ we have a natural bijection
+  \begin{equation}
+    \text{Hom}_\mathcal{C}(a \otimes b, c) \cong \text{Hom}_\mathcal{C}(a, [b, c]).
+  \end{equation}
+  The object $ [b,c] $ is also called the \textbf{internal hom} of $ b $ and $ c $.
+\end{definition}
+
+Having properly defined our terms we move on with the proof of Proposition~\ref{prop:monoidal}.
+\begin{lemma}
+  The category of $ \mathfrak{g} $-modules is monoidal.
+\end{lemma}
+\begin{proof}
+  It is well known that $ k $-\textbf{Mod} is monoidal with unit $ k $ and tensor product the usual one. If we can show that there is natural extension of the tensor product to the category of $ \mathfrak{g} $-modules and that all maps in the monoidal structure of $ k $-\textbf{Mod} also extends to $ \mathfrak{g} $-\textbf{Mod} homomorphisms, then we are done as the commutativity follows from the case of $ k $-\textbf{Mod}.
+
+  We start by showing that the tensor product has a natural $ \mathfrak{g} $-module structure. Thus, let $ \otimes = \otimes_k:\mathfrak{g}\text{-}\mathbf{Mod} \times \mathfrak{g}\text{-}\mathbf{Mod} \to \mathfrak{g}\text{-}\mathbf{Mod} $ be the usual tensor product of $ k $-modules but where the action map $ \mathfrak{g} \otimes_k (M \otimes_k N) \to M \otimes_k N $ is given on pure tensors by $ x \otimes (m \otimes n) \mapsto xm \otimes n + m \otimes xn $ for $ M,N $ $ \mathfrak{g} $-modules and $ x \in \mathfrak{g} $, $ m \in M $, and $ n \in N $. This map is $ k $-bilinear and hence extends uniquely to a $ k $-module homomorphism $ \mathfrak{g} \otimes_k (M \otimes_k N) \to M \otimes_k N $. To show that it indeed is a $ \mathfrak{g} $-module action let $ x,y \in \mathfrak{g} $. Then
+  \begin{align*}
+    [x,y](m \otimes n) &= [x,y]m \otimes n + m \otimes [x,y]n \\
+                       &= (x(ym) - y(xm)) \otimes n + m \otimes (x(yn) - y(xn)) \\
+                       &= (x(ym) \otimes n + m \otimes x(yn)) - (y(xm) \otimes n + m \otimes y(xn)) \\
+                       &= (x(ym) \otimes n + xm \otimes yn + ym \otimes xn + m \otimes x(yn)) \\
+                       &\quad -(y(xm) \otimes n + xm \otimes yn + ym \otimes xn + m \otimes y(xn)) \\
+                       &= x(ym \otimes n + m \otimes yn) - y(xm \otimes n + m \otimes xn) \\
+                       &= x(y(m \otimes n)) - y(x(m \otimes n))
+  \end{align*}
+  showing that $ x \otimes (m \otimes n) \mapsto xm \otimes n + m \otimes xn $ is a $\mathfrak{g}$-module action.
+
+  We then need to show that left and right unitor, as well as the associator are also $ \mathfrak{g} $-module homomorphisms. Let $ M,N,P $ be $ \mathfrak{g} $ modules, $ m \in M, n \in N, p \in P $, and $ x \in \mathfrak{g} $. We then have that
+  \begin{align*}
+    xa_{M, N, P}((m \otimes n) \otimes p) &= x (m \otimes (n \otimes p)) \\
+                                          &= xm \otimes (n \otimes p) + m \otimes x(n \otimes p) \\
+                                          &= xm \otimes (n \otimes p) + m \otimes (xn \otimes p + n \otimes xp) \\
+                                          &= xm \otimes (n \otimes p) + m \otimes (xn \otimes p) + m \otimes (n \otimes xp) \\
+                                          &= a_{M, N, P}((xm \otimes n) \otimes p) + a_{M, N, P}((m \otimes xn) \otimes p) + a_{M, N, P}((m \otimes n) \otimes xp)\\
+                                          &= a_{M, N, P}((xm \otimes n) \otimes p + (m \otimes xn) \otimes p + (m \otimes n) \otimes xp) \\
+                                          &= a_{M, N, P}(x(m \otimes n) \otimes p + (m \otimes n) \otimes p) \\
+                                          &= a_{M, N, P}(x((m \otimes n) \otimes p))
+  \end{align*}
+  showing that the associator is a $ \mathfrak{g} $-module homomorphism. Our next objective is to show that the left and right unitor are $ \mathfrak{g} $-module homomorphism as well. We do it for the left unitor $ \lambda $ and remark that the case for the right unitor is almost identical. To this end, let $ m \in M $ and $ a \in k $, then
+  \begin{align*}
+    x\lambda_{M}(k \otimes m) &= x(km) \\
+                              &= (xk)m + x(km) \\
+                              &= \lambda_{M}(xk \otimes m + x \otimes km) \\
+                              &= \lambda_{M}(x(k \otimes m))
+  \end{align*}
+  where the second equality follows because $ xk = 0 $ as $ k $ is a trivial $ \mathfrak{g} $-module.
+
+  As remarked in the start, the commutativity of the necessary diagrams follows from the case for $ k $-\textbf{Mod}.
+\end{proof}
+
+\begin{lemma}
+  The category of $ \mathfrak{g} $-modules is symmetric monoidal.
+\end{lemma}
+\begin{proof}
+  Having checked that $ \mathfrak{g} $-\textbf{Mod} is monoidal we only need to check that it is symmetric. As before, the commutativity of the diagrams will follow from the case for $ k $-\textbf{Mod} and we only need to show that braiding $ B_{M, N}: M \otimes_k N \to N \otimes_k M $ is also a $ \mathfrak{g} $-module homomorphism. To this end, let $ m \in M $, $ n \in N $, and $ x \in \mathfrak{g} $. We then have that
+  \begin{align*}
+    xB_{M, N}(m \otimes n) &= x(n \otimes m) \\
+                    &= xn \otimes m + n \otimes xm \\
+                    &= B_{M, N}(m \otimes xn + xm \otimes n) \\
+                    &= B_{M, N}(xm \otimes n + m \otimes xn) \\
+                    &= B_{M, N}(x(m \otimes n))
+  \end{align*}
+  as desired.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:monoidal}]
+  Seeing as we have shown that $ \mathfrak{g} $-\textbf{Mod} is symmetric monoidal, the only remaining thing is to show that it is also closed. In other words, we must show that for all $ N \in \mathfrak{g} $-\textbf{Mod}, the tensor product $ - \otimes_k N: \mathfrak{g}\text{-}\mathbf{Mod} \to \mathfrak{g}\text{-}\mathbf{Mod} $ has a right adjoint $ [N, -]: \mathfrak{g}\text{-}\mathbf{Mod} \to \mathfrak{g}\text{-}\mathbf{Mod}  $. To this end we let $ [N, P] $ be the set $ \text{Hom}_{k\text{-}\mathbf{Mod}}(N, P) $ and equip it with a $ \mathfrak{g} $-module structure as follows: since $ [N, P] $ already has a $ k $-module structure we only need to show that it can be equipped with a $ \mathfrak{g} $-module action $ \mathfrak{g} \otimes_k [N, P] \to [N, P] $. Thus, let $ x \in \mathfrak{g} $ and $ f \in [N, P] $ and define $ xf $ pointwise for $ n \in N $ by $ (xf)(n) = xf(n) - f(xn) $. This assignment is clearly $ k $-bilinear in $ \mathfrak{g} $ and $ [N, P] $ so that we only need to show that $ [x, y]f = x(yf) - y(xf) $. Thus, let $ n \in N $, then
+  \begin{align*}
+    ([x,y]f)(n) &= [x,y]f(n) - f([x, y]n) \\
+                &= x(yf(n)) - y(xf(n)) - f(x(yn) - y(xn)) \\
+                &= x(yf(n)) - xf(yn) - yf(xn) + f(yxn) \\
+                &\quad -y(xf(n)) +yf(xn) + xf(yn) - f(xyn) \\
+                &= (x((yf)(n)) - (yf)(xn)) - (y((xf)(n)) - (xf)(yn)) \\
+                &= (x(yf) - y(xf))(n)
+  \end{align*}
+  showing that $ [x, y]f = x(yf) - y(xf) $, as desired.
+
+  We now only need to verify that the unit and counit for the adjunction in the $ k $-module case extends to natural transformations
+  \begin{align*}
+    &\eta: 1_{\mathfrak{g}\text{-}\mathbf{Mod}} \to [N, M \otimes_k N]  \\
+    &\epsilon: [N, M] \otimes_k N \to 1_{\mathfrak{g}\text{-}\mathbf{Mod}}
+  .\end{align*}
+  Remember that $ \eta $ is defined elementwise by $ \eta_M(m)=f_m: N \to M \otimes_k N $, where $ f_m(n) = m \otimes n $ and, $ \epsilon $ is defined elementwise by $ \epsilon_M(f \otimes n)= f(n) $. We must then verify that $ \eta_M $ and $ \epsilon_M $ are $ \mathfrak{g} $-module homomorphisms. We already know that all of these are $ k $-module homomorphism and so it remains to check that it commutes with the $ \mathfrak{g} $-action. Thus, let $ x \in \mathfrak{g} $. We then have
+  \begin{align*}
+    (x\eta_M(m))(n) &= xf_m(n) - f_m(xn) \\
+                    &= x(m \otimes n) - m \otimes xn \\
+                    &= xm \otimes n + m \otimes xn - m \otimes xn \\
+                    &= xm \otimes n \\
+                    &= f_{xm}(n) \\
+                    &= \eta_M(xm)(n)
+  \end{align*}
+  showing that $ x\eta_M(m) = \eta_M(xm) $. Now, let $ f \in [N, M] $, then
+  \begin{align*}
+    x\epsilon_M(f \otimes n) &= xf(n) \\
+                             &= xf(n) - f(xn) + f(xn) \\
+                             &= (xf)(n) + f(xn) \\
+                             &= \epsilon_M(xf \otimes n) + \epsilon_M(f \otimes xn) \\
+                             &= \epsilon_M(xf \otimes n + f \otimes xn) \\
+                             &= \epsilon_M(x(f \otimes n))
+  \end{align*}
+  showing that both $ \eta_M $ and $ \epsilon_M $ are $ \mathfrak{g} $-module homomorphisms. As the other adjunction properties follows from the tensor-hom adjunction of $ k $-modules we are done.
+\end{proof}
+% section Closed Symmetric Monoidal Structure on $ \mathfrak{g} $-Mod (end)

@@ -1,0 +1,292 @@
+\section{Bounds on the Price of Anarchy} % (fold)
+\label{Bounds on the Price of Anarchy}
+\subsection{Smooth mechanisms} % (fold)
+\label{sub:Smooth mechanisms}
+To derive the upper bounds for simultaneous first-price auctions we will outline the approach taken in \cite{Syrgkanis2013Composable} of defining smooth mechanisms and then deriving general bounds for smooth mechanisms and the composition of smooth mechanisms. In the following we let $ u_i^{v_i}(\mathbf{a}) $ denote the expected utility of a player $ i \in [n] $ with valuation $ v_i $ when the randomized strategy vector $ \mathbf{a} $ is played.
+
+\begin{definition}[Smooth mechanism \cite{Syrgkanis2013Composable}]
+  A mechanism $ \mathcal{M} $ is $ (\lambda, \mu) $-smooth for some $ \lambda,\mu\geq 0 $, if there exists a randomized action profile $ \mathbf{a}_i^{*}(\mathbf{v}, a_i) $ that is dependent on the whole valuation profile $ \mathbf{v} \in \times_i \mathcal{V}_i $ and the player's action $ a_i \in \mathcal{A}_i $, such that for any valuation profile $ \mathbf{v} \in \times_i \mathcal{V}_i $ and for any action profile $ a \in \times_i \mathcal{A}_i $ we have
+  \begin{equation}
+    \sum_{i = 1}^{n} u_i^{v_i}(\mathbf{a}^*_i(\mathbf{v}, a_i), a_{-i}) \geq \lambda \text{OPT}(\mathbf{v}) - \mu \sum_{i = 1}^{n} P_i(a)
+    \label{eq:smooth-mechanism}
+  \end{equation}
+  where $ \text{OPT}(\mathbf{v}) = \sum_{i = 1}^{n} v_i(x_i^*(\mathbf{v})) $ for some optimal allocation $ x^*(\mathbf{v}) = \text{argmax}_{x \in \mathcal{X}} \sum_{i = 1}^{n} v_i(x_i) $.
+\end{definition}
+
+As we will see, first-price auctions are smooth and so we would like to say something about the simultaneous composition of smooth mechanisms.
+
+\begin{theorem}[Simultaneous composition \cite{Syrgkanis2013Composable}]
+  \label{thm:comp}
+  Let $ \mathcal{M} $ be a simultaneous composition of $ m $ smooth mechanisms. Suppose that each component mechanism $ \mathcal{M}_j $ is $ (\lambda, \mu) $-smooth when the mechanism restricted valuations of the players come from a set $ (\mathcal{V}_i^{j})_{i \in [n]} $. If the valuation $ v_i:\mathcal{X}_i \to \mathbb{R}_{\geq 0} $ of each player across mechanisms is fractionally subadditive, and can be expressed as an XOS valuation by component valuations $ v_{ij}^{\ell} \in \mathcal{V}_{i}^{j} $ then the global mechanism is also $ (\lambda, \mu) $-smooth.
+\end{theorem}
+\begin{proof}
+  See \cite[Theorem 5.1]{Syrgkanis2013Composable}
+\end{proof}
+This above theorem also holds for submodular valuations as submodular valuations are a strict subclass of XOS valuations.
+
+Imposing the condition that a mechanism is smooth allows us to put concrete bounds on the price of anarchy.
+
+% \begin{theorem}[\cite{Syrgkanis2013Composable}]
+%   If a mechanism is $ (\lambda,\mu) $-smooth and players have the possibility to withdraw from the mechanism then the price of anarchy at any correlated Nash equilibrium is lower than $ \max(\mu, 1)/\lambda $.
+% \end{theorem}
+% \begin{proof}[Sketch of proof following \cite{Syrgkanis2013Composable}]
+%   The result for correlated Nash equilibria can be derived from the argument for the class of pure Nash equilibria. Hence, assume that $ \mathcal{E} $ is the class of pure Nash equilibria. Let $ a \in \mathcal{E} $, then $ u_i^{v_i}(a) = v_i(X_i(a)) - P_i(a) $ so that
+%   $ v_i(X_i(a)) = u_i^{v_i}(a) + P_i(a) $. Now, as no player wants to deviate to $ \mathbf{a}_i^{*}(\mathbf{v}, a_i) $ (as $ a $ is a Nash equilibria), we get:
+%   \begin{align*}
+%     \sum_{i = 1}^{n} v_i(X_i(a)) &\geq \sum_{i = 1}^{n} u_i^{v_i}(\mathbf{a}_i^{*}(\mathbf{v}, a_i), a_{-i}) + \sum_{i = 1}^{n} P_i(a) \\
+%                                  &\geq \lambda \text{OPT}(\mathbf{v}) + (1 - \mu) \sum_{i = 1}^{n} P_i(a)
+%   .\end{align*}
+%   If $ \mu \leq 1 $ then the above implies that
+%   \begin{equation}
+%     \frac{\text{OPT}(\mathbf{v})}{\sum_{i = 1}^{n} v_i(X_i(a))} \leq \frac{1}{\lambda}
+%   \end{equation}
+%   and hence the result follows. On the other hand, if $ \mu > 1 $, then we note that $ v_i(X_i(a)) \geq P_i(a) $ as players have the option to withdraw from the mechanism, hence ensuring that the utility is never less than zero. Thus
+%   \begin{equation}
+%     \sum_{i = 1}^{n} v_i(X_i(a)) \geq \lambda\text{OPT}(\mathbf{v}) + (1 - \mu) \sum_{i = 1}^{n} v_i(X_i(a))
+%   \end{equation}
+%   so that
+%   \begin{equation}
+%     \mu \sum_{i = 1}^{n} v_i(X_i(a)) \geq \lambda\text{OPT}(\mathbf{v})
+%   \end{equation}
+%   and hence
+%   \begin{equation}
+%     \frac{\text{OPT}(\mathbf{v})}{\sum_{i = 1}^{n} v_i(X_i(a))} \leq \frac{\mu}{\lambda}
+%   \end{equation}
+%   as desired.
+% \end{proof}
+%
+% CAN I REMOVE THE ABOVE?
+% It turns out that we have the same bound for Bayes-Nash equilibria, i.e., when we are in the Bayesian setting:
+
+\begin{theorem}[\cite{Syrgkanis2013Composable}]
+  \label{thm:upbound}
+  If a mechanism is $ \mathcal{M} $ is $ (\lambda, \mu) $-smooth and players have the possibility to withdraw, then for any set of independent distributions $ \{\mathcal{F}_i\}_{i = 1}^{n} $ over the valuations sets $ \{\mathcal{V}_i\}_{i = 1}^{n} $, the price of anarchy over Bayes-Nash equilibria is at most $ \max(\mu, 1) /\lambda $.
+\end{theorem}
+\begin{proof}[Proof \cite{Syrgkanis2013Composable}]
+  Note that the deviating strategy $ \mathbf{a}_i^{*}(\mathbf{v}, a_i) $ of player $ i $ required by the smoothness property depends on the whole valuation profile $ \mathbf{v} $ and not only on the valuation of player $ i $. As a result $ \mathbf{a}_i^*(\mathbf{v}, a_i) $ cannot be directly used as deviation for the player since the valuations of the other players are not known beforehand.
+
+
+  Consider the following randomized deviation for each player $ i $ that depends only on the information that he has which is own valuation $ v_i $ and the equilibrium strategy $ \mathbf{s} $: he random samples a valuation profile $ \mathbf{w} \sim \mathcal{F} = \times_i \mathcal{F}_i $ (he can do this as the distributions are common knowledge). Then he plays $ \mathbf{a}_i^{*}((v_i, \mathbf{w}_{-i}), s_i(w_i)) $, i.e., the player considers the equilibrium actions $ \mathbf{s}(\mathbf{w}) $, and deviates from this action profile using the action given by the smoothness property for his true type $ v_i $, the random sample of the types of the others $ \mathbf{w}_{-i} $, and the equilibrium action $ s_i(w_i) $ of his randomly sampled type $ w_i $. By assumption, this is not a profitable deviation and so
+  \begin{align*}
+    \mathbb{E}_{\mathbf{v}} \left[ u_i^{v_i}(\mathbf{s}(\mathbf{v})) \right] &\geq \mathbb{E}_{\mathbf{v}, \mathbf{w}} \left[ u_i^{v_i}(\mathbf{a}^{*}_i((v_i, \mathbf{w}_{-i}), s_i(w_i)), \mathbf{s}_{-i}(\mathbf{v}_{-i})) \right] \\
+                                                                    &= \mathbb{E}_{\mathbf{v}, \mathbf{w}} \left[ u_i^{w_i}(\mathbf{a}^{*}_i((w_i, \mathbf{w}_{-i}), s_i(v_i)), \mathbf{s}_{-i}(\mathbf{v}_{-i})) \right] \\
+                                                                    &= \mathbb{E}_{\mathbf{v}, \mathbf{w}} \left[ u_i^{w_i}(\mathbf{a}^{*}_{i}(\mathbf{w}, s_i(v_i)), \mathbf{s}_{-i}(\mathbf{v}_{-i})) \right]
+  \end{align*}
+  where the first equality is an exchange of variable names, using independence. Summing over players and using smoothness then gives
+  \begin{align*}
+    \mathbb{E}_{\mathbf{v}} \left[ \sum_{i = 1}^{n}  u_i^{v_i}(\mathbf{s}(\mathbf{v})) \right] &\geq \mathbb{E}_{\mathbf{v}, \mathbf{w}} \left[ \sum_{i = 1}^{n} u_i^{w_i}(\mathbf{a}^{*}_{i}(\mathbf{w}, s_i(v_i)), \mathbf{s}_{-i}(\mathbf{v}_{-i})) \right] \\
+                                                                                                 &\geq \mathbb{E}_{\mathbf{v}, \mathbf{w}} \left[ \lambda\text{OPT}(\mathbf{w}) - \mu \sum_{i = 1}^{n} P_i(\mathbf{s}(\mathbf{v})) \right] \\
+                                                                                                                                                                    &= \lambda \mathbb{E}_{\mathbf{w}} \left[ \text{OPT}(\mathbf{w}) \right] - \mu \mathbb{E}_{\mathbf{v}}\left[ \sum_{i = 1}^{n} P_i(\mathbf{s}(\mathbf{v})) \right]
+  \end{align*}
+  from which we end up with the expression
+  \begin{equation}
+    \mathbb{E}_{\mathbf{v}}\left[\sum_{i = 1}^{n} v_i(X_i(\mathbf{s}(\mathbf{v}))) \right] \geq \lambda\mathbb{E}_{\mathbf{w}} \left[ \text{OPT}(\mathbf{w}) \right] + (1 - \mu)\mathbb{E}_{\mathbf{v}}\left[ \sum_{i = 1}^{n} P_i(\mathbf{s}(\mathbf{v})) \right].
+  \end{equation}
+  Now, if $ \mu \leq 1 $ then we immediately have
+  \begin{equation}
+    \frac{\mathbb{E}_{\mathbf{w}} \left[ \text{OPT}(\mathbf{w}) \right]}{\mathbb{E}_{\mathbf{v}}\left[ \sum_{i = 1}^{n} v_i(X_i(\mathbf{s}(\mathbf{v}))) \right]} \leq \frac{1}{\lambda}.
+  \end{equation}
+  Now, if $ \mu > 1 $, remember that players have the option to withdraw, meaning utility is never negative and hence $ v_i(X_i(\mathbf{s}(\mathbf{v}))) \geq P_i(\mathbf{s}(\mathbf{v})) $ from which it follows that
+  \begin{equation}
+    \mathbb{E}_{\mathbf{v}}\left[\sum_{i = 1}^{n} v_i(X_i(\mathbf{s}(\mathbf{v}))) \right] \geq \lambda\mathbb{E}_{\mathbf{w}} \left[ \text{OPT}(\mathbf{w}) \right] + (1 - \mu)\mathbb{E}_{\mathbf{v}}\left[ \sum_{i = 1}^{n} v_i(X_i(\mathbf{s}(\mathbf{v}))) \right]
+  \end{equation}
+  and hence
+  \begin{equation}
+    \frac{\mathbb{E}_{\mathbf{w}} \left[ \text{OPT}(\mathbf{w}) \right]}{\mathbb{E}_{\mathbf{v}}\left[ \sum_{i = 1}^{n} v_i(X_i(\mathbf{s}(\mathbf{v}))) \right]} \leq \frac{\mu}{\lambda}.
+  \end{equation}
+  Thus $ \text{PoA} \leq \max(\mu, 1)/\lambda $.
+\end{proof}
+
+% subsection Smooth mechanisms (end)
+\subsection{Upper bounds} % (fold)
+\label{Upper bounds}
+If we can show that first-price auctions are smooth mechanisms then Theorem~\ref{thm:comp} and Theorem~\ref{thm:upbound} immediately gives us upper bound on simultaneous first-price auctions.
+\begin{proposition}
+  A first-price auction is a $ (1- 1 /e, 1) $-smooth mechanism.
+\end{proposition}
+\begin{proof}
+  We follow the argumentation in Section 6 of \cite{Syrgkanis2013Composable}. Note that we can prove smoothness both for full information setting and Bayesian setting simultaneously as the definition of a smooth mechanism gives us a specific valuation profile. To prove smoothness we must find a randomized bidding profile $ \mathbf{b}^{*}= (b_1^{*}, \ldots, b_n^{*}) $ such that for any valuation profile $ \mathbf{v} \in \times_i\mathcal{V}_i $ and for any bidding profile $ \mathbf{b} \in \times_i \mathcal{B}_i $ we have
+  \begin{equation}
+    \sum_{i = 1}^{n} u_i^{v_i}(b^*_i, \mathbf{b}_{-i}) \geq \left(1 - \frac{1}{e}\right) \text{OPT}(\mathbf{v}) - \sum_{i = 1}^{n} P_i(\mathbf{b}).
+  \end{equation}
+  Note that each component in $ \mathbf{v} = (v_1, \ldots, v_h) $ is a function from a singleton set and so we can think of $ v_i $ as representing the image of this single element. Let $ v_h = \max_i v_i $. The above equation can then be rewritten as
+  \begin{equation}
+    \sum_{i = 1}^{n} u_i^{v_i}(b^*_i, \mathbf{b}_{-i}) \geq \left(1 - \frac{1}{e}\right) v_h - \sum_{i = 1}^{n} b_i.
+  \end{equation}
+  Consider a distribution with density function $ f(x) = \frac{1}{v_h - x} $ and support in $ [0, (1-1 /e)v_h] $. We then let $ b_h^* $ be drawn from this distribution and set $ b_i^* = 0 $ for all $ i \neq h $. Note that the utility for player $ h $ if he bids $ b_k $ and wins is $ u_h^{v_h}(b_k) = v_h - b_k $ (assuming no overbidding). Thus
+  \begin{align*}
+    u_h^{v_h}(b_h^{*}, \mathbf{b}_{-h}) &= \int_{0}^{\left( 1 - \frac{1}{e} \right)v_h} u_h^{v_h}(x) f(x) \, dx \\
+                               &\geq \int_{\max_{i \neq h} b_i}^{\left( 1 - \frac{1}{e} \right)v_h} (v_h - x) f(x) \, dx \\
+                               &= \int_{\max_{i \neq h} b_i}^{\left( 1 - \frac{1}{e} \right)v_h} \, dx \\
+                               &\geq \left( 1 - \frac{1}{e} \right)v_h - \max_i b_i
+  .\end{align*}
+  We also have $ u_i^{v_i}(b_i^{*}) = 0 $ for $ i \neq h $ and hence
+  \begin{equation}
+    \sum_{i = 1}^{n} u_i^{v_i}(b_i^{*}, \mathbf{b}_{-i}) = u_h^{v_h}(b_h^{*}, \mathbf{b}_{-h}) \geq \left( 1 - \frac{1}{e} \right)v_h - \max_{i }b_i \geq \left( 1 - \frac{1}{e} \right)v_h - \sum_{i = 1}^{n} b_i
+  \end{equation}
+  as desired.
+\end{proof}
+
+\begin{corollary}
+  The price of anarchy for simultaneous first-price auctions with submodular valuations over mixed Nash and Bayesian-Nash equilibria is at most $ e /(e - 1) $.
+\end{corollary}
+\begin{proof}
+  This immediately follows by applying the previous theorem in combination with Theorem~\ref{thm:comp} and Theorem~\ref{thm:upbound} while noting that the class of mixed Nash equilibria is a subclass of Bayesian-Nash equilibria so that an upper bound for Bayesian-Nash equilibria is an upper bound for mixed Nash equilibria. Hence $ PoA \leq \frac{e}{e - 1} $.
+\end{proof}
+
+To get an upper bound in the case of subadditive valuations we give an overview of the approach taken in \cite{10.1145/2488608.2488634}. First some notation. Consider a bidding profile $ \mathbf{b} = (b_1, \ldots, b_n) $ where the bid of Player $ i $ on item $ j $ is given by $ b_i(j) $ (for a subset $ S \subset [m] $ we shall also use the notation $ b_i(S) $ instead of $ \sum_{j \in S} b_i(j) $). We then let the \textbf{price vector perceived by} Player $ i $ be defined as the additive function $ p_i: 2^{[m]} \to \mathbb{R}_{\geq 0} $ whose value on $ j $ is $ \max_{k\neq i}b_k(j) $, i.e., the highest bid placed by the other bidders on each item. We use the notation $ v_i(b_i, p_i) $ to denote the valuation of Player $ i $ on the allocation which results from bid $ b_i $ by Player $ i $ and prices $ p_i $. Note that if the bids are randomized, then the price vector perceived by Player $ i $, $ p_i $, follows some distribution, call it $ \mathcal{D}_i $.
+
+\begin{lemma}[\cite{10.1145/2488608.2488634}]
+  For any distribution of prices $ \mathcal{D} $ and any subadditive valuation $ v:\mathcal{X} \to \mathbb{R}_{\geq 0} $ there exists a bid $ b_0 $ such that
+  \begin{equation}
+    \label{eq:devbid}
+    \mathbb{E}_{p \sim \mathcal{D}}[v(b_0, p)] - \sum_{j = 1}^{m} b_j(m) \geq \frac{1}{2}v([m]) - \mathbb{E}_{p \sim \mathcal{D}}[p([m])]
+  \end{equation}
+\end{lemma}
+\begin{proof}[Proof due to \cite{10.1145/2488608.2488634}]
+  Let $ b \sim \mathcal{D} $ be a bidding profile drawn from the same distribution as the prices. We then have that
+  \begin{align*}
+    \mathbb{E}_{b \sim \mathcal{D}}[\mathbb{E}_{p \sim \mathcal{D}}[v(p, b)]] &= \mathbb{E}_{p \sim \mathcal{D}}[\mathbb{E}_{b \sim \mathcal{D}}[v(p, b)]] \\
+                                                                            &= \frac{1}{2} \mathbb{E}_{p \sim \mathcal{D}}[\mathbb{E}_{b \sim \mathcal{D}}[v(p, b) + v(p, b)]] \\
+                                                                            & \geq  \frac{1}{2} \mathbb{E}_{p \sim \mathcal{D}}[\mathbb{E}_{b \sim \mathcal{D}}[v([m])]] \\
+                                                                            &= \frac{1}{2}v([m])
+  \end{align*}
+  where the inequality follows from the subadditivity of $ v $. It thus follows that
+  \begin{align*}
+    \mathbb{E}_{b \sim \mathcal{D}}[\mathbb{E}_{p \sim \mathcal{D}}[v(p, b)] - b([m])] &\geq \frac{1}{2}v([m]) - \mathbb{E}_{b \sim \mathcal{D}}[b([m])] \\
+                                                                                                 &= \frac{1}{2}v([m]) - \mathbb{E}_{p \sim \mathcal{D}}[p([m])]
+  .\end{align*}
+  A mean value argument then implies that there must exist a bid $ b_0 $ such that
+  Equation~\ref{eq:devbid} is satisfied.
+\end{proof}
+
+\begin{theorem}
+  The price of anarchy for simultaneous first-price auctions over Bayes-Nash equilibria where bidders have subadditive valuations is at most 2.
+\end{theorem}
+\begin{proof}[Proof due to \cite{10.1145/2488608.2488634}]
+  The plan is to consider a fixed Bayes-Nash equilibrium and create a deviating strategy which we can use to get an upper bound as the deviating strategy must necessarily be worse.
+
+  To this end we first fix some notation. Let $ \mathcal{F} = \times_i \mathcal{F}_i $ be the distribution over valuations and let $ \mathbf{s} $ be a Bayes-Nash equilibrium. Fix a Player $ i $ and an arbitrary valuation $ v_i $ drawn from $ \mathcal{F}_i $. Let $ \mathbf{v}_{-i} $ be a valuation drawn from $ \mathcal{F}_{-i} $ and set $ \mathbf{v} = (v_i, \mathbf{v}_{-i}) $. Then, draw another valuation profile $ \mathbf{v}_{-i}^{*} $ from $ \mathcal{F}_{-i} $ and set $ \mathbf{v}^{*} = (v_i, \mathbf{v}_{-i}^{*}) $. Let $ x^{*} $ be the corresponding optimal allocation for $ \mathbf{v}^{*} $ which maximizes the social welfare. Consider the price vector perceived by Player $ i $, given by $ \tilde{p}_i $ and define a new price vector $ p_i $ which is equal to $ \tilde{p}_i $ on the elements in $ x^{*}_i $ but zero elsewhere, i.e., $ p_i $ is the price vector only on those items which Player $ i $ should have in an optimal allocation. Let $ \mathcal{D}_i $ be the corresponding distribution on prices $ p_i=p_i(\mathbf{b}_{-i}) $, where $ \mathbf{b} \sim \mathbf{s}(\mathbf{v}) $, meaning that $ \mathcal{D}_i $ is precisely the distribution over maximum bids on the elements in $ x_i^{*} $.
+
+  Using the previous lemma we have that there exists a bid vector $ b_i' $ over the items in $ x^{*}_i $ such that
+  \begin{equation}
+    \label{eq:bidvec}
+    \mathbb{E}_{p_i \sim \mathcal{D}_i}[v_i(b_i', p_i)] - b_i'(x^{*}_i) \geq \frac{1}{2}v_i(x^{*}_i) - \mathbb{E}_{p_i \sim \mathcal{D}_i}[p(x^{*}_i)].
+  \end{equation}
+  Then, as $ \mathbf{s} $ is a Bayes-Nash equilibrium, we must have that
+  \begin{align*}
+    \mathbb{E}_{\mathbf{v}_{-i}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})}[u_i^{v_i}(\mathbf{b})] &\geq \mathbb{E}_{\mathbf{v}_{-i}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})}[u_i^{v_i}(b_i', \mathbf{b}_{-i})]\\
+                                                                                          &=\mathbb{E}_{\mathbf{v}_{-i}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})}[v_i(b_i', \tilde{p}_i)] - \mathbb{E}_{\mathbf{v}_{-i}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})}[b_i'(X_i(b_i', \mathbf{b}_{-i}))] \\
+                                                                                          &\geq \mathbb{E}_{p_i \sim \mathcal{D}_i}[v_i(b'_i, p_i)] - b_i'(x^*_i),
+  \end{align*}
+  where the last inequality follows from the definition of $ \mathcal{D}_i $ and the fact that $ X_i(b_i', \mathbf{b}_{-i}) \subset x^{*}_i $ for all $ \mathbf{b}_{-i} $. Using Equation~\ref{eq:bidvec} and the definition of $ p_i \sim \mathcal{D} $ we then have that
+  \begin{equation}
+    \mathbb{E}_{\mathbf{v}_{-i}, \mathbf{b}\sim \mathbf{s}(\mathbf{v})} \left[ u_i^{v_i}(\mathbf{s}(\mathbf{v})) \right] \geq \frac{1}{2}v_i(x^{*}_i) - \mathbb{E}_{\mathbf{v}_{-i}, \mathbf{b}\sim \mathbf{s}(\mathbf{v})}\left[ \sum_{j \in x^{*}_i} \max_{k \neq i}b_k(j) \right]
+  .\end{equation}
+  Taking the sum over all $ v_i \sim \mathcal{F}_i $ and all $ \mathbf{v}_{-i}^{*} \sim \mathcal{F}_{-i} $ we have
+  \begin{equation}
+    \sum_{i = 1}^{n} \mathbb{E}_{\mathbf{v}_{-i}, \mathbf{v}^{*}_{-i}, \mathbf{b}\sim \mathbf{s}(\mathbf{v})}[u_i^{v_i}(\mathbf{b})] \geq \frac{1}{2}\sum_{i = 1}^{n} \mathbb{E}_{v_i, \mathbf{v}^{*}_{-i}}[v_i(x_i^{*})] - \sum_{i = 1}^{n} \mathbb{E}_{\mathbf{v}, \mathbf{v}_{-i}^{*}, \mathbf{b}_{-i} \sim \mathbf{s}_{-i}(\mathbf{v}_{-i})}\left[ \sum_{j \in x^{*}_i} \max_{k \neq i} b_k(j)\right]
+  .\end{equation}
+  Simplifying the above we get that
+  \begin{equation}
+    \mathbb{E}_{\mathbf{v}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})} \left[ \sum_{i = 1}^{n} u_i^{v_i}(\mathbf{v}) \right] \geq \frac{1}{2}\mathbb{E}_{\mathbf{v}}\left[ \sum_{i = 1}^{n} v_i(x_i^{*}) \right] - \mathbb{E}_{\mathbf{v, \mathbf{b} \sim \mathbf{s}(\mathbf{v})}}\left[ \sum_{j = 1}^{m} \max_{k}b_k(j) \right].
+    \label{eq:condition}
+  \end{equation}
+  Then, as we are in the first-price auction (so that prices are the highest bids) we have that
+  \begin{equation}
+    \mathbb{E}_{\mathbf{v}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})} \left[ \sum_{i = 1}^{n} u_i^{v_i}(\mathbf{v}) \right] = \mathbb{E}_{\mathbf{v}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})}\left[\sum_{i = 1}^{n} v_i(X_i(\mathbf{b}))\right] - \mathbb{E}_{\mathbf{v}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})}\left[ \sum_{j = 1}^{m} \max_{k}b_k(j) \right].
+  \end{equation}
+  Combining this with Equation~\ref{eq:condition} we then get that
+  \begin{equation}
+    \mathbb{E}_{\mathbf{v}, \mathbf{b} \sim \mathbf{s}(\mathbf{v})}\left[\sum_{i = 1}^{n} v_i(X_i(\mathbf{b}))\right] \geq \frac{1}{2}\mathbb{E}_{\mathbf{v}}\left[ \sum_{i = 1}^{n} v_i(x_i^{*}) \right]
+  \end{equation}
+  which implies the desired result.
+\end{proof}
+% subsection Upper bounds (end)
+
+\subsection{Lower bounds} % (fold)
+\label{sub:Lower bounds}
+The lower bound on the price of anarchy for simultaneous first-price auctions with OXS valuation (hence submodular) is the same as the upper bound.
+\begin{theorem}[\cite{Christodoulou2016TightBounds}]
+  The price of anarchy of simultaneous first-price auctions over mixed Nash equilibria and OXS valuation is at least $ e /(e-1) $.
+\end{theorem}
+\begin{proof}
+  We follow the approach taken in \cite[Theorem 3.4]{Christodoulou2016TightBounds}.
+
+  As we are interested in a lower bound it suffices to construct a simultaneous first-price auction instance where the PoA is arbitrarily close to $ e /(e-1) $. Let $ \mathcal{M} $ be a simultaneous first-price auction with $ n+1 $ players and $ n^{n} $ items, and let $ \mathcal{I}=[n]^{n} $ denote the set of items.
+
+  Player 0 is a dummy player and has valuation $ v_0(S) = 0 $ for all $ S \subset \mathcal{I} $. For $ 1\leq i \leq n $ we associate Player $ i $ with one of the dimensions in the cube as follows: given $ S \subset \mathcal{I} $ the valuation $ v_i(S) $ is the cardinality of $ S $ projected along dimension $ i $ which more formally can be written as
+  \begin{equation}
+    v_i(S) = |\{w_{-i} \mid \text{ there exists }w_i\text{ such that } (w_i, w_{-i}) \in S\}|.
+  \end{equation}
+  It is straightforward to check that these valuations are submodular. To give a lower bound on the price of anarchy we need to find a mixed Nash equilibrium $ b^{*} = (b_0^{*}, b_1^{*}, \ldots, b_n^{*}) $ such that the PoA is arbitrarily close to $ e /(e - 1) $. We let the strategy of Player 0 be to always bid 0. On the other hand, we let Player $ i $ pick a number $ \ell \in [n] $ uniformly at random and an $ x $ according to the CDF provided by
+  \begin{equation}
+    G(x) = (n - 1)\left( \frac{1}{(1-x)^{\frac{1}{n-1}}} - 1 \right),\quad \quad  x \in \left[ 0, 1 - \left( \frac{n-1}{n}\right)^{n - 1} \right]
+  \end{equation}
+  and then bids $ x $ for every item $ w = (\ell, w_{-i}) $, with $ w_i = \ell $ and 0 for the rest. Tie-breaking is resolved by giving it to Player 0---which can only happen in case of 0 bids for an item. Fix a player $ i $ and an item $ j $, we then let $ F_{ij}(x) $ denote the probability that player $ i $ gets $ j $ given that he bids $ b_i(j) = x $ and the rest of the bids $ b_{-i} $ are drawn from $ b^{*}_{-i} $. For all other players $ k\neq i $ the probability that Player $ k $ bids 0 for item $ j $ is $ (n - 1)/n $, and the probability that $ j $ is in the slice Player $ k $ bids on, but for which his bid is lower than $ x $, is $ 1 /n\cdot G(x) = G(x)/n $. From this it follows that
+  \begin{equation}
+    F_{ij}(x) = \left( \frac{G(x)}{n} + \frac{n -1}{n} \right)^{n - 1} = \frac{\left( \frac{n-1}{n} \right)^{n-1}}{1  -x},\quad\quad \forall i\in [n],\forall j\in \mathcal{I}.
+  \end{equation}
+  Since $ F_{ij} $ is invariant of $ i $ and $ j $ we can denote it with a common distribution $ F $.
+  Notice that $ v_i $ restricted to the slice $ \{(\ell, w_{-i}) \mid w\in \mathcal{I}, \ell \in [n]\} $ is additive. Hence, the utility for Player $ i $ of getting item $ j $ is $ F(x)(1 - x) $ and so the utility of getting all the items in the slice he bids on is $ u_i(b^{*}_i) = n^{n-1}\cdot F(x)(1 - x) = n^{n - 1} \left( \frac{n - 1}{n} \right)^{n - 1} $.
+
+
+  We now show that $ b^{*} $ indeed is a mixed Nash equilibrium. To do this we first fix an arbitrary $ w \in \mathcal{I} $ from which we define the column $ C = \{(\ell, w_{-i}) \mid \ell \in [n]\} $ for Player $ i $. Now, Player $ i $ has only bid on one item in this column, while his valuation is additive over items from different columns (follows from being additive over slices). In addition, in a fixed bidding profile $ b_{-i} $, every other player $ k $ bids the same on each item in the column as either the column is in the slice of that player or it is not (follows from how the slice and column is constructed). Consider therefore a deviating bid for player $ i $ in which $ i $ bids a positive value for more than one item in $ C $, i.e., at least $ x \geq x' >0 $ where $ x $ is the highest bid for items in $ C $. The expected utility for this column is then strictly less than $ F(x)(1 - x) $ as the value of the two items is only $ 1 $ while he might have to pay at least $ x + x' $. It is therefore more optimal to bid $ x $ for only one item in $ C $ and 0 for the rest.
+
+
+  Secondly, if we restrict to any column $ C $, submitting a bid $ x \in \left[ 0, 1 - \left( \frac{n -1}{n} \right)^{n-1}  \right] $ for one item (chosen arbitrarily), results in the utility $ \left( \frac{n - 1}{n} \right)^{n-1} $. Submitting a higher bid than $ 1 - \left( \frac{n-1}{n} \right)^{n-1} $ guarantees that particular item, but the utility is then strictly less than $ \left( \frac{n-1}{n} \right)^{n-1} $. So, both bidding on more than one item in a column and bidding higher than $ 1 - \left( \frac{n - 1}{n} \right)^{n-1} $ is a worse deviation compared to just bidding on one item according to $ G(x) $ and hence $ b^{*} $ is a mixed Nash equilibrium.
+
+
+  To compute the social welfare of $ b^{*} $ we first introduce random variables $ Z_j $ where $ Z_j = 1 $ if one of the players $ 1\leq i \leq n $ gets the item $ j $ and $ Z_j = 0 $ otherwise (Player 0 gets the item). By additivity along the slices we then have that the social welfare is $ \sum_{j \in \mathcal{I}}Z_j $ and hence the expected social welfare is
+  \begin{equation}
+    SW^{\mathbf{v}}(b^{*}) = \sum_{j}\mathbb{E}\left[ Z_j \right]= n^{n}\left( 1 - \left( \frac{n-1}{n} \right)^{n} \right).
+  \end{equation}
+  The maximum possible social welfare is $ n^{n} $ where all items are distributed among the real players in such a way that no two items allocated to one player is in the same column. This is possible to do by allocating item $ (w_1, \ldots, w_1) $ to Player $ \left( \sum_{i = 1}^{n} w_i \text{ mod } n \right) + 1 $. The price of anarchy is therefore at least $ \frac{1}{1 - \left( \frac{n - 1}{n} \right)^{n}} $ which converges to $ e /(e - 1) $ for large $ n $.
+\end{proof}
+
+\begin{theorem}[\cite{Christodoulou2016TightBounds}]
+  The price of anarchy over mixed Nash equilibria for simultaneous first-price with subadditive valuations is at least $ 2 $.
+\end{theorem}
+\begin{proof}
+  We follow the approach taken in \cite[Theorem 4.1]{Christodoulou2016TightBounds}, but relabel players to be consistent with the AND-OR game in \cite{10.1145/1993574.1993619} and because not doing this leads to minor errors.
+
+  Our goal is to create scenario with a price of anarchy that is arbitrarily close to $ 2 $. To this end, consider a scenario with $ n = 2 $ players and $ m $ items, and the following valuations:
+  \begin{align*}
+      v_1(S) &= \begin{cases}
+        1, &\text{ if }1 \leq |S| < m\\
+        2, &\text{ if } |S| = m \\
+        0, &\text{ else,}
+      \end{cases} \\
+    v_2(S) &= \begin{cases}
+      v, &\text{ if } 1 \leq |S| \\
+      0, &\text{ else}
+    \end{cases}
+  \end{align*}
+  where $ v <1 $ is to be determined later.
+  That $ v_1 $ and $ v_2 $ are subadditive is straightforward to check. We use the following cumulative distribution for the bids of Player 1 and Player 2 respectively
+  \begin{equation}
+    F(y) = \frac{v - 1 /m}{v - y},\quad y \in [0, 1 /m];\quad\quad G(x) = \frac{(m-1)x}{1-x},\quad x \in [0, 1 /m].
+  \end{equation}
+   The bidding strategy of Player 1 is to bid $ y $ for each of the items. On the other hand the bidding strategy of Player 2 is to pick one of the $ m $ items uniformly at random, and bid $ x $ for this item and $ 0 $ for all other. In case of a tie, the item is allocated to Player 1. Let $ b^{*}=(b_1^{*}, b_2^{*}) $ denote this randomized bidding profile. Our aim is to show that $ b^{*} $ is a mixed Nash equilibrium for all $ v > 1 /m $.
+
+
+   If Player 1 bids a common bid $ y \in [0, 1 /m] $ for all items then he gets $ m $ with probability $ G(y) $ and $ m - 1 $ items with probability $ 1 - G(y) $. His expected utility is thus $ G(y)(2 - my) + (1- G(y))(1 - (m-1)y) = G(y)(1-y) + 1 - (m - 1)y = 1 $. We must then show that Player 1 cannot get a higher utility by using a deviating strategy. Let $ y_i $ be the bid for item $ i $ that Player 2 makes for $ 1 \leq i \leq m $. Player 2 bids on item $ i $ with probability $ 1 /m $ according to $ G(x) $. Now, as $ G $ is a CDF it follows that $ G(x) = 1 < \frac{(m-1)x}{1 - x} $ for $ x > 1 /m $. With $ y^{*}=(y_1, \ldots, y_n) $, the expected utility of Player 1 is therefore
+   \begin{align*}
+     u_1^{v_1}(y^*) = &\frac{1}{m}\sum_{i = 1}^{m} \left( G(y_i)\left( 2 - \sum_{j = 1}^{m} y_j \right) + (1 - G(y_i)) \left( 1 - \sum_{j \neq i} y_j \right) \right) \\
+                      &= \frac{1}{m} \sum_{i = 1}^{m} \left( G(y_i)(1 - y_i) + 1 - \sum_{j \neq i} y_j \right) \\
+                      &\leq \frac{1}{m} \sum_{i = 1}^{m} \left( \frac{(m-1)y_i}{1 - y_i}(1 - y_i) + 1 - \sum_{i \neq j} y_j \right) \\
+                      &= \frac{1}{m}\sum_{i = 1}^{m} \left( my_i + 1 - \sum_{j = 1}^{m} y_j \right) \\
+                      &= \frac{1}{m}\left( m \sum_{i = 1}^{m} y_i + m - m \sum_{j = 1}^{m} y_j \right) = 1
+   .\end{align*}
+
+
+   Similarly, if Player 2 bids any $ x \in (0, 1 /m] $ for the one item, he gets the item with probability $ F(x) $. His expected utility is thus $ F(x)(v - x) = v - 1 /m $. Bidding something greater than $ 1 /m $ results in a utility less than $ v - 1 /m $. What remains to show for Player 2 is that his utility while bidding for one item is at least his utility while bidding for more items. Suppose therefore that Player 2 bids $ x_i $ for $ 1\leq i \leq m $. We can without loss of generality assume that $ x_i \geq x_{i+1} $ for $ 1\leq i\leq m-1 $ (just reorder the items). It then follows that Player 2 gets no item if and only if $ y \geq x_1 $. So with probability $ F(x_1) $, he gets at least one item and pays at least $ x_1 $. Consequently, his expected utility is at most $ F(x_1)(v - x_1) = v - 1 /m $. We thus see that $ b^{*} $ is a mixed Nash equilibrium.
+
+   The optimal allocation is to give all of the items to Player 1---this follows since $ v<1 $. This allocation has social welfare 2. Now in the mixed Nash equilibrium $ b^* $, Player 1 bids $ 0 $ with probability $ 1 - 1 /mv $, and Player 2 thus gets at least one item with at least this probability. We thus have
+   \begin{equation}
+     SW^{(v_1, v_2)}(b^{*}) \leq \frac{1}{mv}2 + \left( 1 - \frac{1}{mv} \right)(v + 1) = 1 + v + \frac{1}{mv} - \frac{1}{m}.
+   \end{equation}
+   Setting $ v = 1 /\sqrt{m} $ we have $ SW^{(v_1, v_2)}(b^{*}) \leq 1 + 2 /\sqrt{m} - 1 /m $ and hence $ PoA \geq \frac{2}{1 + \frac{2}{\sqrt{m}} - \frac{1}{m}} $ which converges to 2 for large $ m $.
+\end{proof}
+% subsection Lower bounds (end)
+% section Bounds on the Price of Anarchy (end)
